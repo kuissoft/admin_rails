@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20130820165845) do
     t.string   "phone"
     t.string   "email"
     t.string   "password"
-    t.integer  "type"
+    t.integer  "role"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
