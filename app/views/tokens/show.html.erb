@@ -7,12 +7,12 @@
 
 <p>
   <strong>User:</strong>
-  <%= @token.user %>
+  <%= @token.user.name %>
 </p>
 
 <p>
   <strong>Session:</strong>
-  <%= @token.session %>
+  <%= @token.session.session_id %>
 </p>
 
 <%= link_to 'Edit', edit_token_path(@token) %> |
