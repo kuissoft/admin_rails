@@ -11,7 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130820165845) do
+ActiveRecord::Schema.define(version: 20130820184249) do
+
+  create_table "sessions", force: true do |t|
+    t.string   "session_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tokens", force: true do |t|
+    t.string   "token_id"
+    t.integer  "user_id"
+    t.integer  "session_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tokens", ["session_id"], name: "index_tokens_on_session_id"
+  add_index "tokens", ["user_id"], name: "index_tokens_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "name"

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  token_id: MyString
+  user_id: 
+  session_id: 
+
+two:
+  token_id: MyString
+  user_id: 
+  session_id: 
