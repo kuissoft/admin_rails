@@ -25,6 +25,11 @@ class SessionsController < ApplicationController
   # POST /sessions.json
   def create
     @session = Session.new(session_params)
+    
+    # create session with the closest server determined and p2p enabled
+    openTok = OpenTok::OpenTokSDK.new OPENTOK_API_KEY, OPENTOK_API_SECRET
+    properties = {OpenTok::SessionPropertyConstants::P2P_PREFERENCE => "enabled"}
+    @session.session_id = openTok.createSession(request.remote_addr, properties).to_s
 
     respond_to do |format|
       if @session.save
