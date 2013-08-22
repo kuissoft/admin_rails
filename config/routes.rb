@@ -1,5 +1,6 @@
 RemoteAssistant::Application.routes.draw do
   
+  root 'sessions#index'
   resources :users
   resources :sessions
   resources :tokens
