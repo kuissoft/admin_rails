@@ -14,13 +14,13 @@
 ActiveRecord::Schema.define(version: 20130820184249) do
 
   create_table "sessions", force: true do |t|
-    t.string   "session_id"
+    t.text     "session_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "tokens", force: true do |t|
-    t.string   "token_id"
+    t.text     "token_id"
     t.integer  "user_id"
     t.integer  "session_id"
     t.datetime "created_at"
