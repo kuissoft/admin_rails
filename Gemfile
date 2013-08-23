@@ -11,6 +11,7 @@ end
 group :production do
   # Use postgres as the database in production (supported by Heroku)
   gem 'pg'
+  gem 'rails_12factor'
 end
 
 # Use SCSS for stylesheets
