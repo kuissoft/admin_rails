@@ -18,8 +18,8 @@ class TokensController < ApplicationController
   end
 
   # GET /tokens/1/edit
-  def edit
-  end
+  # def edit
+  # end
 
   # POST /tokens
   # POST /tokens.json
@@ -30,7 +30,8 @@ class TokensController < ApplicationController
     if !@token.session
       @session = Session.new
       @session.session_id = Session.createSession(request.remote_addr).to_s
-      @token.session = @session if @session.save
+      # if valid, session will be saved autimaticaly upon assignment
+      @token.session = @session if @session.valid?
     end
     
     # if the session was not created and assigned successfully, do not generate a token
@@ -52,17 +53,17 @@ class TokensController < ApplicationController
 
   # PATCH/PUT /tokens/1
   # PATCH/PUT /tokens/1.json
-  def update
-    respond_to do |format|
-      if @token.update(token_params)
-        format.html { redirect_to @token, notice: 'Token was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @token.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   respond_to do |format|
+  #     if @token.update(token_params)
+  #       format.html { redirect_to @token, notice: 'Token was successfully updated.' }
+  #       format.json { head :no_content }
+  #     else
+  #       format.html { render action: 'edit' }
+  #       format.json { render json: @token.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /tokens/1
   # DELETE /tokens/1.json

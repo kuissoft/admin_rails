@@ -18,8 +18,8 @@ class SessionsController < ApplicationController
   end
 
   # GET /sessions/1/edit
-  def edit
-  end
+  # def edit
+  # end
 
   # POST /sessions
   # POST /sessions.json
@@ -40,17 +40,17 @@ class SessionsController < ApplicationController
 
   # PATCH/PUT /sessions/1
   # PATCH/PUT /sessions/1.json
-  def update
-    respond_to do |format|
-      if @session.update(session_params)
-        format.html { redirect_to @session, notice: 'Session was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @session.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   respond_to do |format|
+  #     if @session.update(session_params)
+  #       format.html { redirect_to @session, notice: 'Session was successfully updated.' }
+  #       format.json { head :no_content }
+  #     else
+  #       format.html { render action: 'edit' }
+  #       format.json { render json: @session.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /sessions/1
   # DELETE /sessions/1.json

@@ -29,7 +29,7 @@
   </div>
   <div class="field">
     <%= f.label :role %><br>
-    <%= f.number_field :role %>
+    <%= f.select :role, 0..1 %>
   </div>
   <div class="actions">
     <%= f.submit %>

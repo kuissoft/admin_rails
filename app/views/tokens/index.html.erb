@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+			<th>ID</th>
       <th>Token</th>
       <th>User</th>
       <th>Session</th>
@@ -16,12 +17,12 @@
   <tbody>
     <% @tokens.each do |token| %>
       <tr>
+        <td><%= token.id %></td>
         <td><%= token.token_id.truncate(20) %></td>
         <td><%= token.user.name %></td>
         <td><%= token.session.session_id.truncate(20) %></td>
         <td><%= token.created_at %></td>
         <td><%= link_to 'Show', token %></td>
-        <td><%= link_to 'Edit', edit_token_path(token) %></td>
         <td><%= link_to 'Destroy', token, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

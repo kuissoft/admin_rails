@@ -12,16 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :token_id %><br>
-    <%= f.text_field :token_id %>
-  </div>
-  <div class="field">
     <%= f.label :user %><br>
     <%= f.collection_select :user_id, User.all, :id, :name  %>
   </div>
   <div class="field">
     <%= f.label :session %><br>
-    <%= f.collection_select :session_id, Session.all, :id, :session_id, {:prompt => 'New'} %>
+    <%= f.collection_select :session_id, Session.all, :id, :id, {:include_blank => 'New'} %>
   </div>
   <div class="actions">
     <%= f.submit %>

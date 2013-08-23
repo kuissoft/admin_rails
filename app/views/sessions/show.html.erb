@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>ID:</strong>
+  <%= @session.id %>
+</p>
+
+<p>
   <strong>Session:</strong>
   <%= @session.session_id.truncate(20) %>
 </p>
@@ -10,5 +15,4 @@
   <%= @session.created_at %>
 </p>
 
-<%= link_to 'Edit', edit_session_path(@session) %> |
 <%= link_to 'Back', sessions_path %>
