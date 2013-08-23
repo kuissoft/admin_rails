@@ -17,5 +17,4 @@
     openTok = OpenTok::OpenTokSDK.new OPENTOK_API_KEY, OPENTOK_API_SECRET
     return openTok.generateToken :session_id => session_id, :connection_data => connection_data
   end
-  
 end

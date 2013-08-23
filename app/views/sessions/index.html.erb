@@ -5,6 +5,8 @@
     <tr>
 			<th>ID</th>
       <th>Session</th>
+			<th>Sender</th>
+			<th>Recipient</th>
 			<th>Created</th>
       <th></th>
       <th></th>
@@ -17,6 +19,8 @@
       <tr>
 				<td><%= session.id %></td>
         <td><%= session.session_id.truncate(20) %></td>
+        <td>---</td>
+        <td>---</td>
 				<td><%= session.created_at %></td>
         <td><%= link_to 'Show', session %></td>
         <td><%= link_to 'Destroy', session, method: :delete, data: { confirm: 'Are you sure?' } %></td>

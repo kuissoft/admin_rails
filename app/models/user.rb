@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_one :token, dependent: :destroy
+  has_one :session, through: :token
   
   validates_uniqueness_of :email
   validates_uniqueness_of :phone

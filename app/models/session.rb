@@ -12,5 +12,4 @@ class Session < ActiveRecord::Base
     properties = {OpenTok::SessionPropertyConstants::P2P_PREFERENCE => "enabled"}
     return openTok.createSession :location => location, :properties => properties
   end
-  
 end
