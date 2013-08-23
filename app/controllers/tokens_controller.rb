@@ -27,15 +27,17 @@ class TokensController < ApplicationController
     @token = Token.new(token_params)
     
     # if no session is specified, create and assign a new session
-    if (!@token.session_id)
+    if !@token.session
       @session = Session.new
       @session.session_id = Session.createSession(request.remote_addr).to_s
-      @session.save
-      @token.session = @session
+      @token.session = @session if @session.save
     end
     
-    # generate OpenTok token using OpenTok session ID and passing user ID as custom data
-    @token.token_id = Token.generateToken(@token.session.session_id, @token.user_id.to_s)
+    # if the session was not created and assigned successfully, do not generate a token
+    if (@token.session)
+      # generate OpenTok token using OpenTok session ID and passing user ID as custom data
+      @token.token_id = Token.generateToken(@token.session.session_id, @token.user_id.to_s)
+    end
 
     respond_to do |format|
       if @token.save
