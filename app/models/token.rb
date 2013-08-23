@@ -10,7 +10,7 @@
   validates :session, 
     presence: true # token has to belong to a session
     
-  default_scope :order => "updated_at DESC"
+  default_scope :order => "created_at DESC"
   
   # Generates OpenTok token using OpenTok session and adding custom data.
   def self.generateToken(session_id, connection_data)

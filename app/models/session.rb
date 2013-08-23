@@ -4,7 +4,7 @@ class Session < ActiveRecord::Base
   validates :session_id,
     presence: true # session ID has to be set
     
-  default_scope :order => "updated_at DESC"
+  default_scope :order => "created_at DESC"
   
   # Creates OpenTok session with determined server location and P2P enabled.
   def self.createSession(location)
