@@ -15,9 +15,14 @@ ActiveRecord::Schema.define(version: 20130820184249) do
 
   create_table "sessions", force: true do |t|
     t.text     "session_id"
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "sessions", ["recipient_id"], name: "index_sessions_on_recipient_id"
+  add_index "sessions", ["sender_id"], name: "index_sessions_on_sender_id"
 
   create_table "tokens", force: true do |t|
     t.text     "token_id"

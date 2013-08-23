@@ -30,8 +30,20 @@ class TokensController < ApplicationController
     if !@token.session
       @session = Session.new
       @session.session_id = Session.createSession(request.remote_addr).to_s
+
       # if valid, session will be saved autimaticaly upon assignment
       @token.session = @session if @session.valid?
+      
+      # new session was created, user who initiated it is sender
+      @token.session.sender = @token.user
+    else
+      # session already exists, user who connects is a recipient
+      # TODO: make sure a third user cannot connect to a session
+      # TODO: assign recipient with sender upon request ?
+      if (!@token.user.token)
+        @token.session.recipient_id = @token.user_id
+        @token.session.save
+      end
     end
     
     # if the session was not created and assigned successfully, do not generate a token

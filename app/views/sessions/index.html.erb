@@ -8,6 +8,7 @@
 			<th>Sender</th>
 			<th>Recipient</th>
 			<th>Created</th>
+			<th>Updated</th>
       <th></th>
       <th></th>
       <th></th>
@@ -19,9 +20,10 @@
       <tr>
 				<td><%= session.id %></td>
         <td><%= session.session_id.truncate(20) %></td>
-        <td>---</td>
-        <td>---</td>
+        <td <%= sender_font_style(session) %>><%= session.sender ? session.sender.name : '-' %></td>
+        <td <%= recipient_font_style(session) %>><%= session.recipient ? session.recipient.name : '-' %></td>
 				<td><%= session.created_at %></td>
+				<td><%= session.updated_at %></td>
         <td><%= link_to 'Show', session %></td>
         <td><%= link_to 'Destroy', session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :session %><br>
-    <%= f.collection_select :session_id, Session.all, :id, :id, {:include_blank => 'New'} %>
+    <%= f.collection_select :session_id, Session.all.where("recipient_id IS ?", nil), :id, :id, {:include_blank => 'New'} %>
   </div>
   <div class="actions">
     <%= f.submit %>
