@@ -2,7 +2,7 @@
 
 <p>
   <strong>Session:</strong>
-  <%= @session.session_id %>
+  <%= @session.session_id.truncate(20) %>
 </p>
 
 <%= link_to 'Edit', edit_session_path(@session) %> |

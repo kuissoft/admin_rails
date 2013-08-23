@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :session %><br>
-    <%= f.collection_select :session_id, Session.all, :id, :session_id  %>
+    <%= f.collection_select :session_id, Session.all, :id, :session_id, {:prompt => 'New'} %>
   </div>
   <div class="actions">
     <%= f.submit %>

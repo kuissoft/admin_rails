@@ -12,7 +12,7 @@
 
 <p>
   <strong>Session:</strong>
-  <%= @token.session.session_id %>
+  <%= @token.session.session_id.truncate(20) %>
 </p>
 
 <%= link_to 'Edit', edit_token_path(@token) %> |

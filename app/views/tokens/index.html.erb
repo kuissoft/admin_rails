@@ -15,9 +15,9 @@
   <tbody>
     <% @tokens.each do |token| %>
       <tr>
-        <td><%= token.token_id %></td>
+        <td><%= token.token_id.truncate(20) %></td>
         <td><%= token.user.name %></td>
-        <td><%= token.session.session_id %></td>
+        <td><%= token.session.session_id.truncate(20) %></td>
         <td><%= link_to 'Show', token %></td>
         <td><%= link_to 'Edit', edit_token_path(token) %></td>
         <td><%= link_to 'Destroy', token, method: :delete, data: { confirm: 'Are you sure?' } %></td>
