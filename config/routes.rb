@@ -2,8 +2,7 @@ RemoteAssistant::Application.routes.draw do
   
   root 'sessions#index'
   resources :users
-  resources :sessions, :except => [:edit, :update, :new, :create]
-  resources :tokens, :except => [:edit, :update]
+  resources :sessions, :except => [:edit, :update]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

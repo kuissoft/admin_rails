@@ -30,15 +30,5 @@
   <%= @user.role %>
 </p>
 
-<p>
-  <strong>Sesion:</strong>
-  <%= @user.token ? @user.session.id : '-' %>
-</p>
-
-<p>
-  <strong>Token:</strong>
-  <%= @user.token ? @user.token.id : '-' %>
-</p>
-
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

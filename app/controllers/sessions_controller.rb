@@ -25,7 +25,12 @@ class SessionsController < ApplicationController
   # POST /sessions.json
   def create
     @session = Session.new(session_params)
-    @session.session_id = Session.createSession(request.remote_addr).to_s
+    
+    if @session.valid?
+      @session.session_id = Session.createSession(request.remote_addr).to_s
+      @session.sender_token = Session.generateToken(@session.session_id, @session.sender.id.to_s)
+      @session.recipient_token = Session.generateToken(@session.session_id, @session.recipient.id.to_s)
+    end
 
     respond_to do |format|
       if @session.save
@@ -70,6 +75,6 @@ class SessionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def session_params
-      params.require(:session).permit(:session_id)
+      params.require(:session).permit(:session_id, :sender_id, :recipient_id)
     end
 end

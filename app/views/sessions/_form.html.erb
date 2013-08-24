@@ -10,10 +10,14 @@
       </ul>
     </div>
   <% end %>
-
+	
   <div class="field">
-    <%= f.label :session_id %><br>
-    <%= f.text_field :session_id %>
+    <%= f.label :sender %><br>
+    <%= f.collection_select :sender_id, User.all, :id, :name %>
+  </div>
+  <div class="field">
+    <%= f.label :recipient %><br>
+    <%= f.collection_select :recipient_id, User.all, :id, :name %>
   </div>
   <div class="actions">
     <%= f.submit %>

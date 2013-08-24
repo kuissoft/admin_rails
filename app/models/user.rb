@@ -1,6 +1,14 @@
 class User < ActiveRecord::Base
-  has_one :token, dependent: :destroy
-  has_one :session, through: :token
+  has_one :sender_session, 
+    class_name: "Session", 
+    inverse_of: :sender, 
+    foreign_key: "sender_id",
+    dependent: :destroy
+  has_one :recipient_session, 
+    class_name: "Session", 
+    inverse_of: :recipient, 
+    foreign_key: "recipient_id",
+    dependent: :destroy
   
   validates_uniqueness_of :email
   validates_uniqueness_of :phone

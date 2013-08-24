@@ -20,8 +20,8 @@
       <tr>
 				<td><%= session.id %></td>
         <td><%= session.session_id.truncate(20) %></td>
-        <td <%= sender_font_style(session) %>><%= session.sender ? session.sender.name : '-' %></td>
-        <td <%= recipient_font_style(session) %>><%= session.recipient ? session.recipient.name : '-' %></td>
+        <td><%= session.sender ? session.sender.name : '-' %></td>
+        <td><%= session.recipient ? session.recipient.name : '-' %></td>
 				<td><%= session.created_at %></td>
 				<td><%= session.updated_at %></td>
         <td><%= link_to 'Show', session %></td>
@@ -30,3 +30,7 @@
     <% end %>
   </tbody>
 </table>
+
+<br>
+
+<%= link_to 'New Session', new_session_path %>
