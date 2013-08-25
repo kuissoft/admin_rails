@@ -2,10 +2,10 @@ class Session < ActiveRecord::Base
   belongs_to :sender, class_name: 'User', inverse_of: :sender_session
   belongs_to :recipient, class_name: 'User', inverse_of: :recipient_session
   
-  validates_presence_of :sender
-  validates_presence_of :recipient
+  validates :sender, presence: true
+  validates :recipient, presence: true
   
-  default_scope :order => "created_at DESC"
+  scope :sorted, -> { order("created_at DESC") }
   
   validate :recipient_not_sender
   validate :sender_availability

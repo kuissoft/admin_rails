@@ -3,15 +3,17 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
+gem 'opentok' # TokBox Ruby SDK for generating OpenTok sessions and tokens
+gem 'thin' # the most secure, stable, fast and extensible Ruby web server
+
 group :development, :test do
-  # Use sqlite3 as the database in development
-  gem 'sqlite3'
+  gem 'sqlite3' # use sqlite3 as the database in development
+  gem 'quiet_assets' # hide assets serving messages in logs
 end
 
 group :production do
-  # Use postgres as the database in production (supported by Heroku)
-  gem 'pg'
-  gem 'rails_12factor'
+  gem 'pg' # use postgres as the database in production (supported by Heroku)
+  gem 'rails_12factor' # enable rails_serve_static_assets (to support css)
 end
 
 # Use SCSS for stylesheets
@@ -51,5 +53,3 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-
-gem 'opentok'

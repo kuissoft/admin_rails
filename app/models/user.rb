@@ -10,20 +10,22 @@ class User < ActiveRecord::Base
     foreign_key: "recipient_id",
     dependent: :destroy
   
-  validates_uniqueness_of :email
-  validates_uniqueness_of :phone
-  
   # TODO: figure out production lengths and regexes
-  validates_length_of :name, :in => 3..70
-  validates_length_of :phone, :in => 4..20
-  validates_length_of :email, :in => 5..70
-  validates_length_of :password, :in => 5..100
-
-  validates_format_of :name, :with => /\A[A-Za-z ]+\z/
-  validates_format_of :phone, :with => /\A(\+)?[0-9 ]+\z/
-  validates_format_of :email, :with => /\A.+(\@).+(\.).+\z/
+  validates :name, 
+      length: { in: 3..70 },
+      format: { with: /\A[A-Za-z ]+\z/ }
+  validates :phone, 
+    uniqueness: true, 
+    length: { in: 4..20 },
+    format: { with: /\A(\+)?[0-9 ]+\z/ }
+  validates :email,
+    uniqueness: true, 
+    length: { in: 5..70 },
+    format: { with: /\A.+(\@).+(\.).+\z/ }
+  validates :password,  
+    length: { in: 5..100 }
+  validates :role, 
+    :inclusion => 0..1
   
-  validates :role, :inclusion => 0..1
-  
-  default_scope :order => "role DESC, email ASC"
+  scope :sorted, -> { order("role DESC, email ASC") }
 end
