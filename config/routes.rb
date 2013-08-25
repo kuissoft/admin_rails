@@ -1,8 +1,18 @@
+require 'api_constraints'
+
 RemoteAssistant::Application.routes.draw do
   
+  # web routes
   root 'sessions#index'
   resources :users
   resources :sessions, :except => [:edit, :update]
+  
+  # api routes
+  namespace :api, defaults: {format: 'json'} do
+    scope :module => :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+      resources :sessions, :only => [:index, :show, :create, :destroy]
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
