@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
     inverse_of: :recipient, 
     foreign_key: "recipient_id",
     dependent: :destroy
+  has_one :location,
+    through: :recipient_session
   
   # TODO: figure out production lengths and regexes
   validates :name, 

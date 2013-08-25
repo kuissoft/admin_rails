@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130820184249) do
+ActiveRecord::Schema.define(version: 20130825131442) do
+
+  create_table "locations", force: true do |t|
+    t.integer  "session_id"
+    t.float    "lat"
+    t.float    "lon"
+    t.integer  "bearing"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "locations", ["session_id"], name: "index_locations_on_session_id"
 
   create_table "sessions", force: true do |t|
     t.text     "session_id"

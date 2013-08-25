@@ -8,8 +8,6 @@
 			<th>Sender</th>
 			<th>Recipient</th>
 			<th>Created</th>
-			<th>Updated</th>
-      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -23,7 +21,6 @@
         <td><%= session.sender ? session.sender.name : '-' %></td>
         <td><%= session.recipient ? session.recipient.name : '-' %></td>
 				<td><%= session.created_at %></td>
-				<td><%= session.updated_at %></td>
         <td><%= link_to 'Show', session %></td>
         <td><%= link_to 'Destroy', session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

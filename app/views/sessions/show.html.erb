@@ -11,6 +11,16 @@
 </p>
 
 <p>
+  <strong>Sender:</strong>
+  <%= @session.sender ? @session.sender.name : '-' %>
+</p>
+
+<p>
+  <strong>Recipient:</strong>
+  <%= @session.recipient ? @session.recipient.name : '-' %>
+</p>
+
+<p>
   <strong>Created:</strong>
   <%= @session.created_at %>
 </p>
