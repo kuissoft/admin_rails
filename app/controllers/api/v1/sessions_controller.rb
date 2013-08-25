@@ -11,8 +11,9 @@ module Api
         puts '--- sessions / index -------------'
         puts '----------------------------------'
         
-        if session_params[:recipient_id]
-          respond_with Session.where(recipient_id: session_params[:recipient_id]), :except => [:sender_id, :sender_token, :created_at, :updated_at]
+        # TODO: are params enough ? session_params ? create specific for index
+        if params[:session][:recipient_id]
+          respond_with Session.where(recipient_id: params[:session][:recipient_id]).first, :except => [:sender_id, :sender_token, :created_at, :updated_at]
         else
           respond_with Session.sorted, :except => [:sender_id, :sender_token, :created_at, :updated_at]
         end 
@@ -30,6 +31,11 @@ module Api
         puts '----------------------------------'
         puts '--- sessions / create ------------'
         puts '----------------------------------'
+        
+        # remove any existing session of this user
+        # TODO: update custom validations in model to work with this
+        @session = Session.where("sender_id = #{session_params[:sender_id]} OR recipient_id = #{session_params[:sender_id]}").first
+        @session.destroy if @session
         
         # TODO: check if sender is the user who is sending the request
         

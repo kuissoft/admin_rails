@@ -24,6 +24,12 @@ class SessionsController < ApplicationController
   # POST /sessions
   # POST /sessions.json
   def create
+    
+    # remove any existing session of this user
+    # TODO: update custom validations in model to work with this
+    @session = Session.where("sender_id = #{session_params[:sender_id]} OR recipient_id = #{session_params[:sender_id]}").first
+    @session.destroy if @session
+    
     @session = Session.new(session_params)
     
     if @session.valid?
@@ -75,6 +81,7 @@ class SessionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def session_params
+      # TODO: session_id should be only there for some existions, why for create ? separate !
       params.require(:session).permit(:session_id, :sender_id, :recipient_id)
     end
 end
