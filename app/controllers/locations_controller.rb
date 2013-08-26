@@ -24,12 +24,20 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.json
   def create
-    @location = Location.new(location_params)
+    
+    @location = Location.where(session_id: location_params[:session_id]).first
+    if @location
+      action = 'updated'
+      @location.update_attributes(lat: location_params[:lat], lon: location_params[:lon], bearing: location_params[:bearing])
+    else
+      action = 'created'
+      @location = Location.new(location_params)
+    end
 
     respond_to do |format|
       if @location.save
-        format.html { redirect_to @location, notice: 'Location was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @location }
+        format.html { redirect_to @location, notice: "Location was successfully #{action}." }
+        format.json { render action: 'show', status: :created, location: @location } # was created
       else
         format.html { render action: 'new' }
         format.json { render json: @location.errors, status: :unprocessable_entity }

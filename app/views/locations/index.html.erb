@@ -5,6 +5,7 @@
     <tr>
 			<th>ID</th>
       <th>Session</th>
+			<th>User</th>
       <th>Lat</th>
       <th>Lon</th>
       <th>Bearing</th>
@@ -21,6 +22,7 @@
       <tr>
 				<td><%= location.id %></td>
         <td><%= location.session.id %></td>
+				<td><%= location.session.sender.name %></td>
         <td><%= location.lat %></td>
         <td><%= location.lon %></td>
         <td><%= location.bearing %>°</td>

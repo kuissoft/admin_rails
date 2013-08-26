@@ -13,10 +13,6 @@ module Api
         
         # TODO: are params enough ? location_params ? create specific for index
         if params[:location][:session_id]
-          puts 'asdasda=sd=as=a=sd=a=sd=a=sd=asd=a=sd=a=sd=as=da=s=d'
-          puts 'asdasda=sd=as=a=sd=a=sd=a=sd=asd=a=sd=a=sd=as=da=s=d'
-          puts 'asdasda=sd=as=a=sd=a=sd=a=sd=asd=a=sd=a=sd=as=da=s=d'
-          puts 'asdasda=sd=as=a=sd=a=sd=a=sd=asd=a=sd=a=sd=as=da=s=d'
           respond_with Location.where(session_id: params[:location][:session_id]).first, :except => [:created_at, :updated_at]
         else
           respond_with Location.sorted, :except => [:created_at, :updated_at]
@@ -36,7 +32,7 @@ module Api
         puts '--- locations / create -----------'
         puts '----------------------------------'
         
-        # TODO: check if sender is the user who is sending the request
+        # TODO: check if the user who is sending the request is sender of this session
         
         begin
           @session = Session.find(location_params[:session_id])

@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
     foreign_key: "recipient_id",
     dependent: :destroy
   has_one :location,
-    through: :recipient_session
+    through: :sender_session
   
   # TODO: figure out production lengths and regexes
   validates :name, 
