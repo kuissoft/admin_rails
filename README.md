@@ -32,6 +32,6 @@ GET SESSION LOCATION
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET -d '{"location":{"session_id":4}}' http://remoteassistant.herokuapp.com/api/locations
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET -d '{"location":{"session_id":56}}' http://localhost:3000/api/locations
 
-CREATE LOCATION
+CREATE / UPDATE LOCATION
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"location":{"session_id":4, "lat":0.1, "lon":0.2, "bearing":3}}' http://remoteassistant.herokuapp.com/api/locations
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"location":{"session_id":56, "lat":0.1, "lon":0.2, "bearing":3}}' http://localhost:3000/api/locations

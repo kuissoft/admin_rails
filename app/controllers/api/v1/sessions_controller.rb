@@ -13,7 +13,14 @@ module Api
         
         # TODO: are params enough ? session_params ? create specific for index
         if params[:session][:recipient_id]
-          respond_with Session.where(recipient_id: params[:session][:recipient_id]).first, :except => [:sender_id, :sender_token, :created_at, :updated_at]
+          
+          @session = Session.where(recipient_id: params[:session][:recipient_id]).first
+          if @session
+            respond_with @session, :except => [:sender_id, :sender_token, :created_at, :updated_at]
+          else
+            render :json => { :message => "Session not found." }, :status => 404 # not found
+          end
+        
         else
           respond_with Session.sorted, :except => [:sender_id, :sender_token, :created_at, :updated_at]
         end 

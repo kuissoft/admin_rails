@@ -13,7 +13,14 @@ module Api
         
         # TODO: are params enough ? location_params ? create specific for index
         if params[:location][:session_id]
-          respond_with Location.where(session_id: params[:location][:session_id]).first, :except => [:created_at, :updated_at]
+
+          @location = Location.where(session_id: params[:location][:session_id]).first
+          if @location
+            respond_with @location, :except => [:created_at, :updated_at]
+          else
+            render :json => { :message => "Location not found." }, :status => 404 # not found
+          end
+        
         else
           respond_with Location.sorted, :except => [:created_at, :updated_at]
         end 
