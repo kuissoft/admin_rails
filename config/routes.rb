@@ -11,7 +11,7 @@ RemoteAssistant::Application.routes.draw do
   # api routes
   namespace :api, defaults: {format: 'json'} do
     scope :module => :v1, constraints: ApiConstraints.new(version: 1, default: true) do
-      resources :sessions, :except => [:edit, :update, :destroy]
+      resources :sessions, :except => [:edit, :update]
       resources :locations
     end
   end
