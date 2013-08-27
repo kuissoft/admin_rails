@@ -10,7 +10,11 @@ GET ALL SESSIONS
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET http://remoteassistant.herokuapp.com/api/sessions
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET http://localhost:3000/api/sessions
 
-GET MY SESSION
+GET MY SESSION (sender)
+curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET -d '{"session":{"sender_id":2}}' http://remoteassistant.herokuapp.com/api/sessions
+curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET -d '{"session":{"sender_id":12}}' http://localhost:3000/api/sessions
+
+GET MY SESSION (recipient)
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET -d '{"session":{"recipient_id":2}}' http://remoteassistant.herokuapp.com/api/sessions
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET -d '{"session":{"recipient_id":12}}' http://localhost:3000/api/sessions
 
