@@ -5,6 +5,8 @@ gem 'rails', '4.0.0'
 gem 'opentok' # TokBox Ruby SDK for generating OpenTok sessions and tokens
 gem 'thin' # the most secure, stable, fast and extensible Ruby web server
 
+gem 'devise'
+
 group :development, :test do
   gem 'sqlite3' # use sqlite3 as the database in development
   gem 'quiet_assets' # hide assets serving messages in logs
@@ -39,6 +41,12 @@ gem 'jbuilder', '~> 1.2'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
+end
+
+group :test, :development do
+  gem 'factory_girl_rails'
+  gem 'pry', '~> 0.9.12'
+  gem 'pry-nav', '~> 0.2.3'
 end
 
 # Use ActiveModel has_secure_password
