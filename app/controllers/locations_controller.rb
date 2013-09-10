@@ -1,4 +1,4 @@
-class LocationsController < ApplicationController
+class LocationsController < AuthenticatedController
   before_action :set_location, only: [:show, :edit, :update, :destroy]
 
   # GET /locations
