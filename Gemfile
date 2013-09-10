@@ -45,6 +45,7 @@ end
 
 group :test, :development do
   gem 'factory_girl_rails'
+  gem 'rspec-rails'
   gem 'pry', '~> 0.9.12'
   gem 'pry-nav', '~> 0.2.3'
 end
