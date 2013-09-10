@@ -11,23 +11,23 @@ class User < ActiveRecord::Base
     dependent: :destroy
   has_one :location,
     through: :sender_session
-  
+
   # TODO: figure out production lengths and regexes
-  validates :name, 
+  validates :name,
       length: { in: 3..70 },
       format: { with: /\A[A-Za-z ]+\z/ }
-  validates :phone, 
-    uniqueness: true, 
+  validates :phone,
+    uniqueness: true,
     length: { in: 4..20 },
     format: { with: /\A(\+)?[0-9 ]+\z/ }
   validates :email,
-    uniqueness: true, 
+    uniqueness: true,
     length: { in: 5..70 },
     format: { with: /\A.+(\@).+(\.).+\z/ }
-  validates :password,  
+  validates :password,
     length: { in: 5..100 }
-  validates :role, 
+  validates :role,
     :inclusion => 0..1
-  
+
   scope :sorted, -> { order("role DESC, email ASC") }
 end
