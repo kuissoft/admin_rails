@@ -24,7 +24,7 @@ class LocationsController < AuthenticatedController
   # POST /locations
   # POST /locations.json
   def create
-    
+
     @location = Location.where(session_id: location_params[:session_id]).first
     if @location
       action = 'updated'
