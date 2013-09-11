@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  DEFAULT_ROLE = 0
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -31,10 +33,9 @@ class User < ActiveRecord::Base
     uniqueness: true,
     length: { in: 5..70 },
     format: { with: /\A.+(\@).+(\.).+\z/ }
-  validates :password,
-    length: { in: 5..100 }
-  validates :role,
-    :inclusion => 0..1
+
+  validates :password, length: { in: 5..100 }
+  validates :role, inclusion: 0..1
 
   scope :sorted, -> { order("role DESC, email ASC") }
 
