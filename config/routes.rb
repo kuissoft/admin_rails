@@ -1,7 +1,7 @@
 require 'api_constraints'
 
 RemoteAssistant::Application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { sessions: "admin/sessions" }
   # web routes
   root 'sessions#index'
   resources :users

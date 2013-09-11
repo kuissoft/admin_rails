@@ -23,5 +23,4 @@ describe "Authenticaiton" do
     response.status.should == 401
     response.body.should be_blank
   end
-
 end

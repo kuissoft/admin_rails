@@ -1,4 +1,5 @@
-class Api::V1::UsersController < ApplicationController
+class Api::V1::UsersController < Api::V1::ApplicationController
+  respond_to :json
   def create
     user = User.new(user_params.merge(role: User::DEFAULT_ROLE))
 

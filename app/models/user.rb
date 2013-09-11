@@ -39,6 +39,10 @@ class User < ActiveRecord::Base
 
   scope :sorted, -> { order("role DESC, email ASC") }
 
+  def admin?
+    role == 1
+  end
+
   def ensure_authentication_token
     if authentication_token.blank?
       self.authentication_token = generate_authentication_token
