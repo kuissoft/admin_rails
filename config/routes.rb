@@ -13,7 +13,9 @@ RemoteAssistant::Application.routes.draw do
     scope :module => :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       resources :sessions, :except => [:edit, :update]
       resources :locations
-      resources :users
+      resources :users do
+        resources :contacts
+      end
       post "/authentication", to: "authentication#create"
     end
   end

@@ -21,6 +21,8 @@ class User < ActiveRecord::Base
   has_one :location,
     through: :sender_session
 
+  has_many :contacts, dependent: :destroy
+
   # TODO: figure out production lengths and regexes
   validates :name,
       length: { in: 3..70 },
