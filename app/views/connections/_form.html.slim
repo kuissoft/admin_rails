@@ -1,0 +1,10 @@
+= simple_form_for(@connection) do |f|
+  = f.error_notification
+
+  .inputs
+    = f.association :user
+    = f.association :contact
+    = f.input :is_pending
+
+  .actions
+    button.btn type="submit" Submit

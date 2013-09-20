@@ -1,0 +1,23 @@
+h1 Listing connections
+
+table
+  tr
+    th User
+    th Contact
+    th Is pending
+    th
+    th
+    th
+
+  - @connections.each do |connection|
+    tr
+      td = connection.user.name
+      td = connection.contact.name
+      td = connection.is_pending
+      td = link_to 'Show', connection
+      td = link_to 'Edit', edit_connection_path(connection)
+      td = link_to 'Destroy', connection, :confirm => 'Are you sure?', :method => :delete
+
+br
+
+= link_to 'New Connection', new_connection_path

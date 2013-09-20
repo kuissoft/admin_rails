@@ -20,7 +20,8 @@ class User < ActiveRecord::Base
   has_one :location,
     through: :sender_session
 
-  has_many :contacts, dependent: :destroy
+  has_many :connections, dependent: :destroy
+  has_many :contacts, through: "connections"
 
   # TODO: figure out production lengths and regexes
   validates :name,
