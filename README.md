@@ -12,12 +12,6 @@ Get all contacts or a user
 curl http://remoteassistant-backend-test.herokuapp.com/api/users/1/contacts.json
 ```
 
-Create a new contact for (for user with id 1, target_id is the other user who's being added as a contact)
-
-```
-curl -i -XPOST http://remoteassistant-backend-test.herokuapp.com/api/users/1/contacts.json\?auth_token=FR3wtp_6gN33kGM8TAs1 -d "contact[target_id]=2"
-```
-
 ### Sessions ###
 
 GET ALL SESSIONS
