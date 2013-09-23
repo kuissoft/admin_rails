@@ -6,7 +6,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     if user.save
       render json: user, status: 201
     else
-      render json: user, status: 422
+      render status: 422
     end
   end
 

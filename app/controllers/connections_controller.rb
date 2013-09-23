@@ -1,4 +1,4 @@
-class ConnectionsController < ApplicationController
+class ConnectionsController < AuthenticatedController
   before_action :set_connection, only: [:show, :edit, :update, :destroy]
 
   # GET /connections

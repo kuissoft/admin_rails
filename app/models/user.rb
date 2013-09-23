@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
     length: { in: 5..70 },
     format: { with: /\A.+(\@).+(\.).+\z/ }
 
-  validates :password, length: { in: 5..100 }
+  # validates :password, length: { in: 5..100 }
   validates :role, inclusion: 0..1
 
   scope :sorted, -> { order("role DESC, email ASC") }
