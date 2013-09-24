@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   # TODO: figure out production lengths and regexes
   validates :name,
       length: { in: 3..70 },
-      format: { with: /\A[A-Za-z ]+\z/ }
+      format: { with: /\A[\p{Word} ]+\z/ }
   validates :phone,
     uniqueness: true,
     length: { in: 4..20 },
