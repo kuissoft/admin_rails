@@ -14,13 +14,13 @@ describe "Authenticaiton" do
     post "/api/authentication", email: user.email, password: "bollocks"
 
     response.status.should == 401
-    response.body.should be_blank
+    response.body.should == "{}"
   end
 
   it "returns 401 for non-existent user (there is no way to tell if a password is wrong or user doesn't exist)" do
     post "/api/authentication", email: "nonexistent@example.com"
 
     response.status.should == 401
-    response.body.should be_blank
+    response.body.should == "{}"
   end
 end

@@ -1,3 +1,4 @@
+CREATE TABLE "connections" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "contact_id" integer, "is_pending" boolean, "created_at" datetime, "updated_at" datetime);
 CREATE TABLE "locations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "session_id" integer, "lat" float, "lon" float, "bearing" integer, "created_at" datetime, "updated_at" datetime);
 CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL);
 CREATE TABLE "sessions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "session_id" text, "sender_token" text, "recipient_token" text, "sender_id" integer, "recipient_id" integer, "created_at" datetime, "updated_at" datetime);
@@ -15,3 +16,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130820184249');
 INSERT INTO schema_migrations (version) VALUES ('20130825131442');
 
 INSERT INTO schema_migrations (version) VALUES ('20130910123149');
+
+INSERT INTO schema_migrations (version) VALUES ('20130920205148');

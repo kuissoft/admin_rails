@@ -4,7 +4,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     if user && user.valid_password?(params[:password])
       render json: { user_id: user.id, authentication_token: user.authentication_token }, status: 200
     else
-      head 401
+      render json: {}, status: 401
     end
   end
 end
