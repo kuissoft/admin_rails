@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130920205148) do
+ActiveRecord::Schema.define(version: 20130926112229) do
 
   create_table "connections", force: true do |t|
     t.integer  "user_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20130920205148) do
     t.boolean  "is_pending"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_rejected", default: false
   end
 
   create_table "locations", force: true do |t|

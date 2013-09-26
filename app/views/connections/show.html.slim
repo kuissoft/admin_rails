@@ -9,6 +9,9 @@ p
 p
   strong Is pending:
   = @connection.is_pending
+p
+  strong Is rejected:
+  = @connection.is_rejected
 
 = link_to 'Edit', edit_connection_path(@connection)
 '|

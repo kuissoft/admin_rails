@@ -5,6 +5,7 @@ table
     th User
     th Contact
     th Is pending
+    th Is rejected
     th
     th
     th
@@ -14,6 +15,7 @@ table
       td = connection.user.name
       td = connection.contact.name
       td = connection.is_pending
+      td = connection.is_rejected
       td = link_to 'Show', connection
       td = link_to 'Edit', edit_connection_path(connection)
       td = link_to 'Destroy', connection, :confirm => 'Are you sure?', :method => :delete
