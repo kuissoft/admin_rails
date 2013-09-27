@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130926112229) do
+ActiveRecord::Schema.define(version: 20130927210520) do
 
   create_table "connections", force: true do |t|
     t.integer  "user_id"
@@ -32,19 +32,6 @@ ActiveRecord::Schema.define(version: 20130926112229) do
   end
 
   add_index "locations", ["session_id"], name: "index_locations_on_session_id"
-
-  create_table "sessions", force: true do |t|
-    t.text     "session_id"
-    t.text     "sender_token"
-    t.text     "recipient_token"
-    t.integer  "sender_id"
-    t.integer  "recipient_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "sessions", ["recipient_id"], name: "index_sessions_on_recipient_id"
-  add_index "sessions", ["sender_id"], name: "index_sessions_on_sender_id"
 
   create_table "users", force: true do |t|
     t.string   "name"
