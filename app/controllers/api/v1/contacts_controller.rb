@@ -15,9 +15,19 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     end
   end
 
+  def update
+    connection = current_user.connections.find(params[:id])
+    if connection.update_attributes(contact_params)
+      ContactNotifications.updated(connection)
+      render json: connection
+    else
+      render json: { errors: connection.errors }, status: 400
+    end
+  end
+
   private
 
   def contact_params
-    params.require(:contact).permit(:contact_id)
+    params.require(:contact).permit(:contact_id, :nickname)
   end
 end
