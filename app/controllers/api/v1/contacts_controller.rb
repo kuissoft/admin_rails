@@ -2,23 +2,22 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   respond_to :json
 
   def index
-    user = User.find(params[:user_id])
-    render json: user.contacts
+    render json: current_user.contacts
   end
 
   def create
-    user = User.find(params[:user_id])
-    contact = user.contacts.build(contact_params)
-    if contact.save
-      render json: contact
+    connection = current_user.connections.build(contact_params)
+    if connection.save
+      ContactNotifications.added(connection)
+      render json: connection
     else
-      head 400
+      render json: { errors: connection.errors }, status: 400
     end
   end
 
   private
 
   def contact_params
-    params.require(:contact).permit(:target_id)
+    params.require(:contact).permit(:contact_id)
   end
 end

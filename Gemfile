@@ -7,6 +7,8 @@ gem 'thin' # the most secure, stable, fast and extensible Ruby web server
 gem 'active_model_serializers'
 
 gem 'devise'
+gem 'rock_config'
+gem 'rest-client'
 
 group :development, :test do
   gem 'sqlite3' # use sqlite3 as the database in development

@@ -12,6 +12,11 @@ Get all contacts or a user
 curl http://remoteassistant-backend-test.herokuapp.com/api/users/1/contacts.json?auth_token=XXX
 ```
 
+Create a new contact
+```
+curl -XPOST http://remoteassistant-backend-test.herokuapp.com/api/users/1/contacts.json?auth_token=XXX -d 'contact[contact_id]=2'
+```
+
 # Authentication
 
 ```
