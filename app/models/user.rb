@@ -46,9 +46,13 @@ class User < ActiveRecord::Base
   end
 
   def ensure_authentication_token
-    if authentication_token.blank?
-      self.authentication_token = generate_authentication_token
-    end
+    assign_new_token if authentication_token.blank?
+  end
+
+  def assign_new_token
+    self.last_token = self.authentication_token
+    self.authentication_token = generate_authentication_token
+    self.token_expires_at = 1.day.from_now
   end
 
   private

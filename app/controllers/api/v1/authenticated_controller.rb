@@ -5,10 +5,21 @@ class Api::V1::AuthenticatedController < Api::V1::ApplicationController
   private
 
   def authenticate_user_from_token!
-    user = User.find_by_authentication_token(params[:auth_token])
+    user = User.where("authentication_token = ? OR last_token = ?", params[:auth_token], params[:auth_token]).first
 
     if user
-      sign_in user, store: false
+      if user.authentication_token == params[:auth_token]
+        if user.token_expires_at < Time.zone.now
+          user.assign_new_token
+          user.save!
+
+          render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
+        else
+          sign_in user, store: false
+        end
+      elsif user.last_token == params[:auth_token]
+        render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
+      end
     end
   end
 end
