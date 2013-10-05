@@ -5,7 +5,7 @@ RemoteAssistant::Application.routes.draw do
 
   devise_for :users, controllers: { sessions: "admin/sessions" }
   # web routes
-  root 'sessions#index'
+  root 'users#index'
   resources :users
   resources :sessions, :except => [:edit, :update]
   resources :locations
@@ -20,6 +20,7 @@ RemoteAssistant::Application.routes.draw do
         resources :contacts
       end
       post "/authentication", to: "authentication#create"
+      post "/authentication/validate", to: "authentication#validate"
     end
   end
 end

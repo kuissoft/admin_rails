@@ -9,8 +9,6 @@
       <th>Email</th>
       <th>Password</th>
       <th>Role</th>
-			<th>Session</th>
-			<th>Location</th>
       <th></th>
       <th></th>
       <th></th>
@@ -26,9 +24,6 @@
         <td><%= user.email %></td>
         <td><%= user.password %></td>
         <td><%= user.role %></td>
-				<td><%= user.sender_session ? "#{user.sender_session.id} (Sender)" : 
-					user.recipient_session ? "#{user.recipient_session.id} (Recipient)" : '-' %></td>
-				<td><%= user.location ? "#{user.location.lat}, #{user.location.lon}" : '-' %></td>
         <td><%= link_to 'Show', user %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>

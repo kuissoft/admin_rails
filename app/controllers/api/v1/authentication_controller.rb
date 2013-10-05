@@ -7,4 +7,21 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       render json: {}, status: 401
     end
   end
+
+  def validate
+    user = User.find_by_id(params[:user_id])
+    if user && user.authentication_token == params[:token]
+      if user.token_expires_at < Time.zone.now
+        render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
+          user.assign_new_token
+          user.save!
+      else
+        render json: {}, status: 200
+      end
+    elsif user && user.last_token == params[:token]
+      render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
+    else
+      render json: { error: { code: 2, message: "Invalid authentication token" } }, status: 401
+    end
+  end
 end

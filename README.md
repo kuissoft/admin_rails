@@ -30,6 +30,28 @@ with an expired token, he will receive the following response.
 {"error":{"code":1,"message":"Authentication token expired"}}
 ```
 
+# Token validation
+
+A user can validate his token
+
+```
+curl -i -XPOST http://localhost:3000/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
+```
+
+If the token is valid the response is 200 and `{}`
+
+If the token is expired
+
+```
+{"error":{"code":1,"message":"Authentication token expired"}}
+```
+
+If the token is invalid
+
+```
+{"error":{"code":2,"message":"Invalid authentication token"}}
+```
+
 He then has to authenticate again with username and password and get a
 new token.
 
