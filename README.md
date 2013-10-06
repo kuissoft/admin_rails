@@ -13,9 +13,20 @@ curl http://remoteassistant-backend-test.herokuapp.com/api/users/1/contacts.json
 ```
 
 Create a new contact
+
 ```
 curl -XPOST http://remoteassistant-backend-test.herokuapp.com/api/users/1/contacts.json?auth_token=XXX -d 'contact[contact_id]=2'
 ```
+
+Accept/Decline/Remove a contact
+
+```
+curl -XPOST http://localhost:3000/api/users/1/contacts/accept?auth_token=XXX   -d 'contact_id=2'
+curl -XPOST http://localhost:3000/api/users/1/contacts/decline?auth_token=XXX  -d 'contact_id=2'
+curl -XDELETE http://localhost:3000/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
+```
+
+Response is always 200 and `{}`
 
 # Authentication
 
