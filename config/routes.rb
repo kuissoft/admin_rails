@@ -18,7 +18,11 @@ RemoteAssistant::Application.routes.draw do
       resources :locations
       resources :users do
         resources :contacts do
-          collection { post :accept }
+          collection do
+            post :accept
+            post :decline
+            delete :remove
+          end
         end
       end
       post "/authentication", to: "authentication#create"

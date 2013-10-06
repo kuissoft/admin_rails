@@ -1,5 +1,6 @@
 class Api::V1::ContactsController < Api::V1::AuthenticatedController
   respond_to :json
+  around_action :wrap_transaction
 
   def index
     render json: current_user.contacts
@@ -30,10 +31,8 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     # is the contact_id from the other user's perspective
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
 
-    ActiveRecord::Base.transaction do
-      connection.update_attribute(:is_pending, false)
-      current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
-    end
+    connection.update_attributes!(is_pending: false)
+    current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
 
     ContactNotifications.status_changed(connection)
 
@@ -42,7 +41,18 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
   def decline
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
-    connection.update_attributes(is_pending: false, is_rejected: true)
+    connection.update_attributes!(is_pending: false, is_rejected: true)
+
+    ContactNotifications.status_changed(connection)
+
+    render json: {}, status: 200
+  end
+
+  def remove
+    connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
+    connection.update_attributes!(is_removed: true)
+
+    Connection.where(user_id: current_user.id, contact_id: params[:contact_id]).first.destroy
 
     ContactNotifications.status_changed(connection)
 
@@ -50,6 +60,12 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   end
 
   private
+
+  def wrap_transaction
+    ActiveRecord::Base.transaction do
+      yield
+    end
+  end
 
   def contact_params
     params.require(:contact).permit(:contact_id, :nickname)
