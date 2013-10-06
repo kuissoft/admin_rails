@@ -17,7 +17,9 @@ RemoteAssistant::Application.routes.draw do
       resources :sessions, :except => [:edit, :update]
       resources :locations
       resources :users do
-        resources :contacts
+        resources :contacts do
+          collection { post :accept }
+        end
       end
       post "/authentication", to: "authentication#create"
       post "/authentication/validate", to: "authentication#validate"

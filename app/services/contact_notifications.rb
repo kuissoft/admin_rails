@@ -8,4 +8,9 @@ class ContactNotifications
   def self.updated(connnection)
     Realtime.new.notify(connnection.user_id, "contacts:update", {})
   end
+
+  def self.status_changed(connnection)
+    Realtime.new.notify(connnection.user_id, "contacts:update", {})
+  end
+
 end
