@@ -6,6 +6,10 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     render json: current_user.contacts
   end
 
+  def connections
+    render json: current_user.connections
+  end
+
   def create
     connection = current_user.connections.build(contact_params)
     if connection.save

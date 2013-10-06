@@ -6,10 +6,16 @@ API
 
 # Contacts
 
-Get all contacts or a user
+Get all contacts
 
 ```
 curl http://remoteassistant-backend-test.herokuapp.com/api/users/1/contacts.json?auth_token=XXX
+```
+
+Get all connections (returns the actual connection data, including pending, rejected and removed)
+
+```
+curl -i http://localhost:3000/api/users/1/contacts/connections?auth_token=XXX
 ```
 
 Create a new contact

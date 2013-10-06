@@ -19,6 +19,7 @@ RemoteAssistant::Application.routes.draw do
       resources :users do
         resources :contacts do
           collection do
+            get :connections
             post :accept
             post :decline
             delete :remove
