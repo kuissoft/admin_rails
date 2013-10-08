@@ -4,6 +4,17 @@ Backend
 API
 ---
 
+# Error codes
+
+```
+{
+  TOKEN_EXPIRED: 1,
+  INVALID_TOKEN: 2,
+  NOT_AUTHENTICATED: 3,
+  ASSISTANT_BUSY: 4
+}
+```
+
 # Contacts
 
 Get all contacts
@@ -54,13 +65,13 @@ If the token is valid the response is 200 and `{}`
 If the token is expired
 
 ```
-{"error":{"code":1,"message":"Authentication token expired"}}
+{"error": {"code": TOKEN_EXPIRED, "message":"Authentication token expired"} }
 ```
 
 If the token is invalid
 
 ```
-{"error":{"code":2,"message":"Invalid authentication token"}}
+{"error":{"code": INVALID_TOKEN, "message":"Invalid authentication token"}}
 ```
 
 He then has to authenticate again with username and password and get a
