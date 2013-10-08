@@ -10,6 +10,9 @@ gem 'devise'
 gem 'rock_config'
 gem 'rest-client'
 
+# Rack Cors
+gem "rack-cors", require: "rack/cors"
+
 group :development, :test do
   gem 'sqlite3' # use sqlite3 as the database in development
   gem 'quiet_assets' # hide assets serving messages in logs
