@@ -30,16 +30,5 @@
   <%= @user.role %>
 </p>
 
-<p>
-  <strong>Session:</strong>
-	<%= @user.sender_session ? "#{@user.sender_session.id} (Sender)" : 
-		@user.recipient_session ? "#{@user.recipient_session.id} (Recipient)" : '-' %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-	<%= @user.location ? "#{@user.location.lat}, #{@user.location.lon}" : '-' %>
-</p>
-
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
