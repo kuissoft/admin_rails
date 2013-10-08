@@ -5,7 +5,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     user = User.new(user_params.merge(role: User::DEFAULT_ROLE))
 
     if user.save
-      render json: user, status: 201
+      render json: user, status: 201, serializer: RegistrationSerializer, root: "user"
     else
       render json: { errors: user.errors }, status: 422
     end

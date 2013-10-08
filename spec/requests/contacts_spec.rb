@@ -15,6 +15,21 @@ describe "Contacts" do
     end
   end
 
+  specify "GET /api/users/1/contacts" do
+    Connection.destroy_all
+    user, contact = create(:user), create(:user)
+    Connection.create!(user_id: user.id, contact_id: contact.id)
+
+    get "/api/users/#{user.id}/contacts?auth_token=#{user.authentication_token}"
+
+    json = JSON.parse(response.body)
+
+    first = json.fetch("contacts").first
+
+    first.fetch("id")        .should == contact.id
+    first.fetch("is_pending").should be_false
+  end
+
   describe "accept" do
     it "accepts the connection, creates inverse one and notifies the contact" do
       Connection.destroy_all

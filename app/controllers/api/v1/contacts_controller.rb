@@ -3,11 +3,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   around_action :wrap_transaction
 
   def index
-    render json: current_user.contacts
-  end
-
-  def connections
-    render json: current_user.connections
+    render json: current_user.connections, each_serializer: ContactSerializer
   end
 
   def create
