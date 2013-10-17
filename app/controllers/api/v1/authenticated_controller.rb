@@ -9,7 +9,7 @@ class Api::V1::AuthenticatedController < Api::V1::ApplicationController
 
     if user
       if user.authentication_token == params[:auth_token]
-        if user.token_expires_at && user.token_expires_at < Time.zone.now
+        if user.expired_token?
           user.assign_new_token
           user.save!
 
