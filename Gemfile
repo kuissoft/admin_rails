@@ -10,6 +10,9 @@ gem 'devise'
 gem 'rock_config'
 gem 'rest-client'
 
+# Error notifications
+gem 'sentry-raven'
+
 # Rack Cors
 gem "rack-cors", require: "rack/cors"
 
