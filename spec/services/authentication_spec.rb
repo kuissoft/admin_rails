@@ -8,8 +8,14 @@ describe Authentication do
     end
 
     it "returns :expired if the token is expired" do
-      user = create(:user, token_updated_at: 1.week.ago)
+      user = create(:user)
+      user.update_attribute(:token_updated_at, 1.week.ago)
       Authentication.validate_token(user, user.authentication_token).should == :expired
+    end
+
+    it "returns :valid if the token is valid and belongs to the user" do
+      user = create(:user)
+      Authentication.validate_token(user, user.authentication_token).should == :valid
     end
   end
 end
