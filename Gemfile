@@ -10,12 +10,10 @@ gem 'devise'
 gem 'rock_config'
 gem 'rest-client'
 
-# Error notifications
-gem 'sentry-raven'
-
 # Cache
 gem 'memcachier'
 gem 'dalli'
+
 
 # Rack Cors
 gem "rack-cors", require: "rack/cors"
@@ -28,6 +26,10 @@ end
 group :production do
   gem 'pg' # use postgres as the database in production (supported by Heroku)
   gem 'rails_12factor' # enable rails_serve_static_assets (to support css)
+
+  # Monitoring
+  gem 'sentry-raven'
+  gem 'newrelic_rpm'
 end
 
 # Use SCSS for stylesheets
