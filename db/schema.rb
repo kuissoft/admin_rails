@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131005151906) do
+ActiveRecord::Schema.define(version: 20131017064443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,12 @@ ActiveRecord::Schema.define(version: 20131005151906) do
 
   add_index "locations", ["session_id"], name: "index_locations_on_session_id", using: :btree
 
+  create_table "settings", force: true do |t|
+    t.integer  "token_expiration_period"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "name"
     t.string   "phone"
@@ -56,7 +62,7 @@ ActiveRecord::Schema.define(version: 20131005151906) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "last_token"
-    t.datetime "token_expires_at"
+    t.datetime "token_updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

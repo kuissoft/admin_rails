@@ -1,0 +1,6 @@
+h1 Settings
+
+= simple_form_for @settings do |f|
+  = f.input :token_expiration_period, hint: "minutes"
+
+  button.btn type="submit" Save

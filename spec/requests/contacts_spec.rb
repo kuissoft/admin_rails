@@ -27,7 +27,7 @@ describe "Contacts" do
     first = json.fetch("contacts").first
 
     first.fetch("id")        .should == contact.id
-    first.fetch("is_pending").should be_false
+    first.fetch("is_pending").should be_true
   end
 
   describe "accept" do

@@ -10,6 +10,7 @@ RemoteAssistant::Application.routes.draw do
   resources :sessions, :except => [:edit, :update]
   resources :locations
   resources :contacts
+  resources :settings
 
   # api routes
   namespace :api, defaults: {format: 'json'} do

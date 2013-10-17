@@ -7,19 +7,6 @@ class User < ActiveRecord::Base
 
   before_save :ensure_authentication_token
 
-  has_one :sender_session,
-    class_name: "Session",
-    inverse_of: :sender,
-    foreign_key: "sender_id",
-    dependent: :destroy
-  has_one :recipient_session,
-    class_name: "Session",
-    inverse_of: :recipient,
-    foreign_key: "recipient_id",
-    dependent: :destroy
-  has_one :location,
-    through: :sender_session
-
   has_many :connections, dependent: :destroy
   has_many :contacts, through: :connections
 
@@ -45,6 +32,10 @@ class User < ActiveRecord::Base
     role == 1
   end
 
+  def expired_token?
+    (token_updated_at + Settings.token_expiration_period) < Time.zone.now
+  end
+
   def ensure_authentication_token
     assign_new_token if authentication_token.blank?
   end
@@ -52,7 +43,8 @@ class User < ActiveRecord::Base
   def assign_new_token
     self.last_token = self.authentication_token
     self.authentication_token = generate_authentication_token
-    self.token_expires_at = 1.day.from_now
+    self.token_updated_at = Time.zone.now
+    save!
   end
 
   private
