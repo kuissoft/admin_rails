@@ -13,6 +13,10 @@ gem 'rest-client'
 # Error notifications
 gem 'sentry-raven'
 
+# Cache
+gem 'memcachier'
+gem 'dalli'
+
 # Rack Cors
 gem "rack-cors", require: "rack/cors"
 
