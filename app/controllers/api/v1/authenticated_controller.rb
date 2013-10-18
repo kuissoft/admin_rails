@@ -7,6 +7,7 @@ class Api::V1::AuthenticatedController < Api::V1::ApplicationController
   def authenticate_user_from_token!
     user = User.where("authentication_token = ? OR last_token = ?", params[:auth_token], params[:auth_token]).first
 
+    # TODO - refactor to authentication service
     if user
       if user.authentication_token == params[:auth_token]
         if user.expired_token?

@@ -10,6 +10,8 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
 
   def validate
     user = User.find_by_id(params[:user_id])
+
+    # TODO - refactor to authentication service
     if user && user.authentication_token == params[:token]
       if user.expired_token?
         render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
