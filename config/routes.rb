@@ -6,7 +6,11 @@ RemoteAssistant::Application.routes.draw do
   devise_for :users, controllers: { sessions: "admin/sessions" }
   # web routes
   root 'users#index'
-  resources :users
+  resources :users do
+    member do
+      put :expire_token
+    end
+  end
   resources :sessions, :except => [:edit, :update]
   resources :locations
   resources :contacts
