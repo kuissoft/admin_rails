@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   has_many :connections, dependent: :destroy
   has_many :contacts, through: :connections
+  has_many :devices, dependent: :destroy
 
   # TODO: figure out production lengths and regexes
   validates :name,
