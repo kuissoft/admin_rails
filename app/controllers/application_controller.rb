@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
     unless Rapns.config.embedded
       Thread.new do
         Rapns.embed
+        Rapns.sync
         sleep 2
         Rapns.shutdown
       end
