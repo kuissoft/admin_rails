@@ -7,6 +7,12 @@ class ApplicationController < ActionController::Base
   private
 
   def check_rapns_daemon
-    Rapns.embed unless Rapns.config.embedded
+    unless Rapns.config.embedded
+      Thread.new do
+        Rapns.embed
+        sleep 2
+        Rapns.shutdown
+      end
+    end
   end
 end
