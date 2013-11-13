@@ -16,6 +16,8 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
       n.save!
     end
 
+    Rapns.push
+
     render json: {}, status: 200
   end
 end
