@@ -4,6 +4,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
     Rails.cache.write(key, params[:data])
 
     device_ids = Device.where(user_id: params[:assistant_id]).map(&:token)
+    Rails.logger.warn "Found devices #{device_ids}"
 
     device_ids.each do |device_id|
       n = Rapns::Apns::Notification.new
