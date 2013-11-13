@@ -80,3 +80,5 @@ Rapns.reflect do |on|
   # on.error do |error|
   # end
 end
+
+Rapns.embed
