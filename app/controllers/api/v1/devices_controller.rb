@@ -1,4 +1,4 @@
-class Api::V1::DevicesController < Api::V1::ApplicationController
+class Api::V1::DevicesController < Api::V1::AuthenticatedController
   def create
     device = current_user.devices.create(device_params)
     if device.save
