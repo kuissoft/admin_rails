@@ -1,7 +1,7 @@
 class Api::V1::NotificationsController < Api::V1::ApplicationController
   def create
     key = SecureRandom.urlsafe_base64
-    Rails.loggerwarn "Saving #{key} with #{params}"
+    Rails.logger.warn "Saving #{key} with #{params}"
     Rails.cache.write(key, params[:data])
 
     device_ids = Device.where(user_id: params[:assistant_id]).map(&:token)
