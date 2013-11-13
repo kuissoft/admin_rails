@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :device do
-    udid "MyString"
-    user_id 1
+    token "123-456"
+    association :user
   end
 end
