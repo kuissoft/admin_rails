@@ -81,4 +81,7 @@ Rapns.reflect do |on|
   # end
 end
 
-Rapns.embed
+Thread.new do
+  sleep 10
+  Rapns.embed
+end
