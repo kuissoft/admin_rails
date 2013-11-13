@@ -11,7 +11,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
       n = Rapns::Apns::Notification.new
       n.app = Rapns::Apns::App.find_by_name("ios_app")
       n.device_token = device_id
-      n.alert = "Incoming call"
+      n.alert = User.find(params[:caller_id]).name
       n.attributes_for_device = { call_id: key }
       n.save!
     end
