@@ -80,8 +80,3 @@ Rapns.reflect do |on|
   # on.error do |error|
   # end
 end
-
-Thread.new do
-  sleep 10
-  Rapns.embed
-end
