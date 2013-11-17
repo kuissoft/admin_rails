@@ -13,6 +13,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
       n.device_token = device_id
       n.alert = User.find(params[:caller_id]).name
       n.attributes_for_device = { call_id: key }
+      n.sound = "Calling.wav"
       n.save!
     end
 
