@@ -69,6 +69,7 @@ class AlertsController < ApplicationController
            n.app = Rapns::Apns::App.find_by_name("ios_app")
            n.device_token = device.token
            n.alert = @alert.message
+           n.sound = "Calling.wav"
            n.save!
         end
 
