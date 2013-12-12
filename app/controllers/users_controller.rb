@@ -61,6 +61,12 @@ class UsersController < AuthenticatedController
     end
   end
 
+  def expire_token
+    user = User.find(params[:id])
+    user.assign_new_token
+    redirect_to user, notice: "New token was generated"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

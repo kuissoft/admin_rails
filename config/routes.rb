@@ -6,7 +6,11 @@ RemoteAssistant::Application.routes.draw do
   devise_for :users, controllers: { sessions: "admin/sessions" }
   # web routes
   root 'users#index'
-  resources :users
+  resources :users do
+    member do
+      put :expire_token
+    end
+  end
   resources :sessions, :except => [:edit, :update]
   resources :locations
   resources :contacts
@@ -15,6 +19,9 @@ RemoteAssistant::Application.routes.draw do
   # api routes
   namespace :api, defaults: {format: 'json'} do
     scope :module => :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+      resources :devices, only: [:create]
+      resources :calls
+      resources :notifications
       resources :sessions, :except => [:edit, :update]
       resources :locations
       resources :users do

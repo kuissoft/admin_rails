@@ -65,6 +65,38 @@ ALTER SEQUENCE connections_id_seq OWNED BY connections.id;
 
 
 --
+-- Name: devices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE devices (
+    id integer NOT NULL,
+    token character varying(255),
+    user_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE devices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE devices_id_seq OWNED BY devices.id;
+
+
+--
 -- Name: locations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -96,6 +128,126 @@ CREATE SEQUENCE locations_id_seq
 --
 
 ALTER SEQUENCE locations_id_seq OWNED BY locations.id;
+
+
+--
+-- Name: rapns_apps; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE rapns_apps (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    environment character varying(255),
+    certificate text,
+    password character varying(255),
+    connections integer DEFAULT 1 NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    type character varying(255) NOT NULL,
+    auth_key character varying(255)
+);
+
+
+--
+-- Name: rapns_apps_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE rapns_apps_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: rapns_apps_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE rapns_apps_id_seq OWNED BY rapns_apps.id;
+
+
+--
+-- Name: rapns_feedback; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE rapns_feedback (
+    id integer NOT NULL,
+    device_token character varying(64) NOT NULL,
+    failed_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    app character varying(255)
+);
+
+
+--
+-- Name: rapns_feedback_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE rapns_feedback_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: rapns_feedback_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE rapns_feedback_id_seq OWNED BY rapns_feedback.id;
+
+
+--
+-- Name: rapns_notifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE rapns_notifications (
+    id integer NOT NULL,
+    badge integer,
+    device_token character varying(64),
+    sound character varying(255) DEFAULT 'default'::character varying,
+    alert character varying(255),
+    data text,
+    expiry integer DEFAULT 86400,
+    delivered boolean DEFAULT false NOT NULL,
+    delivered_at timestamp without time zone,
+    failed boolean DEFAULT false NOT NULL,
+    failed_at timestamp without time zone,
+    error_code integer,
+    error_description text,
+    deliver_after timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    alert_is_json boolean DEFAULT false,
+    type character varying(255) NOT NULL,
+    collapse_key character varying(255),
+    delay_while_idle boolean DEFAULT false NOT NULL,
+    registration_ids text,
+    app_id integer NOT NULL,
+    retries integer DEFAULT 0
+);
+
+
+--
+-- Name: rapns_notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE rapns_notifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: rapns_notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE rapns_notifications_id_seq OWNED BY rapns_notifications.id;
 
 
 --
@@ -195,7 +347,35 @@ ALTER TABLE ONLY connections ALTER COLUMN id SET DEFAULT nextval('connections_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY devices ALTER COLUMN id SET DEFAULT nextval('devices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY locations ALTER COLUMN id SET DEFAULT nextval('locations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY rapns_apps ALTER COLUMN id SET DEFAULT nextval('rapns_apps_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY rapns_feedback ALTER COLUMN id SET DEFAULT nextval('rapns_feedback_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY rapns_notifications ALTER COLUMN id SET DEFAULT nextval('rapns_notifications_id_seq'::regclass);
 
 
 --
@@ -221,11 +401,43 @@ ALTER TABLE ONLY connections
 
 
 --
+-- Name: devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY devices
+    ADD CONSTRAINT devices_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY locations
     ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rapns_apps_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY rapns_apps
+    ADD CONSTRAINT rapns_apps_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rapns_feedback_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY rapns_feedback
+    ADD CONSTRAINT rapns_feedback_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rapns_notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY rapns_notifications
+    ADD CONSTRAINT rapns_notifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -249,6 +461,20 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX index_locations_on_session_id ON locations USING btree (session_id);
+
+
+--
+-- Name: index_rapns_feedback_on_device_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_rapns_feedback_on_device_token ON rapns_feedback USING btree (device_token);
+
+
+--
+-- Name: index_rapns_notifications_multi; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_rapns_notifications_multi ON rapns_notifications USING btree (app_id, delivered, failed, deliver_after);
 
 
 --
@@ -303,3 +529,19 @@ INSERT INTO schema_migrations (version) VALUES ('20131005151906');
 INSERT INTO schema_migrations (version) VALUES ('20131016085952');
 
 INSERT INTO schema_migrations (version) VALUES ('20131017064443');
+
+INSERT INTO schema_migrations (version) VALUES ('20131101144521');
+
+INSERT INTO schema_migrations (version) VALUES ('20131101144522');
+
+INSERT INTO schema_migrations (version) VALUES ('20131101144523');
+
+INSERT INTO schema_migrations (version) VALUES ('20131101144524');
+
+INSERT INTO schema_migrations (version) VALUES ('20131101144525');
+
+INSERT INTO schema_migrations (version) VALUES ('20131101144526');
+
+INSERT INTO schema_migrations (version) VALUES ('20131101144816');
+
+INSERT INTO schema_migrations (version) VALUES ('20131102223522');

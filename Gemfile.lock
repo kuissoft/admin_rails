@@ -82,6 +82,7 @@ GEM
     multipart-post (1.2.0)
     newrelic_rpm (3.7.0.177)
     opentok (0.1.2)
+    net-http-persistent (2.9)
       addressable
     orm_adapter (0.5.0)
     pg (0.17.0)
@@ -117,6 +118,9 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.1.0)
+    rapns (3.4.1)
+      multi_json (~> 1.0)
+      net-http-persistent
     rdoc (3.12.2)
       json (~> 1.4)
     rest-client (1.6.7)
@@ -209,6 +213,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 4.0.0)
   rails_12factor
+  rapns
   rest-client
   rock_config
   rspec-rails
