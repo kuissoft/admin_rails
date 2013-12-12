@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
 
-gem 'rails', '4.0.0'
+gem 'rails', '~> 4.0.0'
 gem 'opentok' # TokBox Ruby SDK for generating OpenTok sessions and tokens
 gem 'thin' # the most secure, stable, fast and extensible Ruby web server
 gem 'active_model_serializers'
