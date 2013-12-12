@@ -7,7 +7,6 @@
       <th>Name</th>
       <th>Phone</th>
       <th>Email</th>
-      <th>Password</th>
       <th>Role</th>
       <th></th>
       <th></th>
@@ -19,10 +18,9 @@
     <% @users.each do |user| %>
       <tr>
 				<td><%= user.id %></td>
-        <td><%= user.name %></td>
+        <td><%= link_to user.name, user %></td>
         <td><%= user.phone %></td>
         <td><%= user.email %></td>
-        <td><%= user.password %></td>
         <td><%= user.role %></td>
         <td><%= link_to 'Show', user %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
