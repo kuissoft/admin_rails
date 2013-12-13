@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'User', :type => :feature do
 
   it 'should see his connections in his detail' do
+
     user = FactoryGirl.build(:user)
     user.role = 1
     user.save!
@@ -13,8 +14,8 @@ describe 'User', :type => :feature do
     user.connections.create(contact_id: contact_2.id)
 
     visit root_path
-    fill_in 'Email', with: "user1@example.com"
-    fill_in 'Password', with: "12345678"
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
     click_button 'Sign in'
 
     page.should have_content(user.name)

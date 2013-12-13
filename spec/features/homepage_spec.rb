@@ -13,8 +13,8 @@ describe 'User', :type => :feature do
     user.save!
 
     visit root_path
-    fill_in 'Email', with: "user1@example.com"
-    fill_in 'Password', with: "12345678"
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
     click_button 'Sign in'
     page.should have_content('Users')
   end
