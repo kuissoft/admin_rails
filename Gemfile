@@ -64,6 +64,7 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'pry', '~> 0.9.12'
   gem 'pry-nav', '~> 0.2.3'
+  gem "capybara"
 end
 
 # Use ActiveModel has_secure_password

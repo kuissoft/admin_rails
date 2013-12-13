@@ -1,3 +1,31 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.show_detail_button {
+  cursor: pointer;
+  text-align: right;
+}
+
+#connections {
+  max-width: 100%;
+  color: black !important;
+  .connection_row {
+    margin-bottom: 10px;
+    .connection_header {
+      font-weight: bold;
+      border-bottom: 1px solid gray;
+      background: #3C9DD0;
+      max-width: 25%;
+      padding: 5px;
+    }
+
+    .connection_detail {
+      display: none;
+      background: #64AAD0;
+      max-width: 40%;
+      padding: 5px;
+    }
+  }
+}

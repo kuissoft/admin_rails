@@ -30,6 +30,23 @@
   <%= @user.authentication_token %>
 </p>
 
+<section id="connections">
+  <h1>My Connections</h1>
+  <% @connections.each do |connection| %>
+  <div class="connection_row">
+    <div class="connection_header">
+      <%= link_to @user.name, @user %> <%= get_relation(connection.id) %> <%= link_to connection.name, connection %> 
+      <%= image_tag 'information.png', class: 'show_detail_button'%>
+    </div>
+    <div class="connection_detail">
+      <%= raw connection_info(@user.get_connection(connection.id)) %>
+      <%= raw connection_info(connection.get_connection(@user.id)) %>
+    </div>
+  </div>
+  <% end -%>
+
+</section>
+
 
 <%= link_to "Assign new token", expire_token_user_path(@user), method: "put", class: "btn" %>
 

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    name "John Doe"
+    sequence(:name) { |n| "John Doe #{n}" }
     sequence(:phone) { |n| "+420 777 444 99#{n}" }
     role 0
     sequence(:email) { |n| "user#{n}@example.com" }

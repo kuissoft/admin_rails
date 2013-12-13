@@ -48,6 +48,34 @@ class User < ActiveRecord::Base
     save!
   end
 
+  def follows_me? user_id
+    followers.include?(user_id)    
+  end
+
+  def following? user_id
+    following.include?(user_id)    
+  end
+
+  def followers
+    Connection.where(contact_id: id).map(&:user_id)
+  end
+
+  def following
+    connections.map(&:contact_id)
+  end
+
+  def following_each_other
+    followers & following
+  end
+
+  def followers_uniq
+    followers | following
+  end
+
+  def get_connection user_id
+    connections.where(contact_id: user_id).first
+  end
+
   private
 
   def generate_authentication_token
