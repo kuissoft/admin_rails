@@ -1,6 +1,6 @@
 class UsersController < AuthenticatedController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :set_connections, except: :index
+  before_action :set_connections, except: [:index, :new, :create]
 
   # GET /users
   # GET /users.json
