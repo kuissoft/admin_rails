@@ -1,0 +1,13 @@
+<h1>My Connections</h1>
+  <% @connections.each do |connection| %>
+  <div class="connection_row">
+    <div class="connection_header">
+      <%= link_to @user.name, @user %> <%= get_relation(@user, connection.id) %> <%= link_to connection.name, connection %> 
+      <%= image_tag 'information.png', class: 'show_detail_button'%>
+    </div>
+    <div class="connection_detail">
+      <%= raw connection_info(@user.get_connection(connection.id)) %>
+      <%= raw connection_info(connection.get_connection(@user.id), true) %>
+    </div>
+  </div>
+  <% end -%>

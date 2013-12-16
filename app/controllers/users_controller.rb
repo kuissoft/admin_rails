@@ -1,5 +1,5 @@
 class UsersController < AuthenticatedController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :destroy_connection]
   before_action :set_connections, except: [:index, :new, :create]
 
   # GET /users
@@ -66,6 +66,16 @@ class UsersController < AuthenticatedController
     user = User.find(params[:id])
     user.assign_new_token
     redirect_to user, notice: "New token was generated"
+  end
+
+  # DELETE /connections/1
+  # DELETE /connections/1.json
+  def destroy_connection
+    @connection = Connection.find(params[:conn_id])
+    @connection.destroy
+    respond_to do |format|
+      format.html { redirect_to user_path(@user) }
+    end
   end
 
   private

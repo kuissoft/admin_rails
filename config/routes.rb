@@ -10,6 +10,7 @@ RemoteAssistant::Application.routes.draw do
     member do
       put :expire_token
     end
+    delete :destroy_connection, on: :collection
   end
   resources :sessions, :except => [:edit, :update]
   resources :locations

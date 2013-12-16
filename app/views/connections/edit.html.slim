@@ -2,7 +2,5 @@ h1 Editing connection
 
 == render 'form'
 
-= link_to 'Show', @connection
-'|
-= link_to 'Back', connections_path
+= link_to 'Back', user_path(@connection.user)
 

@@ -5,6 +5,7 @@ class Connection < ActiveRecord::Base
 
   validates_uniqueness_of :user_id, scope: :contact_id
   validate :self_reference
+  attr_accessor :id_user
 
   def self_reference
     if user_id == contact_id

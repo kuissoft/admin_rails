@@ -7,6 +7,7 @@
     = f.input :is_pending
     = f.input :is_rejected
     = f.input :is_removed
+    = f.input :id_user, as: :hidden, input_html: { value: params[:user] } 
 
   .actions
     button.btn type="submit" Submit
