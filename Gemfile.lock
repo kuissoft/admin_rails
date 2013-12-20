@@ -99,6 +99,12 @@ GEM
     orm_adapter (0.5.0)
     pg (0.17.0)
     polyglot (0.3.3)
+    postmark (1.0.1)
+      json
+      rake
+    postmark-rails (0.5.2)
+      actionmailer (>= 3.0.0)
+      postmark (~> 1.0)
     pry (0.9.12.4)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -223,6 +229,7 @@ DEPENDENCIES
   newrelic_rpm
   opentok
   pg
+  postmark-rails
   pry (~> 0.9.12)
   pry-nav (~> 0.2.3)
   quiet_assets
