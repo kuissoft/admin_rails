@@ -86,14 +86,15 @@ Ok, send 200
 ```
 
 # Device code validation
-```
-curl http://localhost:3000/api/authentication/validate_code -d 'email=name@example.com&validation_code=1234'
-```
 Validate recieved validation code
+
+```
+curl http://rea-rails-development.herokuapp.com/api/authentication/validate_code -d 'email=name@example.com&validation_code=1234'
+```
 
 Ok, send 200
 ```
-{}
+{auth_token: xxXX}
 ```
 
 ```
@@ -113,7 +114,7 @@ Ok, send 200
 A user can validate his token
 
 ```
-curl -i -XPOST http://localhost:3000/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
+curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
 ```
 
 If the token is valid the response is 200 and `{}`
