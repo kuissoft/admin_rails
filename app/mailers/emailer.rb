@@ -1,5 +1,5 @@
 class Emailer < ActionMailer::Base
-  default from: "authentication@remoteassistant.me"
+  default from: "jiri@remoteassistant.me"
 
   def authentication_email user
     @user = user
