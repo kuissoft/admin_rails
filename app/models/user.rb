@@ -12,13 +12,13 @@ class User < ActiveRecord::Base
   has_many :devices, dependent: :destroy
 
   # TODO: figure out production lengths and regexes
-  validates :name,
-      length: { in: 3..70 },
-      format: { with: /\A[\p{Word} ]+\z/ }
-  validates :phone,
-    uniqueness: true,
-    length: { in: 4..20 },
-    format: { with: /\A(\+)?[0-9 ]+\z/ }
+  #validates :name,
+  #    length: { in: 3..70 },
+  #    format: { with: /\A[\p{Word} ]+\z/ }
+  # validates :phone,
+    # uniqueness: true,
+    # length: { in: 4..20 },
+    # format: { with: /\A(\+)?[0-9 ]+\z/ }
   validates :email,
     uniqueness: true,
     length: { in: 5..70 },

@@ -16,6 +16,7 @@ RemoteAssistant::Application.routes.draw do
   resources :locations
   resources :contacts
   resources :settings
+  resources :activity_monitor
 
   # api routes
   namespace :api, defaults: {format: 'json'} do
@@ -37,6 +38,8 @@ RemoteAssistant::Application.routes.draw do
       end
       post "/authentication", to: "authentication#create"
       post "/authentication/validate", to: "authentication#validate"
+      post "/authentication/register", to: "authentication#register"
+      post "/authentication/validate_code", to: "authentication#validate_code"
     end
   end
 end

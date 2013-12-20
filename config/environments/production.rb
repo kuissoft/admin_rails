@@ -64,6 +64,22 @@ RemoteAssistant::Application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
+  #EMAILER SETTINGS
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.raise_delivery_errors = true
+  
+  config.action_mailer.perform_deliveries = true
+  
+  config.action_mailer.default_url_options = {host: "http://rea-rails-development.herokuapp.com"}
+
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.postmarkapp.com",
+    :port                 => 25,
+    :user_name            => "5c8ee2be-21e6-44f1-9687-aaca9405eb52",
+    :password             => "5c8ee2be-21e6-44f1-9687-aaca9405eb52",
+    :authentication       => "plain",
+    :enable_starttls_auto => false
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).

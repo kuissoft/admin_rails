@@ -48,6 +48,9 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    coffeebeans (1.0.1)
+      actionpack (>= 3.0.0)
+      coffee-script
     daemons (1.1.9)
     dalli (2.6.4)
     devise (3.2.2)
@@ -210,6 +213,7 @@ DEPENDENCIES
   bootstrap-sass
   capybara
   coffee-rails (~> 4.0.0)
+  coffeebeans
   dalli
   devise
   factory_girl_rails

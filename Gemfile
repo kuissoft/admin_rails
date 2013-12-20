@@ -67,6 +67,9 @@ group :test, :development do
   gem "capybara"
 end
 
+# Support for coffescript
+gem 'coffeebeans'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

@@ -12,7 +12,14 @@ API
   TOKEN_EXPIRED: 1,
   INVALID_TOKEN: 2,
   NOT_AUTHENTICATED: 3,
-  ASSISTANT_BUSY: 4
+  ASSISTANT_BUSY: 4,
+  WRONG_PARAMETERES: 5,
+  EMAIL_NOT_SENT: 6,
+  UNKNOWN_ERROR: 7,
+  NOT_MATCH: 8,
+  NO_VALIDATION_CODE: 9,
+  USER_NOT_EXISTS: 10
+
 }
 ```
 
@@ -53,6 +60,54 @@ with an expired token, he will receive the following response.
 {"error":{"code":1,"message":"Authentication token expired"}}
 ```
 
+# Device registration
+
+Resister user or send new code to activate new device
+
+```
+curl http://localhost:3000/api/authentication/register -d 'email=name@example.com'
+```
+
+Ok, send 200
+```
+{}
+```
+
+```
+{ error: { code: 5, message: "Wrong user parametres" } }
+```
+
+```
+{ error: { code: 6, message: "Authentication e-mail not sent" } }
+```
+
+```
+{ error: { code: 7, message: "Unknown error" } }
+```
+
+# Device code validation
+```
+curl http://localhost:3000/api/authentication/validate_code -d 'email=name@example.com&validation_code=1234'
+```
+Validate recieved validation code
+
+Ok, send 200
+```
+{}
+```
+
+```
+{ error: { code: 8, message: "Validation code not match" } }
+```
+
+```
+{ error: { code: 9, message: "User has no validation code generated" } }
+```
+
+```
+{ error: { code: 10, message: "User not exists" } }
+```
+
 # Token validation
 
 A user can validate his token
@@ -78,11 +133,19 @@ If the token is invalid
 He then has to authenticate again with username and password and get a
 new token.
 
-REGISTER
+# REGISTER
+
+```
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"user":{"name":"Tomas Stanik", "phone":"+421917328431", "email":"tomas@remoteassistanx.me", "password":"asdfasdf"}}' http://remoteassistant-backend-test.herokuapp.com/api/users
+```
 
-LOGIN
+# LOGIN
+
+```
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"email":"tomas@remoteassistant.me", "password":"asdfasdf"}' http://remoteassistant-backend-test.herokuapp.com/api/authentication
+```
 
-GET MY CONTACTS
+# GET MY CONTACTS
+```
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET http://remoteassistant-backend-test.herokuapp.com/api/users/3/contacts?auth_token=pxUBQwLRbPXxEsvQnAkE
+```

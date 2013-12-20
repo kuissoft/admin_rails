@@ -24,4 +24,8 @@ module ApplicationHelper
       return "->"
     end
   end
+
+  def list_users
+    "Show users"
+  end
 end
