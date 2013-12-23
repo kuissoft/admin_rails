@@ -65,7 +65,7 @@ with an expired token, he will receive the following response.
 Resister user or send new code to activate new device
 
 ```
-curl http://localhost:3000/api/authentication/register -d 'email=name@example.com'
+curl http://rea-rails-development.herokuapp.com/api/authentication/register -d 'email=name@example.com'
 ```
 
 Ok, send 200
@@ -94,7 +94,7 @@ curl http://rea-rails-development.herokuapp.com/api/authentication/validate_code
 
 Ok, send 200
 ```
-{auth_token: xxXX}
+{"user":"{\"id\":8,\"name\":null,\"phone\":null,\"email\":\"jiri@example.com\",\"role\":0,\"created_at\":\"2013-12-23T08:29:23.006Z\",\"updated_at\":\"2013-12-23T08:31:16.835Z\",\"last_token\":null,\"token_updated_at\":\"2013-12-23T08:29:23.004Z\",\"validation_code\":null}"}
 ```
 
 ```

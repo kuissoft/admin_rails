@@ -87,7 +87,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         if user.validation_code == params[:validation_code]
           # Nil validation code 
           user.update! validation_code: nil
-          render json: {auth_token: user.authentication_token}, status: 200
+          render json: {user: user.to_json}, status: 200
         else
           render json: { error: { code: 8, message: "Validation code not match" } }, status: 401
         end
