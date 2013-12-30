@@ -95,7 +95,7 @@ RemoteAssistant::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   # API SETTINGS
-  API_HOST = "http://remoteassistant.me/api/"
+  API_HOST = "http://www.remoteassistant.me/api/"
   API_NAME = "remoteassistant"
   API_PASSWORD = "eR35xZ65"
 end
