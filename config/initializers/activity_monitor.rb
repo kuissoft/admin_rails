@@ -1,5 +1,5 @@
 ## Activity monitor connection settings
-EMAIL = "jiri@remoteassistant.me"
+EMAIL = "log@remoteassistant.me"
 PASSWORD = "asdfasdf"
-TOKEN = "WtcEvb-uF819dwCsiocg"
+TOKEN = "Cg44WxYkuH3y5n2zLMWn"
 USER_ID = 4

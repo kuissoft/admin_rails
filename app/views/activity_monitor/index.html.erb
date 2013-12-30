@@ -2,7 +2,8 @@
 <script>
   <%= coffee_script do %>
 
-    base_url = "http://localhost:4000"
+    #base_url = "http://localhost:4000"
+    base_url = "http://rea-rails.herokuapp.com"
     #socket_url = base_url + "/socket.io/socket.io.js"
     socket = io.connect(base_url);
 
@@ -61,7 +62,7 @@
                 console.log "authentication response", response
 
             console.log data
-      # api_base_url = "http://rea-rails.herokuapp.com"
+      
       # Automaticaly connects log user
       login email, password, token, user_id 
 
