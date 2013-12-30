@@ -1,8 +1,10 @@
+<script src="http://localhost:4000/socket.io/socket.io.js"></script>
 <script>
   <%= coffee_script do %>
 
     base_url = "http://localhost:4000"
-    socket_url = base_url + "/socket.io/socket.io.js"
+    #socket_url = base_url + "/socket.io/socket.io.js"
+    socket = io.connect(base_url);
 
     # Append responses from Node server
     logResponse = (response) ->
@@ -18,32 +20,12 @@
         user_id: user_id,
         callback
 
-    # Load and create connection to socket
-    loadSocketIo = ->
-      script = document.createElement("script")
-      script.src = socket_url
-      script.onload = ->
-        connectSocket()
-
-      document.body.appendChild script
+      #socket.on "connect", (data) ->
+        #console.log("On connect: ", data);
       
 
-    # Connecto to socket and listen
-    connectSocket = ->
-      self = this
-      socket = io.connect(base_url)
+      socket.on "online_users", (data) ->
 
-      window.socket = socket
-      socket.on "connect", (data) ->
-        socket.emit "connect:log", user_id: 4
-
-      # socket.on "node:log", logResponse
-      socket.on "hello", 
-        (data) ->
-          console.log("Recieved data: ", data)
-
-
-      socket.on "node:users:online", (data) ->
         users = JSON.parse(data)
         online_users_html = '<table><tr><th>ID</th><th>User name</th><th>Logged since</th></tr>'
         console.log("Data ", data)
@@ -81,11 +63,8 @@
             console.log data
       # api_base_url = "http://rea-rails.herokuapp.com"
       # Automaticaly connects log user
-      #login email, password, token, user_id 
+      login email, password, token, user_id 
 
-      
-
-    window.onload = loadSocketIo
   <% end %>
 </script>
 <h1>Remote assistant Activity</h1>

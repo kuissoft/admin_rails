@@ -1,0 +1,39 @@
+<h1>Web Info</h1>
+
+<h2>Feedbacks</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>NAME</th>
+    <th>E-MAIL</th>
+    <th>MESSAGE</th>
+    <th>CREATED AT</th>
+  </tr>
+  <% @feedbacks.each do |feedback| %>
+    <tr>
+      <td><%= feedback['id'] %></td>
+      <td><%= feedback['name'] %></td>
+      <td><%= feedback['email'] %></td>
+      <td><p><%= feedback['message'] %></p></td>
+      <td><%= l(feedback['created_at'].to_datetime, format: "%d.%m.%Y %H:%M") %></td>
+    </tr>
+  <% end -%>
+</table>
+
+
+<h2>SignUps</h2>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>E-MAIL</th>
+    <th>CREATED AT</th>
+  </tr>
+  <% @signups.each do |signup| %>
+    <tr>
+      <td><%= signup['id'] %></td>
+      <td><%= signup['email'] %></td>
+      <td><%= l(signup['created_at'].to_datetime, format: "%d.%m.%Y %H:%M") %></td>
+    </tr>
+  <% end -%>
+</table>

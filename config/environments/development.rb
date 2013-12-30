@@ -33,4 +33,8 @@ RemoteAssistant::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  API_HOST = "http://localhost:3000/api/"
+  API_NAME = "remoteassistant"
+  API_PASSWORD = "asdfasdf"
 end

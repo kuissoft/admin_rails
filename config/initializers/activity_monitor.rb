@@ -2,4 +2,4 @@
 EMAIL = "jiri@remoteassistant.me"
 PASSWORD = "asdfasdf"
 TOKEN = "WtcEvb-uF819dwCsiocg"
-USER_ID = "4"
+USER_ID = 4
