@@ -139,11 +139,13 @@ new token.
 User can send feedbacks
 
 Required fields:
+
 * feedback_type - feedback type string [feature, bug, other]
 * message - text of feedback
 * email - user e-mail
 
 Optional fields:
+
 * user_id - you can add id of user if is logged in
 
 ```
