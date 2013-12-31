@@ -1,0 +1,28 @@
+<h1>Feedbacks</h1>
+
+<table>
+  <tr>
+    <th>TYPE </th>
+    <th>E_MAIL</th>
+    <th>MESSAGE</th>
+    <th>CREATED AT</th>
+  </tr>
+  <tr>
+    <td>
+      <%= form_tag feedbacks_path, method: :get do %>
+        <%= select_tag :feedback_type, options_for_select(['feature', 'bug', 'other'], params[:feedback_type]), prompt: 'All'%>
+      <% end -%>
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <% @feedbacks.each do |feedback| %>
+    <tr>
+      <td><%= feedback.feedback_type.capitalize %></td>
+      <td><%= feedback.email %></td>
+      <td><p><%= feedback.message %></p></td>
+      <td><%= l(feedback.created_at, format: "%d.%m.%Y %H:%M") %></td>
+    </tr>
+  <% end -%>
+</table>

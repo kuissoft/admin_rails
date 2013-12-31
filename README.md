@@ -134,6 +134,32 @@ If the token is invalid
 He then has to authenticate again with username and password and get a
 new token.
 
+# Feedbacks
+
+User can send feedbacks
+
+Required fields:
+*   feedback_type - feedback type string [feature, bug, other]
+*   message - text of feedback
+*   email - user e-mail
+
+Optional fields:
+*   user_id - you can add id of user if is logged in
+
+```
+curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"feedback":{"message":"I have bug when starting call. No cancel button appears! Thanks.", "email":"xxxx@example.com", "feedback_type":"bug", "user_id":""}}' http://rea-rails-development.herokuapp.com/api/feedbacks
+```
+Ok, send 200
+```
+{"success":true}
+```
+
+Error:
+```
+{"errors":{"feedback_type":["can't be blank"],"message":["can't be blank"],"email":["can't be blank"]}}
+```
+
+
 # REGISTER
 
 ```
@@ -150,3 +176,6 @@ curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -
 ```
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET http://remoteassistant-backend-test.herokuapp.com/api/users/3/contacts?auth_token=pxUBQwLRbPXxEsvQnAkE
 ```
+
+
+

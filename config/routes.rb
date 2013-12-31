@@ -1,6 +1,7 @@
 require 'api_constraints'
 
 RemoteAssistant::Application.routes.draw do
+
   get "web_info/index"
   resources :connections
 
@@ -18,6 +19,7 @@ RemoteAssistant::Application.routes.draw do
   resources :contacts
   resources :settings
   resources :activity_monitor
+  resources :feedbacks, only: [:index, :show, :destroy]
 
   # api routes
   namespace :api, defaults: {format: 'json'} do
@@ -27,6 +29,7 @@ RemoteAssistant::Application.routes.draw do
       resources :notifications
       resources :sessions, :except => [:edit, :update]
       resources :locations
+      resources :feedbacks, only: [:create]
       resources :users do
         resources :contacts do
           collection do

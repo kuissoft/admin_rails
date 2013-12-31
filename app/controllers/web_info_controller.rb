@@ -1,4 +1,4 @@
-class WebInfoController < ApplicationController
+class WebInfoController < AuthenticatedController
   def index
     begin
       @feedbacks = ActiveSupport::JSON.decode(connect_api('feedbacks'))['feedbacks']
