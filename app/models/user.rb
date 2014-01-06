@@ -38,12 +38,12 @@ class User < ActiveRecord::Base
   end
 
   def ensure_authentication_token
-    assign_new_token if authentication_token.blank?
+    assign_new_token if auth_token.blank?
   end
 
   def assign_new_token
-    self.last_token = self.authentication_token
-    self.authentication_token = generate_authentication_token
+    self.last_token = self.auth_token
+    self.auth_token = generate_authentication_token
     self.token_updated_at = Time.zone.now
     save!
   end
@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
   def generate_authentication_token
     loop do
       token = Devise.friendly_token
-      break token unless User.exists?(authentication_token: token)
+      break token unless User.exists?(auth_token: token)
     end
   end
 end

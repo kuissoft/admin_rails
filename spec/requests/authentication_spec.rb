@@ -6,7 +6,7 @@ describe "Authenticaiton" do
     post "/api/authentication", email: user.email, password: "12345678"
 
     response.status.should == 200
-    JSON.parse(response.body).fetch("authentication_token").should be_present
+    JSON.parse(response.body).fetch("auth_token").should be_present
   end
 
   it "returns 401 and no response for invalid password" do

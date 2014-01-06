@@ -7,7 +7,7 @@ describe "Devices" do
 
     Device.destroy_all
 
-    post "/api/devices?auth_token=#{user.authentication_token}", { device: { token: token } }
+    post "/api/devices?auth_token=#{user.auth_token}", { device: { token: token } }
     response.status.should == 200
 
     Device.first.token.should == token
@@ -16,7 +16,7 @@ describe "Devices" do
   it "doesn't accept an empty token" do
     user = create(:user)
 
-    post "/api/devices?auth_token=#{user.authentication_token}", { device: { token: nil } }
+    post "/api/devices?auth_token=#{user.auth_token}", { device: { token: nil } }
     response.status.should == 400
   end
 
@@ -26,9 +26,9 @@ describe "Devices" do
 
     Device.destroy_all
 
-    post "/api/devices?auth_token=#{user.authentication_token}", { device: { token: token } }
+    post "/api/devices?auth_token=#{user.auth_token}", { device: { token: token } }
     response.status.should == 200
-    post "/api/devices?auth_token=#{user.authentication_token}", { device: { token: token } }
+    post "/api/devices?auth_token=#{user.auth_token}", { device: { token: token } }
     response.status.should == 200
 
     Device.count.should == 1

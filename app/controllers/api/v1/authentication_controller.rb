@@ -2,7 +2,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   def create
     user = User.find_by_email(params[:email])
     if user && user.valid_password?(params[:password])
-      render json: { user_id: user.id, authentication_token: user.authentication_token, name: user.name }, status: 200
+      render json: { user_id: user.id, auth_token: user.auth_token, name: user.name }, status: 200
     else
       render json: {}, status: 401
     end
@@ -12,7 +12,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     user = User.find_by_id(params[:user_id])
 
     # TODO - refactor to authentication service
-    if user && user.authentication_token == params[:token]
+    if user && user.auth_token == params[:token]
       # if user.expired_token?
       #   render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
       #   user.assign_new_token

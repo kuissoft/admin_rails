@@ -1,3 +1,3 @@
 class RegistrationSerializer < UserSerializer
-  attributes :authentication_token
+  attributes :auth_token
 end

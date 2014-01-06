@@ -6,7 +6,7 @@ describe "Contacts" do
       Connection.destroy_all
       user, contact = create(:user), create(:user)
 
-      post "/api/users/#{user.id}/contacts?auth_token=#{user.authentication_token}", {
+      post "/api/users/#{user.id}/contacts?auth_token=#{user.auth_token}", {
         contact: { contact_id: contact.id }
       }
 
@@ -20,7 +20,7 @@ describe "Contacts" do
     user, contact = create(:user), create(:user)
     Connection.create!(user_id: user.id, contact_id: contact.id)
 
-    get "/api/users/#{user.id}/contacts?auth_token=#{user.authentication_token}"
+    get "/api/users/#{user.id}/contacts?auth_token=#{user.auth_token}"
 
     json = JSON.parse(response.body)
 
@@ -36,7 +36,7 @@ describe "Contacts" do
       user, contact = create(:user), create(:user)
       Connection.create!(user_id: user.id, contact_id: contact.id)
 
-      post "/api/users/#{contact.id}/contacts/accept?auth_token=#{contact.authentication_token}", {
+      post "/api/users/#{contact.id}/contacts/accept?auth_token=#{contact.auth_token}", {
         contact_id: user.id
       }
 
@@ -50,7 +50,7 @@ describe "Contacts" do
       user, contact = create(:user), create(:user)
       Connection.create!(user_id: user.id, contact_id: contact.id)
 
-      post "/api/users/#{contact.id}/contacts/decline?auth_token=#{contact.authentication_token}", {
+      post "/api/users/#{contact.id}/contacts/decline?auth_token=#{contact.auth_token}", {
         contact_id: user.id
       }
 
@@ -68,7 +68,7 @@ describe "Contacts" do
       Connection.create!(user_id: user.id, contact_id: contact.id, is_pending: false)
       Connection.create!(user_id: contact.id, contact_id: user.id, is_pending: false)
 
-      delete "/api/users/#{contact.id}/contacts/remove?auth_token=#{contact.authentication_token}", {
+      delete "/api/users/#{contact.id}/contacts/remove?auth_token=#{contact.auth_token}", {
         contact_id: user.id
       }
 

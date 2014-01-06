@@ -5,6 +5,6 @@ describe "Registration" do
     attributes = FactoryGirl.attributes_for(:user)
     post "/api/users", user: attributes
     response.status.should == 201
-    JSON.parse(response.body).fetch("user").fetch("authentication_token").should be_present
+    JSON.parse(response.body).fetch("user").fetch("auth_token").should be_present
   end
 end
