@@ -1,11 +1,11 @@
-<script src="<%= NODE_HOST %>/socket.io/socket.io.js"></script>
 <script>
   <%= coffee_script do %>
 
 
-    base_url =  '<%= NODE_HOST %>'
-    #socket_url = base_url + "/socket.io/socket.io.js"
-    socket = io.connect(base_url);
+    base_url = "<%= NODE_HOST %>"
+    console.log('Base url:', base_url);
+    socket_url = base_url + "/socket.io/socket.io.js"
+
 
     # Append responses from Node server
     logResponse = (response) ->
@@ -21,12 +21,24 @@
         user_id: user_id,
         callback
 
-      #socket.on "connect", (data) ->
-        #console.log("On connect: ", data);
-      
+    # Load and create connection to socket
+    loadSocketIo = ->
+      script = document.createElement("script")
+      script.src = socket_url
+
+      script.onload = ->
+        connectSocket()
+
+      document.body.appendChild script
+
+    # Connecto to socket and listen
+    connectSocket = ->
+      self = this
+      socket = io.connect(base_url)
+
+      window.socket = socket
 
       socket.on "online_users", (data) ->
-
         users = JSON.parse(data)
         online_users_html = '<table><tr><th>ID</th><th>User name</th><th>Logged since</th></tr>'
         console.log("Data ", data)
@@ -41,10 +53,9 @@
       if value
         return '<tr><td>'+ value.user.id + '</td>' + '<td>'+ value.user.name + '</td>' + '<td>'+ value.user.log_since + '</td></tr>'
 
-
     $ ->
       #api_base_url = "http://localhost:3000"
-      api_base_url = '<%= NODE_HOST %>'
+      api_base_url = '<%= RAILS_HOST %>'
       
       # Set connections data for log user  
       email = '<%= EMAIL %>'
@@ -65,7 +76,9 @@
             console.log data
       
       # Automaticaly connects log user
-      login email, password, token, user_id 
+      login email, password, token, user_id
+
+    window.onload = loadSocketIo
 
   <% end %>
 </script>

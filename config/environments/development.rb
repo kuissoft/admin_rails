@@ -39,4 +39,11 @@ RemoteAssistant::Application.configure do
   API_PASSWORD = "asdfasdf"
 
   NODE_HOST = "http://localhost:4000"
+  RAILS_HOST = "http://localhost:3000"
+
+  ## Activity monitor connection settings
+  EMAIL = "jiri@remoteassistant.me"
+  PASSWORD = "asdfasdf"
+  TOKEN = "WtcEvb-uF819dwCsiocg"
+  USER_ID = 4
 end
