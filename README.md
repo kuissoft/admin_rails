@@ -161,6 +161,30 @@ Error:
 {"error":{"feedback_type":["can't be blank"],"message":["can't be blank"],"email":["can't be blank"]}}
 ```
 
+# Users update
+
+User can update his name and e-mail
+
+Required fields:
+* email - user e-mail
+
+```
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"user":{"name":"Karel Novák", "phone":"+421917328431", "email":"name@example.com", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
+```
+Ok, send 200
+```
+{"success":true}
+```
+
+Error:
+E-mail is invalid
+```
+{"error":{"email":["is invalid","is invalid"]}}
+```
+User try to change another user or invalid or expired token
+```
+{"error":{"code":2,"message":"Invalid authentication token"}}
+```
 
 # REGISTER
 
