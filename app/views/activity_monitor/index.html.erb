@@ -1,7 +1,8 @@
 <script>
   <%= coffee_script do %>
 
-
+    #api_base_url = "http://localhost:3000"
+    api_base_url = '<%= RAILS_HOST %>'
     base_url = "<%= NODE_HOST %>"
     console.log('Base url:', base_url);
     socket_url = base_url + "/socket.io/socket.io.js"
@@ -21,10 +22,24 @@
         user_id: user_id,
         callback
 
+    # Authenticate user by token and log him in
+    login = (email, password, token, user_id) ->
+      $.post api_base_url + "/api/authentication",
+        email: email
+        password: password,
+        (data, status, xhr) ->
+          if xhr.status is 200
+            authenticate user_id, token, socket, (response) ->
+              console.log "authentication response", response
+
+          console.log data
+
     # Load and create connection to socket
     loadSocketIo = ->
       script = document.createElement("script")
       script.src = socket_url
+
+
 
       script.onload = ->
         connectSocket()
@@ -38,6 +53,17 @@
       console.log('Socket:', socket);
 
       window.socket = socket
+
+      
+
+      # Set connections data for log user  
+      email = '<%= EMAIL %>'
+      password = '<%= PASSWORD %>'
+      token = '<%= TOKEN %>'
+      user_id = '<%= USER_ID %>'
+
+      # Automaticaly connects log user
+      login email, password, token, user_id
 
       socket.on "online_users", (data) ->
         users = JSON.parse(data)
@@ -54,30 +80,6 @@
       if value
         return '<tr><td>'+ value.user.id + '</td>' + '<td>'+ value.user.name + '</td>' + '<td>'+ value.user.log_since + '</td></tr>'
 
-    $ ->
-      #api_base_url = "http://localhost:3000"
-      api_base_url = '<%= RAILS_HOST %>'
-      
-      # Set connections data for log user  
-      email = '<%= EMAIL %>'
-      password = '<%= PASSWORD %>'
-      token = '<%= TOKEN %>'
-      user_id = '<%= USER_ID %>'
-
-      # Authenticate user by token and log him in
-      login = (email, password, token, user_id) ->
-        $.post api_base_url + "/api/authentication",
-          email: email
-          password: password,
-          (data, status, xhr) ->
-            if xhr.status is 200
-              authenticate user_id, token, socket, (response) ->
-                console.log "authentication response", response
-
-            console.log data
-      
-      # Automaticaly connects log user
-      login email, password, token, user_id
 
     window.onload = loadSocketIo
 
