@@ -94,7 +94,7 @@ curl http://rea-rails-development.herokuapp.com/api/authentication/validate_code
 
 Ok, send 200
 ```
-{"user":"{\"id\":8,\"name\":null,\"phone\":null,\"email\":\"jiri@example.com\",\"role\":0,\"created_at\":\"2013-12-23T08:29:23.006Z\",\"updated_at\":\"2013-12-23T08:31:16.835Z\",\"last_token\":null,\"token_updated_at\":\"2013-12-23T08:29:23.004Z\",\"validation_code\":null}"}
+{"user":{"id":12,"name":null,"email":"name333@example.com","phone":null,"authentication_token":"kL2LLCmyKsbszkWzQeU7","role":"user","last_token":null,"token_updated_at":"2014-01-06T10:43:13.618Z","validation_code":null}}
 ```
 
 ```

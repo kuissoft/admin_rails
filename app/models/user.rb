@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  DEFAULT_ROLE = 0
+  DEFAULT_ROLE = 'user'
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
