@@ -25,12 +25,12 @@ class User < ActiveRecord::Base
     format: { with: /\A.+(\@).+(\.).+\z/ }
 
   # validates :password, length: { in: 5..100 }
-  validates :role, inclusion: 0..1
+  validates :role, presence: true
 
   scope :sorted, -> { order("role DESC, email ASC") }
 
   def admin?
-    role == 1
+    role == 'admin'
   end
 
   def expired_token?

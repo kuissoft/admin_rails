@@ -156,7 +156,7 @@ Ok, send 200
 
 Error:
 ```
-{"errors":{"feedback_type":["can't be blank"],"message":["can't be blank"],"email":["can't be blank"]}}
+{"error":{"feedback_type":["can't be blank"],"message":["can't be blank"],"email":["can't be blank"]}}
 ```
 
 

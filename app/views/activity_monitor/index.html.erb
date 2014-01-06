@@ -1,9 +1,9 @@
-<script src="http://rea-node-development.herokuapp.com/socket.io/socket.io.js"></script>
+<script src="<%= NODE_HOST %>/socket.io/socket.io.js"></script>
 <script>
   <%= coffee_script do %>
 
-    #base_url = "http://localhost:4000"
-    base_url = "http://rea-node-development.herokuapp.com"
+
+    base_url =  '<%= NODE_HOST %>'
     #socket_url = base_url + "/socket.io/socket.io.js"
     socket = io.connect(base_url);
 
@@ -44,7 +44,7 @@
 
     $ ->
       #api_base_url = "http://localhost:3000"
-      api_base_url = "http://rea-node-development.herokuapp.com"
+      api_base_url = '<%= NODE_HOST %>'
       
       # Set connections data for log user  
       email = '<%= EMAIL %>'

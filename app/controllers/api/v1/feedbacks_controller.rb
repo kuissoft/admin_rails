@@ -7,7 +7,7 @@ class Api::V1::FeedbacksController < Api::V1::ApplicationController
     if feedback.save
       render json: {success: true}, status: 200
     else
-      render json: { errors: feedback.errors }, status: 400
+      render json: { error: feedback.errors }, status: 400
     end
   end
 
