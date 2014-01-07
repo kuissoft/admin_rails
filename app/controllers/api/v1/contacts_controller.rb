@@ -1,3 +1,4 @@
+require 'digest/sha1'
 class Api::V1::ContactsController < Api::V1::AuthenticatedController
   respond_to :json
   around_action :wrap_transaction
