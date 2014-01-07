@@ -16,6 +16,7 @@
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
   </tr>
   <% @feedbacks.each do |feedback| %>
     <tr>
@@ -23,6 +24,7 @@
       <td><%= feedback.email %></td>
       <td><p><%= feedback.message %></p></td>
       <td><%= l(feedback.created_at, format: "%d.%m.%Y %H:%M") %></td>
+      <td><%= link_to 'Destroy', feedback, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end -%>
 </table>

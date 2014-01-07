@@ -2,7 +2,7 @@ require 'api_constraints'
 
 RemoteAssistant::Application.routes.draw do
 
-  get "web_info/index"
+  resources :web_info, only: [:index, :destroy]
   resources :connections
 
   devise_for :users, controllers: { sessions: "admin/sessions" }

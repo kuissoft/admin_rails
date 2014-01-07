@@ -11,5 +11,10 @@ class FeedbacksController < AuthenticatedController
   end
 
   def destroy
+    @feedback = Feedback.find(params[:id])
+    @feedback.destroy
+    respond_to do |format|
+      format.html { redirect_to feedbacks_url }
+    end
   end
 end
