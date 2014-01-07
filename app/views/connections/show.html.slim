@@ -7,6 +7,9 @@ p
   strong Contact:
   = @connection.contact_id
 p
+  strong Nickname:
+  = @connection.nickname
+p
   strong Is pending:
   = @connection.is_pending
 p
@@ -15,6 +18,9 @@ p
 p
   strong Is removed:
   = @connection.is_removed
+p
+  strong Is removed:
+  = @connection.token
 
 = link_to 'Edit', edit_connection_path(@connection)
 '|
