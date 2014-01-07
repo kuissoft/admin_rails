@@ -4,7 +4,7 @@ class Realtime
   end
 
   def host
-    ENV["API_NODE_URL"] || @config.host
+    NODE_HOST || @config.host
   end
 
   def notify(user_id, event, data)

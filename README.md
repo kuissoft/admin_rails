@@ -47,6 +47,23 @@ curl -XDELETE http://localhost:3000/api/users/1/contacts/remove?auth_token=XXX -
 
 Response is always 200 and `{}`
 
+Inivte new contact
+
+```
+curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/invite?auth_token=xxxXXXX -d '{"contact":{"nickname":"Papuska", "phone":"+421917328431", "email":"name@example.com"}}'
+```
+Ok, send 200
+```
+{"success":true}
+```
+Errors:
+```
+{"error":"Connection already exists"}
+```
+
+```
+{"error":{"user_id":["can't be blank"]}}
+```
 # Authentication
 
 ```

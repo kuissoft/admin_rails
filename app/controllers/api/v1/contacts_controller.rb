@@ -26,6 +26,39 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     end
   end
 
+  def invite
+    error = false
+    invited_user = User.where(email: params[:contact][:email]).first
+    
+    hexmail = Digest::SHA1.hexdigest(params[:contact][:email])
+    conn = Connection.where(token: hexmail).first
+
+    unless conn
+      if invited_user 
+        conn = Connection.where(contact_id: invited_user.id).first
+        unless conn
+          connection = current_user.connections.build(contact_params)
+          connection.contact_id = invited_user.id
+        else
+          error = true
+        end
+      else
+        connection = current_user.connections.build(contact_params)
+        connection.token = hexmail
+      end
+      if !error and connection.save 
+        #ContactNotifications.added(connection)
+        Emailer.invitation_email(params[:contact][:email], current_user).deliver
+        render json: {success: true}, status: 200
+      else
+        render json: { error: connection.errors }, status: 400 if !error
+      end
+    else
+      error = true 
+    end
+    render json: { error: 'Connection already exists' }, status: 400 if error
+  end
+
   def accept
     # Since the other user is accepting, we search for a contact where user_id
     # is the contact_id from the other user's perspective
@@ -68,6 +101,6 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   end
 
   def contact_params
-    params.require(:contact).permit(:contact_id, :nickname)
+    params.require(:contact).permit(:contact_id, :nickname, :token)
   end
 end

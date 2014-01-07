@@ -5,4 +5,12 @@ class Emailer < ActionMailer::Base
     @user = user
     mail to: user.email, subject: "Authentication e-mail"
   end
+
+  def invitation_email user, invitator
+    @user = user
+    @invitator = invitator
+    mail to: @user, subject: "Invitation e-mail from #{@invitator.name}"
+  end
+
+
 end

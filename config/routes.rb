@@ -37,6 +37,7 @@ RemoteAssistant::Application.routes.draw do
             post :accept
             post :decline
             delete :remove
+            post :invite
           end
         end
       end
