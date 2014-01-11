@@ -17,7 +17,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       #   render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
       #   user.assign_new_token
       # else
-        render json: {name: user.name}, status: 200
+      render json: {name: user.name}, status: 200
       # end
     elsif user && user.last_token == params[:token]
       render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
@@ -36,6 +36,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     # Find user by e-mail
     user = User.find_by_email(params[:email])
 
+
     # If user not exists => create new user
     # TODO - What about password? How do I log in on web?
     unless user
@@ -45,6 +46,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         err = 5
       end
     end
+
 
     # Generate Validation code
     user.update! validation_code: SecureRandom.hex(2) if user
@@ -61,13 +63,13 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       end
     else
       if err == 5
-        render json: { error: { code: 5, message: "Wrong user parametres" } }, status: 401 
+        render json: { error: { code: 5, message: "Wrong user parametres" } }, status: 401
       else
         render json: { error: { code: 7, message: "Unknown error" } }, status: 401
       end
     end
 
-    
+
   end
 
   # Validate recieved validation code
@@ -85,7 +87,13 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       if user.validation_code
         # If validation code on db match with recieved code or send error response
         if user.validation_code == params[:validation_code]
-          # Nil validation code 
+          # Check if user was invited
+          hexmail = Digest::SHA1.hexdigest(user.email)
+          if connection = Connection.where(token: hexmail).first
+            # if yes set contact_id and delete hash
+            connection.update! contact_id: user.id, token: nil
+          end
+          # Nil validation code
           user.update! validation_code: nil
           # render json: {user: user}, status: 200
           render json: user, status: 200, serializer: UserSerializer
