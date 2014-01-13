@@ -87,12 +87,6 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       if user.validation_code
         # If validation code on db match with recieved code or send error response
         if user.validation_code == params[:validation_code]
-          # Check if user was invited
-          hexmail = Digest::SHA1.hexdigest(user.email)
-          if connection = Connection.where(token: hexmail).first
-            # if yes set contact_id and delete hash
-            connection.update! contact_id: user.id, token: nil
-          end
           # Nil validation code
           user.update! validation_code: nil
           # render json: {user: user}, status: 200

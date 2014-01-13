@@ -9,7 +9,7 @@ class Emailer < ActionMailer::Base
   def invitation_email user, invitator
     @user = user
     @invitator = invitator
-    mail to: @user, subject: "Invitation e-mail from #{@invitator.name}"
+    mail to: @user.email, subject: "Invitation e-mail from #{@invitator.name}"
   end
 
 

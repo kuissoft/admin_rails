@@ -5,5 +5,8 @@
 <body>
   <h1>Invitation e-mail from <%= @invitator.name %></h1>
   <span>You are invited to REA: <strong>LINK TO DOWNLOAD APP</strong> </span>
+  <p>
+    Please log with this e-mail: <%= @user.email %> and this validation code: <%= @user.validation_code %>
+  </p>
 </body>
 </html>

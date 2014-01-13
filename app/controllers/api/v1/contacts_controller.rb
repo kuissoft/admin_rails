@@ -27,37 +27,36 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     end
   end
 
+  # User unvites registered or not registered users
+  # If user is not registered than new user is created and new connection with new user is created
+  # If user exists than only new connection is created
+  # 
   def invite
-    error = false
+    # Check if inveted user exists
     invited_user = User.where(email: params[:contact][:email]).first
     
-    hexmail = Digest::SHA1.hexdigest(params[:contact][:email])
-    conn = Connection.where(token: hexmail).first
+    # If invited user not exits than create new one
+    invited_user = User.create!(email: params[:contact][:email], password: 'asdfasdf', validation_code: SecureRandom.hex(2)) unless invited_user
 
+    # Find if connection between users exists
+    conn = Connection.where(user_id: current_user, contact_id: invited_user).first
+
+    # if connection not exits
     unless conn
-      if invited_user 
-        conn = Connection.where(contact_id: invited_user.id).first
-        unless conn
-          connection = current_user.connections.build(contact_params)
-          connection.contact_id = invited_user.id
-        else
-          error = true
-        end
-      else
-        connection = current_user.connections.build(contact_params)
-        connection.token = hexmail
-      end
-      if !error and connection.save 
+      # Build new connection with invited user id
+      connection = current_user.connections.build(contact_params)
+      connection.contact_id = invited_user.id
+
+      if connection.save 
         #ContactNotifications.added(connection)
-        Emailer.invitation_email(params[:contact][:email], current_user).deliver
+        Emailer.invitation_email(invited_user, current_user).deliver
         render json: {success: true}, status: 200
       else
-        render json: { error: connection.errors }, status: 400 if !error
+        render json: { error: connection.errors }, status: 400
       end
     else
-      error = true 
+      render json: { error: 'Connection already exists' }, status: 400 
     end
-    render json: { error: 'Connection already exists' }, status: 400 if error
   end
 
   def accept
@@ -102,6 +101,6 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   end
 
   def contact_params
-    params.require(:contact).permit(:contact_id, :nickname, :token)
+    params.require(:contact).permit(:contact_id, :nickname)
   end
 end
