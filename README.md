@@ -203,11 +203,6 @@ User try to change another user or invalid or expired token
 {"error":{"code":2,"message":"Invalid authentication token"}}
 ```
 
-# REGISTER
-
-```
-curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"user":{"name":"Tomas Stanik", "phone":"+421917328431", "email":"tomas@remoteassistanx.me", "password":"asdfasdf"}}' http://remoteassistant-backend-test.herokuapp.com/api/users
-```
 
 # LOGIN
 

@@ -30,7 +30,7 @@ RemoteAssistant::Application.routes.draw do
       resources :sessions, :except => [:edit, :update]
       resources :locations
       resources :feedbacks, only: [:create]
-      resources :users do
+      resources :users, only: [:update] do
         resources :contacts do
           collection do
             get :connections
