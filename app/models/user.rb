@@ -7,7 +7,8 @@ class User < ActiveRecord::Base
 
   before_save :ensure_authentication_token
 
-  has_many :connections, dependent: :destroy
+  has_many :connections, dependent: :delete_all
+  has_many :contact_connections, class_name: 'Connection', foreign_key: :contact_id, dependent: :delete_all
   has_many :contacts, through: :connections
   has_many :devices, dependent: :destroy
 
