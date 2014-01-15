@@ -102,9 +102,5 @@ RemoteAssistant::Application.configure do
   NODE_HOST = "http://rea-node-development.herokuapp.com"
   RAILS_HOST = "http://rea-rails-development.herokuapp.com"
 
-  ## Activity monitor connection settings
-  EMAIL = "log@remoteassistant.me"
-  PASSWORD = "asdfasdf"
-  TOKEN = "iFRRkoxrNyRG3hxrKqat"
-  USER_ID = 27
+
 end
