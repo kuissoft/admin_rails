@@ -1,91 +1,68 @@
+<script src="<%= NODE_HOST %>/socket.io/socket.io.js"></script>
 <script>
-  <%= coffee_script do %>
+  var api_base_url = '<%= RAILS_HOST %>';
+  var base_url = "<%= NODE_HOST %>";
+  var socket = io.connect(base_url);
 
-    #api_base_url = "http://localhost:3000"
-    api_base_url = '<%= RAILS_HOST %>'
-    base_url = "<%= NODE_HOST %>"
-    console.log('Base url:', base_url);
-    socket_url = base_url + "/socket.io/socket.io.js"
-    console.log('Socket url:', socket_url );
+  socket.emit('request:log:connection', { log: true });
 
-    # Append responses from Node server
-    logResponse = (response) ->
-      console.log "server responded with", response
-      responseItem = $("<li>").text(response)
-      $(".responses").append responseItem
+  socket.on('log:connected', function (data) {
+    parseOnlineUsers(data);
+  });
 
-    # Authenticate user 
-    authenticate = (user_id, token, socket, callback) ->
-      console.log "trying to authenticate", user_id, token
-      socket.emit "device:authenticate",
-        auth_token: token
-        user_id: user_id,
-        callback
+  socket.on('log:online:users', function (data) {
+    parseOnlineUsers(data);
+  });
 
-    # Authenticate user by token and log him in
-    login = (email, password, token, user_id) ->
-      $.post api_base_url + "/api/authentication",
-        email: email
-        password: password,
-        (data, status, xhr) ->
-          if xhr.status is 200
-            authenticate user_id, token, socket, (response) ->
-              console.log "authentication response", response
+  socket.on('log:active:calls', function (data) {
+    console.log("Active calls: ", data);
+    parseActiveCalls(data);
+  });
 
-          console.log data
+  function parseOnlineUsers(data){
+    users = JSON.parse(data);
 
-    # Load and create connection to socket
-    loadSocketIo = ->
-      script = document.createElement("script")
-      script.src = socket_url
+    online_users_html = '<table><tr><th>ID</th><th>User name</th><th>Logged since</th></tr>';
+    users.forEach(function(value, index){
+      online_users_html += usersShowTmpl(value);
+    });
+    online_users_html += '</table>';
+    $('#online_users').html(online_users_html);
+  }
 
+  function parseActiveCalls(data){
+    calls = JSON.parse(data);
 
+    active_calls_html = '<table><tr><th>Caller</th><th>Assistant</th><th>Call since</th></tr>';
+    pending_calls_html = '<table><tr><th>Caller</th><th>Assistant</th><th>Call since</th></tr>';
+    calls.forEach(function(value, index){
+     if(value.call.created_at != "") { active_calls_html += callsShowTmpl(value);}
+     else { pending_calls_html += callsShowTmpl(value); }
+    });
+    active_calls_html+= '</table>';
+    pending_calls_html+= '</table>';
+    $('#active_calls').html(active_calls_html);
+    $('#pending_calls').html(pending_calls_html);
+  }
 
-      script.onload = ->
-        connectSocket()
+  // Templates
 
-      document.body.appendChild script
+  function usersShowTmpl(value){
+    if(value){
+      return '<tr><td>' + value.user.id + '</td>' + '<td>' + value.user.name + '</td>' + '<td>' + value.user.log_since + '</td></tr>';
+    }
+  }
 
-    # Connecto to socket and listen
-    connectSocket = ->
-      self = this
-      socket = io.connect(base_url)
-      console.log('Socket:', socket);
+  function callsShowTmpl(value){
+    if(value){
+      return '<tr><td>' + value.call.caller_name + ' (' + value.call.caller_id + ')</td>' + '<td>' + value.call.assistant_name + ' (' + value.call.assistant_id + ')</td>' + '<td>' + value.call.created_at + '</td></tr>';
+    }
+  }
 
-      window.socket = socket
-
-      
-
-      # Set connections data for log user  
-      email = '<%= EMAIL %>'
-      password = '<%= PASSWORD %>'
-      token = '<%= TOKEN %>'
-      user_id = '<%= USER_ID %>'
-
-      # Automaticaly connects log user
-      login email, password, token, user_id
-
-      socket.on "online_users", (data) ->
-        users = JSON.parse(data)
-        online_users_html = '<table><tr><th>ID</th><th>User name</th><th>Logged since</th></tr>'
-        console.log("Data ", data)
-        console.log("Users", users) 
-        users.forEach (value, index) ->
-          #console.log("Value", value)
-          online_users_html += users_show_tmpl(value);
-        online_users_html += '</table>' 
-        $('#online_users').html(online_users_html);
-
-    users_show_tmpl = (value) ->
-      if value
-        return '<tr><td>'+ value.user.id + '</td>' + '<td>'+ value.user.name + '</td>' + '<td>'+ value.user.log_since + '</td></tr>'
-
-
-    window.onload = loadSocketIo
-
-  <% end %>
 </script>
 <h1>Remote assistant Activity</h1>
+
+
 
 <br>
 
@@ -94,5 +71,20 @@ Online users:
   
 </section>
 
+Active calls: 
+<section id="active_calls">
+  
+</section>
+
+Pending calls: 
+<section id="pending_calls">
+  
+</section>
+
 <ul class="responses">
 </ul>
+
+
+
+
+

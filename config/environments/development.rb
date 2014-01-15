@@ -42,8 +42,8 @@ RemoteAssistant::Application.configure do
   RAILS_HOST = "http://localhost:3000"
 
   ## Activity monitor connection settings
-  EMAIL = "jiri@remoteassistant.me"
+  EMAIL = "log@remoteassistant.me"
   PASSWORD = "asdfasdf"
-  TOKEN = "WtcEvb-uF819dwCsiocg"
-  USER_ID = 4
+  TOKEN = "j1AaDSyen7KAsJCNeLgX"
+  USER_ID = 18
 end
