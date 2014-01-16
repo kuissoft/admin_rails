@@ -134,7 +134,7 @@ A user can validate his token
 curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
 ```
 
-If the token is valid the response is 200 and `{}`
+If the token is valid the response is 200 and `{name: "Jirka Sirka", role: "[user | admin]"}`
 
 If the token is expired
 
