@@ -4,6 +4,10 @@
   var base_url = "<%= NODE_HOST %>";
   var socket = io.connect(base_url);
 
+  $(document).ready(function () {
+    setInterval(refreshPartial, 3000);
+  });
+
   socket.emit('request:log:connection', { log: true });
 
   socket.on('log:connected', function (data) {
@@ -59,6 +63,13 @@
     }
   }
 
+  // calls action refreshing the partial
+  function refreshPartial() {
+    $.ajax({
+      url: "activity_monitor/refresh_logs"
+   });
+  }
+
 </script>
 <h1>Remote assistant Activity</h1>
 
@@ -83,6 +94,10 @@ Pending calls:
 
 <ul class="responses">
 </ul>
+
+<section id="logs">
+  <%= render 'logs' %>
+</section>
 
 
 

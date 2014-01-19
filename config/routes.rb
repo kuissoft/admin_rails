@@ -18,7 +18,9 @@ RemoteAssistant::Application.routes.draw do
   resources :locations
   resources :contacts
   resources :settings
-  resources :activity_monitor
+  resources :activity_monitor do 
+    get :refresh_logs, on: :collection
+  end
   resources :feedbacks, only: [:index, :show, :destroy]
 
   # api routes
