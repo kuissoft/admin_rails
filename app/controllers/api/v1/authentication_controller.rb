@@ -17,7 +17,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       #   render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
       #   user.assign_new_token
       # else
-      render json: {name: user.name}, status: 200
+      render json: {name: user.name, role: user.role }, status: 200
       # end
     elsif user && user.last_token == params[:token]
       render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
@@ -49,7 +49,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
 
 
     # Generate Validation code
-    user.update! validation_code: SecureRandom.hex(2) if user
+    user.update! validation_code: 100000 + SecureRandom.random_number(900000) if user
 
     # If user is ok and has validation code
     # send e-mail notification and catch errors

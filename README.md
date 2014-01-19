@@ -76,8 +76,23 @@ with an expired token, he will receive the following response.
 ```
 {"error":{"code":1,"message":"Authentication token expired"}}
 ```
-
-# Device registration
+# Device create
+```
+curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"auth_token":"xxxxxxx","device":{"user_id":"23", "token":"fdsfdsfdsfdsf"}}'
+```
+If device is already registered to my account send 200
+```
+{}
+```
+If device not registered to my account, it is created a send device object
+```
+{"id":4,"token":"myReallySecretTokenUniq","user_id":4,"created_at":"2014-01-17T13:09:32.503Z","updated_at":"2014-01-17T13:09:32.503Z"}
+```
+If device errors 
+```
+{"error":{"token":["has already been taken"]}}
+```
+# Device user registration
 
 Resister user or send new code to activate new device
 
@@ -134,7 +149,7 @@ A user can validate his token
 curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
 ```
 
-If the token is valid the response is 200 and `{}`
+If the token is valid the response is 200 and `{name: "Jirka Sirka", role: "[user | admin]"}`
 
 If the token is expired
 

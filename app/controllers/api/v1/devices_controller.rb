@@ -1,15 +1,23 @@
 class Api::V1::DevicesController < Api::V1::AuthenticatedController
   def create
+    # Find if device token exists for another user
+    device = Device.where("token = ? and user_id != ?", params[:device][:token], current_user.id).first
+
+    # If device exists and has different user_id destroy it
+    device.destroy if device
+
+    # If I have device registered just return 200
     if current_user.devices.exists?(token: params[:device][:token])
       render json: {}, status: 200
       return
     end
 
+    # If device is not registered -> register it to my user_id
     device = current_user.devices.create(device_params)
     if device.save
       render json: device
     else
-      render json: { errors: device.errors }, status: 400
+      render json: { error: device.errors }, status: 400
     end
   end
 
