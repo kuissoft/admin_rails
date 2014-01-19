@@ -1,12 +1,13 @@
 class ActivityMonitorController < AuthenticatedController
   require 'open-uri'
   def index
-    @logs = open('http://localhost:4000/development.log').read
-     
+    @logs = []
+    open("#{NODE_HOST}/development.log").each_line{|line| @logs <<  ActiveSupport::JSON.decode(line) rescue ""}
   end
 
   def refresh_logs
-    @logs = open('http://localhost:4000/development.log').read
+    @logs = []
+    open("#{NODE_HOST}/development.log").each_line{|line| @logs <<  ActiveSupport::JSON.decode(line) rescue ""}
     respond_to do |format|
       format.js
     end

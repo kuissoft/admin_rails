@@ -1,1 +1,14 @@
-<%= @logs %>
+<table width='100%'>
+  <tr>
+    <th>Log level</th>
+    <th>Message</th>
+    <th>Timestamp</th>
+  </tr>
+<% @logs.each do |log| %>
+  <tr>
+    <td><%= log['level']%></td>
+    <td><%= log['message']%></td>
+    <td><%= log['timestamp']%></td>
+  </tr>
+<% end -%>
+</table>

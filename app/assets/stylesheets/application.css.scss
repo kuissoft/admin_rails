@@ -16,3 +16,11 @@ td {
 .red {
   color: red;
 }
+
+#logs {
+  min-height: 400px;
+  max-height: 400px;
+  color: #ffffff;
+  background: #000000;
+  overflow: auto;
+}
