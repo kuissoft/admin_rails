@@ -46,4 +46,6 @@ RemoteAssistant::Application.configure do
   PASSWORD = "asdfasdf"
   TOKEN = "j1AaDSyen7KAsJCNeLgX"
   USER_ID = 18
+  NODE_ACCESS_NAME = 'remote'
+  NODE_ACCESS_PASSWORD = 'asdfasdf'
 end
