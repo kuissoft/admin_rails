@@ -97,7 +97,7 @@ If device errors
 Resister user or send new code to activate new device
 
 ```
-curl http://rea-rails-development.herokuapp.com/api/authentication/register -d 'email=name@example.com'
+curl http://rea-rails-development.herokuapp.com/api/authentication/register -d 'phone=420xxxxxxxxx'
 ```
 
 Ok, send 200
@@ -110,7 +110,7 @@ Ok, send 200
 ```
 
 ```
-{ error: { code: 6, message: "Authentication e-mail not sent" } }
+{ error: { code: 6, message: "Authentication sms not sent" } }
 ```
 
 ```
@@ -121,12 +121,12 @@ Ok, send 200
 Validate recieved validation code
 
 ```
-curl http://rea-rails-development.herokuapp.com/api/authentication/validate_code -d 'email=name@example.com&validation_code=1234'
+curl http://rea-rails-development.herokuapp.com/api/authentication/validate_code -d 'phone=420xxxxxxxxx&validation_code=1234'
 ```
 
 Ok, send 200
 ```
-{"user":{"id":12,"name":null,"email":"name333@example.com","phone":null,"auth_token":"kL2LLCmyKsbszkWzQeU7","role":"user","last_token":null,"token_updated_at":"2014-01-06T10:43:13.618Z","validation_code":null}}
+{"user":{"id":12,"name":null,"email":null,"phone":"+420xxxxxxxxx","auth_token":"kL2LLCmyKsbszkWzQeU7","role":"user","last_token":null,"token_updated_at":"2014-01-06T10:43:13.618Z","validation_code":null}}
 ```
 
 ```

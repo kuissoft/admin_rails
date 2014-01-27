@@ -34,14 +34,16 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   # TODO - Validate device in 10 minutes or STFU
   def register
     # Find user by e-mail
-    user = User.find_by_email(params[:email])
+    # user = User.find_by_email(params[:email])
+    phone = "+#{params[:phone]}"
+    user = User.find_by_phone(phone)
 
 
     # If user not exists => create new user
     # TODO - What about password? How do I log in on web?
     unless user
       begin
-        user = User.create!(email: params[:email], password: 'asdfasdf')
+        user = User.create!(phone: phone, password: 'asdfasdf')
       rescue
         err = 5
       end
@@ -56,10 +58,12 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     # If there is any error send and error response
     # else send 200
     if user and user.validation_code
-      if Emailer.authentication_email(user).deliver
+      # if Emailer.authentication_email(user).deliver
+      sms = Sms.new(user.phone, user.validation_code).deliver
+      if sms.first
         render json: {}, status: 200
       else
-        render json: { error: { code: 6, message: "Authentication e-mail not sent" } }, status: 401
+        render json: { error: { code: 6, message: "Authentication sms not sent and this is the reason: #{sms.last}" } }, status: 401
       end
     else
       if err == 5
@@ -78,8 +82,9 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   # TODO - validate device
   # TODO - validate via phone
   def validate_code
+    phone = "+#{params[:phone]}"
     # Find user by e-mail
-    user = User.find_by_email(params[:email])
+    user = User.find_by_phone(phone)
 
     # If user exists or send error response
     if user
