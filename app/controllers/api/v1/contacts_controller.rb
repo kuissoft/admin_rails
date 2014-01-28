@@ -53,7 +53,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
         sms = Sms.new(invited_user.phone, msg).deliver
         # Emailer.invitation_email(invited_user, current_user).deliver
-        render json: {success: true, invited_user: invited_user}, status: 200
+        render json: {success: true, invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone}}, status: 200
       else
         render json: { error: connection.errors }, status: 400
       end

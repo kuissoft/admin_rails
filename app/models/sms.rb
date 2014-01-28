@@ -7,16 +7,16 @@ class Sms
   def initialize send_to, msg
     @send_to = send_to
     @msg = msg
-    @send_from = "+14807257455"
+    @send_from = "+15736147427"
   end
 
 
   def deliver
     # put your own credentials here
     # account_sid = 'ACad62729938ab760ec8e723e090553dbf'
-    account_sid = 'ACe968116ee17d32bf317155d0caeb830b'
+    account_sid = 'AC32d59eb259a02e9b1f4b88f791cace9a'
     # auth_token = 'b94b4dfaec50c47a8acda1b8151db75a'
-    auth_token = 'd29e5113d746a1c16be01c76f7f397ab'
+    auth_token = '58c70a50ec898f4fa32a00f2514a3ea1'
     # set up a client to talk to the Twilio REST API
     @client = Twilio::REST::Client.new account_sid, auth_token
 
