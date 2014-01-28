@@ -20,9 +20,9 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       render json: {name: user.name, role: user.role }, status: 200
       # end
     elsif user && user.last_token == params[:token]
-      render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
+      render json: { error: { code: 102} }, status: 401
     else
-      render json: { error: { code: 2, message: "Invalid authentication token" } }, status: 401
+      render json: { error: { code: 103} }, status: 401
     end
   end
   # Resister user or send new code to activate new device
@@ -45,7 +45,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       begin
         user = User.create!(phone: phone, password: 'asdfasdf')
       rescue
-        err = 5
+        err = 101
       end
     end
 
@@ -64,13 +64,13 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       if sms.first
         render json: {}, status: 200
       else
-        render json: { error: { code: 6, message: "Authentication sms not sent and this is the reason: #{sms.last}" } }, status: 401
+        render json: { error: { code: 106, message: "Authentication sms not sent and this is the reason: #{sms.last}" } }, status: 401
       end
     else
-      if err == 5
-        render json: { error: { code: 5, message: "Wrong user parametres" } }, status: 401
+      if err == 101
+        render json: { error: { code: 101, message: "Wrong format or blank phone number" } }, status: 401
       else
-        render json: { error: { code: 7, message: "Unknown error" } }, status: 401
+        render json: { error: { code: 100} }, status: 401
       end
     end
 
@@ -98,13 +98,13 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
           # render json: {user: user}, status: 200
           render json: user, status: 200, serializer: UserSerializer
         else
-          render json: { error: { code: 8, message: "Validation code not match" } }, status: 401
+          render json: { error: { code: 109 } }, status: 401
         end
       else
-        render json: { error: { code: 9, message: "User has no validation code generated" } }, status: 401
+        render json: { error: { code: 110 } }, status: 401
       end
     else
-      render json: { error: { code: 10, message: "User not exists" } }, status: 401
+      render json: { error: { code: 111 } }, status: 401
     end
   end
 

@@ -8,17 +8,20 @@ API
 
 ```
 {
-  TOKEN_EXPIRED: 1,
-  INVALID_TOKEN: 2,
-  NOT_AUTHENTICATED: 3,
-  ASSISTANT_BUSY: 4,
-  WRONG_PARAMETERES: 5,
-  EMAIL_NOT_SENT: 6,
-  UNKNOWN_ERROR: 7,
-  NOT_MATCH: 8,
-  NO_VALIDATION_CODE: 9,
-  USER_NOT_EXISTS: 10
-
+    0 100    UNKNOWN_ERROR          Unknown error
+    0 101    VALIDATION_ERROR 
+    0 102    TOKEN_EXPIRED          Authentication token expired
+    0 103    INVALID_TOKEN          Invalid authentication token
+    0 104    NOT_AUTHENTICATED
+    0 105    ASSISTANT_BUSY
+    0 106    WRONG_PARAMETERES      Wrong user parametres
+    0 107    AUTH_SMS_NOT_SENT      Authentication SMS not sent
+    0 108    CONNECTION_EXISTS      Connection already exists
+    0 109    NOT_MATCH
+    0 110    NO_VALIDATION_CODE
+    0 111    USER_NOT_EXISTS
+    0 112    USER_ID_BLANK          User ID can't be blank
+    
 }
 ```
 
@@ -30,16 +33,17 @@ API Call
 curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
 ```
 Response
-Success
+
+Ok, sends 200
 ```
 {"name":"Jiri Kratochvil","role":"admin"}
 ```
-Error
+Errors:
 ```
-{"error":{"code":1,"message":"Authentication token expired"}}
+{"error":{"code": 102}}
 ```
 ```
-{"error":{"code":2,"message":"Invalid authentication token"}}
+{"error":{"code": 103}}
 ```
 
 ### Device user registration
@@ -54,17 +58,59 @@ Ok, send 200
 ```
 {}
 ```
-
+Errors:
 ```
-{ error: { code: 5, message: "Wrong user parametres" } }
-```
-
-```
-{ error: { code: 6, message: "Authentication sms not sent" } }
+{ error: { code: 101, message: "Wrong format or blank phone number" } }
 ```
 
 ```
-{ error: { code: 7, message: "Unknown error" } }
+{ error: { code: 106, message: "Authentication sms not sent" } }
+```
+
+```
+{ error: { code: 100 } }
+```
+
+### Device code validation
+Validate recieved validation code
+
+```
+curl http://rea-rails-development.herokuapp.com/api/authentication/validate_code -d 'phone=420xxxxxxxxx&validation_code=1234'
+```
+
+Ok, send 200
+```
+{"user":{"id":12,"name":null,"email":null,"phone":"+420xxxxxxxxx","auth_token":"kL2LLCmyKsbszkWzQeU7","role":"user","last_token":null,"token_updated_at":"2014-01-06T10:43:13.618Z","validation_code":null}}
+```
+Errors:
+```
+{ error: { code: 109 } }
+```
+
+```
+{ error: { code: 110 } }
+```
+
+```
+{ error: { code: 111} }
+```
+
+# Calls
+### Get call info !!ONLY WHEN NOTIFICATION IS SENT!!
+API Call
+```
+curl http://rea-rails-development.herokuapp.com/api/calls\?call_id=Ul2jrfWYQG8QsQ2RoTqbzA
+```
+Response
+
+Ok, send 200
+```
+{"assistant_token":"dsfsdf","assistant_id":"4","caller_id":"1","session_id":"adafa","format":"json","action":"create","controller":"api/v1/notifications","notification":{"assistant_token":"T1==cGFydG5l","assistant_id":"4","caller_id":"1","session_id":"1_MX4zODgy"}}
+```
+
+Errors:
+```
+{"error":{"code":101,"message":"Invalid call id"}}
 ```
 
 # Contacts
@@ -76,109 +122,82 @@ API Call
 curl http://rea-rails-development.herokuapp.com/api/users/1/contacts.json?auth_token=XXX
 ```
 Response
-```
-```
 
-Create a new contact
-
+Ok, sends 200
 ```
-curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts.json?auth_token=XXX -d 'contact[contact_id]=2'
+{"contacts":[{"id":33,"name":null,"email":null,"phone":"+420602302314","is_pending":true,"is_rejected":false,"is_removed":false}]}
 ```
 
-Accept/Decline/Remove a contact
-
+Errors:
 ```
-curl -XPOST http://localhost:3000/api/users/1/contacts/accept?auth_token=XXX   -d 'contact_id=2'
-curl -XPOST http://localhost:3000/api/users/1/contacts/decline?auth_token=XXX  -d 'contact_id=2'
-curl -XDELETE http://localhost:3000/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
+{"error":"You need to sign in or sign up before continuing."}
 ```
 
-Response is always 200 and `{}`
-
-Inivte new contact
-
+### Inivte new contact
+API Call
 ```
 curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/invite?auth_token=xxxXXXX -d '{"contact":{"nickname":"Papuska", "phone":"421917328431"}}'
 ```
+Response
+
 Ok, send 200
 ```
-{"success":true, "invited_user":"{invited_user_object}"}
+{{"invited_user":{"id":34,"name":null,"phone":"+420602302314","nickname":"Papuska Moja"}}}
 ```
 Errors:
 ```
-{"error":"Connection already exists"}
+{"error":{"code":108}}
 ```
 
 ```
-{"error":{"user_id":["can't be blank"]}}
+{ error: { code: 101, message: connection.errors } }
 ```
 
-# Device create
+### Accept/Decline/Remove a contact
+API Call
+
+Accept
+```
+curl -XPOST http://localhost:3000/api/users/1/contacts/accept?auth_token=XXX   -d 'contact_id=2'
+```
+Decline
+```
+curl -XPOST http://localhost:3000/api/users/1/contacts/decline?auth_token=XXX  -d 'contact_id=2'
+```
+Remove
+```
+curl -XDELETE http://localhost:3000/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
+```
+
+Response 
+
+Ok, send 200 
+```
+{}
+```
+
+# Device 
+### Device create
+API Calls
 ```
 curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"auth_token":"xxxxxxx","device":{"user_id":"23", "token":"fdsfdsfdsfdsf"}}'
 ```
+Response
+
 If device is already registered to my account send 200
 ```
 {}
 ```
+
 If device not registered to my account, it is created a send device object
 ```
 {"id":4,"token":"myReallySecretTokenUniq","user_id":4,"created_at":"2014-01-17T13:09:32.503Z","updated_at":"2014-01-17T13:09:32.503Z"}
 ```
+
 If device errors 
 ```
-{"error":{"token":["has already been taken"]}}
+{"error":{"code": 101,"message": "token":["has already been taken"]}}
 ```
-
-
-# Device code validation
-Validate recieved validation code
-
-```
-curl http://rea-rails-development.herokuapp.com/api/authentication/validate_code -d 'phone=420xxxxxxxxx&validation_code=1234'
-```
-
-Ok, send 200
-```
-{"user":{"id":12,"name":null,"email":null,"phone":"+420xxxxxxxxx","auth_token":"kL2LLCmyKsbszkWzQeU7","role":"user","last_token":null,"token_updated_at":"2014-01-06T10:43:13.618Z","validation_code":null}}
-```
-
-```
-{ error: { code: 8, message: "Validation code not match" } }
-```
-
-```
-{ error: { code: 9, message: "User has no validation code generated" } }
-```
-
-```
-{ error: { code: 10, message: "User not exists" } }
-```
-
-# Token validation
-
-A user can validate his token
-
-```
-curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
-```
-
-If the token is valid the response is 200 and `{name: "Jirka Sirka", role: "[user | admin]"}`
-
-If the token is expired
-
-```
-{"error": {"code": TOKEN_EXPIRED, "message":"Authentication token expired"} }
-```
-
-If the token is invalid
-
-```
-{"error":{"code": INVALID_TOKEN, "message":"Invalid authentication token"}}
-```
-
-He then has to authenticate again with username and password and get a
-new token.
 
 # Feedbacks
 
@@ -197,16 +216,17 @@ Optional fields:
 ```
 curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"feedback":{"message":"I have bug when starting call. No cancel button appears! Thanks.", "email":"xxxx@example.com", "feedback_type":"bug", "user_id":""}}' http://rea-rails-development.herokuapp.com/api/feedbacks
 ```
+Response
+
 Ok, send 200
 ```
-{"success":true}
+{}
 ```
 
 Error:
 ```
-{"error":{"feedback_type":["can't be blank"],"message":["can't be blank"],"email":["can't be blank"]}}
+{"error":{"code":101,"message": "feedback_type":["can't be blank"],"message":["can't be blank"],"email":["can't be blank"]}}
 ```
-
 # Users update
 
 User can update his name and e-mail
@@ -219,30 +239,19 @@ curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.her
 ```
 Ok, send 200
 ```
-{"success":true}
+{}
 ```
 
 Error:
 E-mail is invalid
 ```
-{"error":{"email":["is invalid","is invalid"]}}
+{"error":{"code": 101, "message":"email":["is invalid","is invalid"]}}
 ```
 User try to change another user or invalid or expired token
 ```
-{"error":{"code":2,"message":"Invalid authentication token"}}
+{"error":{"code":103}}
 ```
 
-
-# LOGIN
-
-```
-curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"email":"tomas@remoteassistant.me", "password":"asdfasdf"}' http://rea-rails-development.herokuapp.com/api/authentication
-```
-
-# GET MY CONTACTS
-```
-curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET http://rea-rails-development.herokuapp.com/api/users/3/contacts?auth_token=pxUBQwLRbPXxEsvQnAkE
-```
 
 
 

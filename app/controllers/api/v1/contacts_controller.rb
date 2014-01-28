@@ -7,16 +7,6 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     render json: current_user.connections, each_serializer: ContactSerializer
   end
 
-  def create
-    connection = current_user.connections.build(contact_params)
-    if connection.save
-      ContactNotifications.added(connection)
-      render json: connection
-    else
-      render json: { errors: connection.errors }, status: 400
-    end
-  end
-
   def update
     connection = current_user.connections.find(params[:id])
     if connection.update_attributes(contact_params)
@@ -53,12 +43,12 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
         sms = Sms.new(invited_user.phone, msg).deliver
         # Emailer.invitation_email(invited_user, current_user).deliver
-        render json: {success: true, invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone}}, status: 200
+        render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => connection.nickname}}, status: 200
       else
-        render json: { error: connection.errors }, status: 400
+        render json: { error: { code: 101, message: connection.errors } }, status: 400
       end
     else
-      render json: { error: 'Connection already exists' }, status: 400 
+      render json: { error: { code: 108 }  }, status: 400 
     end
   end
 

@@ -5,9 +5,9 @@ class Api::V1::FeedbacksController < Api::V1::ApplicationController
     feedback = Feedback.new(feedback_params)
   
     if feedback.save
-      render json: {success: true}, status: 200
+      render json: {}, status: 200
     else
-      render json: { error: feedback.errors }, status: 400
+      render json: { error: { code: 101, message: feedback.errors  } }, status: 400
     end
   end
 

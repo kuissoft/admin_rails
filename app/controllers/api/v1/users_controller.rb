@@ -6,9 +6,9 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     user = User.where(id: params[:id], auth_token: params[:user][:auth_token]).first
     if user
       if user.update(user_params_change)
-        render json: {success: true}, status: 200
+        render json: {}, status: 200
       else
-        render json: { error: user.errors }, status: 422
+        render json: { error: { code: 101, message: user.errors } }, status: 422
       end
     else
       render json: { error: { code: 2, message: "Invalid authentication token" } }, status: 401
