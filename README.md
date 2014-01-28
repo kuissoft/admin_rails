@@ -8,7 +8,7 @@ API
 
 ```
 {
-    0 100    UNKNOWN_ERROR          Unknown error
+    0 100    UNDEFINED_ERROR          Undefined error
     0 101    VALIDATION_ERROR 
     0 102    TOKEN_EXPIRED          Authentication token expired
     0 103    INVALID_TOKEN          Invalid authentication token
@@ -125,7 +125,7 @@ Response
 
 Ok, sends 200
 ```
-{"contacts":[{"id":33,"name":null,"email":null,"phone":"+420602302314","is_pending":true,"is_rejected":false,"is_removed":false}]}
+{"contacts":[{"id":33,"name":null,"email":null,"phone":"+420602302314","is_pending":true,"is_rejected":false,"is_removed":false, "nickname":"Jirka"}]}
 ```
 
 Errors:
