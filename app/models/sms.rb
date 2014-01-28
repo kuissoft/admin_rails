@@ -6,7 +6,7 @@ class Sms
 
   def initialize send_to, msg
     @send_to = send_to
-    @msg = "PIN: #{msg} Thank you for using Remote Assistant"
+    @msg = msg
     @send_from = "+14807257455"
   end
 

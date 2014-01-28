@@ -32,11 +32,12 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   # If user exists than only new connection is created
   # 
   def invite
+    phone = "+#{params[:contact][:phone]}"
     # Check if inveted user exists
-    invited_user = User.where(email: params[:contact][:email]).first
+    invited_user = User.where(phone: phone).first
     
     # If invited user not exits than create new one
-    invited_user = User.create!(email: params[:contact][:email], password: 'asdfasdf', validation_code: SecureRandom.hex(2)) unless invited_user
+    invited_user = User.create!(phone: phone, password: 'asdfasdf', validation_code: SecureRandom.hex(2)) unless invited_user
 
     # Find if connection between users exists
     conn = Connection.where(user_id: current_user, contact_id: invited_user).first
@@ -49,8 +50,10 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
       if connection.save 
         #ContactNotifications.added(connection)
-        Emailer.invitation_email(invited_user, current_user).deliver
-        render json: {success: true}, status: 200
+        msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
+        sms = Sms.new(invited_user.phone, msg).deliver
+        # Emailer.invitation_email(invited_user, current_user).deliver
+        render json: {success: true, invited_user: invited_user}, status: 200
       else
         render json: { error: connection.errors }, status: 400
       end

@@ -1,4 +1,3 @@
-x
 Backend
 =======
 
@@ -23,76 +22,27 @@ API
 }
 ```
 
-# Contacts
-
-Get all contacts
-
-```
-curl http://remoteassistant-backend-test.herokuapp.com/api/users/1/contacts.json?auth_token=XXX
-```
-
-Create a new contact
-
-```
-curl -XPOST http://remoteassistant-backend-test.herokuapp.com/api/users/1/contacts.json?auth_token=XXX -d 'contact[contact_id]=2'
-```
-
-Accept/Decline/Remove a contact
-
-```
-curl -XPOST http://localhost:3000/api/users/1/contacts/accept?auth_token=XXX   -d 'contact_id=2'
-curl -XPOST http://localhost:3000/api/users/1/contacts/decline?auth_token=XXX  -d 'contact_id=2'
-curl -XDELETE http://localhost:3000/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
-```
-
-Response is always 200 and `{}`
-
-Inivte new contact
-
-```
-curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/invite?auth_token=xxxXXXX -d '{"contact":{"nickname":"Papuska", "phone":"+421917328431", "email":"name@example.com"}}'
-```
-Ok, send 200
-```
-{"success":true}
-```
-Errors:
-```
-{"error":"Connection already exists"}
-```
-
-```
-{"error":{"user_id":["can't be blank"]}}
-```
 # Authentication
 
+### Validate
+API Call
 ```
-curl -XPOST http://localhost:3000/api/authentication -d email=tomas@remoteassistant.me&password=asdfasdf
+curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
 ```
-
-The token is only valid for 1 day. If the user tries to authenticate
-with an expired token, he will receive the following response.
-
+Response
+Success
+```
+{"name":"Jiri Kratochvil","role":"admin"}
+```
+Error
 ```
 {"error":{"code":1,"message":"Authentication token expired"}}
 ```
-# Device create
 ```
-curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"auth_token":"xxxxxxx","device":{"user_id":"23", "token":"fdsfdsfdsfdsf"}}'
+{"error":{"code":2,"message":"Invalid authentication token"}}
 ```
-If device is already registered to my account send 200
-```
-{}
-```
-If device not registered to my account, it is created a send device object
-```
-{"id":4,"token":"myReallySecretTokenUniq","user_id":4,"created_at":"2014-01-17T13:09:32.503Z","updated_at":"2014-01-17T13:09:32.503Z"}
-```
-If device errors 
-```
-{"error":{"token":["has already been taken"]}}
-```
-# Device user registration
+
+### Device user registration
 
 Resister user or send new code to activate new device
 
@@ -116,6 +66,70 @@ Ok, send 200
 ```
 { error: { code: 7, message: "Unknown error" } }
 ```
+
+# Contacts
+
+### Get all contacts
+
+API Call
+```
+curl http://rea-rails-development.herokuapp.com/api/users/1/contacts.json?auth_token=XXX
+```
+Response
+```
+```
+
+Create a new contact
+
+```
+curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts.json?auth_token=XXX -d 'contact[contact_id]=2'
+```
+
+Accept/Decline/Remove a contact
+
+```
+curl -XPOST http://localhost:3000/api/users/1/contacts/accept?auth_token=XXX   -d 'contact_id=2'
+curl -XPOST http://localhost:3000/api/users/1/contacts/decline?auth_token=XXX  -d 'contact_id=2'
+curl -XDELETE http://localhost:3000/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
+```
+
+Response is always 200 and `{}`
+
+Inivte new contact
+
+```
+curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/invite?auth_token=xxxXXXX -d '{"contact":{"nickname":"Papuska", "phone":"421917328431"}}'
+```
+Ok, send 200
+```
+{"success":true, "invited_user":"{invited_user_object}"}
+```
+Errors:
+```
+{"error":"Connection already exists"}
+```
+
+```
+{"error":{"user_id":["can't be blank"]}}
+```
+
+# Device create
+```
+curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"auth_token":"xxxxxxx","device":{"user_id":"23", "token":"fdsfdsfdsfdsf"}}'
+```
+If device is already registered to my account send 200
+```
+{}
+```
+If device not registered to my account, it is created a send device object
+```
+{"id":4,"token":"myReallySecretTokenUniq","user_id":4,"created_at":"2014-01-17T13:09:32.503Z","updated_at":"2014-01-17T13:09:32.503Z"}
+```
+If device errors 
+```
+{"error":{"token":["has already been taken"]}}
+```
+
 
 # Device code validation
 Validate recieved validation code
@@ -222,13 +236,15 @@ User try to change another user or invalid or expired token
 # LOGIN
 
 ```
-curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"email":"tomas@remoteassistant.me", "password":"asdfasdf"}' http://remoteassistant-backend-test.herokuapp.com/api/authentication
+curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"email":"tomas@remoteassistant.me", "password":"asdfasdf"}' http://rea-rails-development.herokuapp.com/api/authentication
 ```
 
 # GET MY CONTACTS
 ```
-curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET http://remoteassistant-backend-test.herokuapp.com/api/users/3/contacts?auth_token=pxUBQwLRbPXxEsvQnAkE
+curl -H 'Content-Type: application/json' -H "Accept: application/json" -X GET http://rea-rails-development.herokuapp.com/api/users/3/contacts?auth_token=pxUBQwLRbPXxEsvQnAkE
 ```
 
 
 
+
+    

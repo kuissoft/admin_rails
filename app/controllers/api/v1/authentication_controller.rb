@@ -59,7 +59,8 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     # else send 200
     if user and user.validation_code
       # if Emailer.authentication_email(user).deliver
-      sms = Sms.new(user.phone, user.validation_code).deliver
+      msg = "PIN: #{user.validation_code}. Thank you for using Remote Assistant"
+      sms = Sms.new(user.phone, msg).deliver
       if sms.first
         render json: {}, status: 200
       else
