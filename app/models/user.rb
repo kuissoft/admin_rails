@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   # validates :password, length: { in: 5..100 }
   validates :role, presence: true
 
-  scope :sorted, -> { order("role DESC, email ASC") }
+  scope :sorted, -> { order("id DESC, role DESC, email ASC") }
 
   def email_required?
     false

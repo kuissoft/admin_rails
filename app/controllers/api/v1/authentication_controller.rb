@@ -35,7 +35,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   def register
     # Find user by e-mail
     # user = User.find_by_email(params[:email])
-    phone = "+#{params[:phone]}"
+    phone = "+#{params[:phone]}".gsub(" ","")
     user = User.find_by_phone(phone)
 
 
@@ -83,7 +83,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   # TODO - validate device
   # TODO - validate via phone
   def validate_code
-    phone = "+#{params[:phone]}"
+    phone = "+#{params[:phone]}".gsub(" ","")
     # Find user by e-mail
     user = User.find_by_phone(phone)
 

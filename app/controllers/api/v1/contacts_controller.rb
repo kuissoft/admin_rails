@@ -22,7 +22,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   # If user exists than only new connection is created
   # 
   def invite
-    phone = "+#{params[:contact][:phone]}"
+    phone = "+#{params[:contact][:phone]}".gsub(" ","")
     # Check if inveted user exists
     invited_user = User.where(phone: phone).first
     
