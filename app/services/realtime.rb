@@ -1,4 +1,4 @@
-Sclass Realtime
+class Realtime
   def initialize
     @config = RockConfig.for "sockets"
   end
