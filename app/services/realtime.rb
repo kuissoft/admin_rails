@@ -1,4 +1,4 @@
-class Realtime
+Sclass Realtime
   def initialize
     @config = RockConfig.for "sockets"
   end
@@ -8,6 +8,19 @@ class Realtime
   end
 
   def notify(user_id, event, data)
-    RestClient.post(host + "/notify", { user_id: user_id, event: event, data: data })
+    request = RestClient::Request.new(
+      method: :post,
+      url: host + "/notify",
+      user: 'remote',
+      password: 'asdfasdf',
+      payload: {
+        user_id: user_id,
+        event: event,
+        data: data
+      })
+    response = request.execute
+
+    response
+    # RestClient.post(host + "/notify", {user_id: user_id, event: event, data: data })
   end
 end
