@@ -198,7 +198,25 @@ If device errors
 ```
 {"error":{"code": 101,"message": "token":["has already been taken"]}}
 ```
+# Notifications
 
+### Get all notifications for user
+API call
+```
+curl http://rea-rails-development.herokuapp.com/api/notifications?user_id=4&auth_token=xxxXXX
+```
+
+Responds
+
+Ok, send 200
+```
+{"notifications":[{"type":"invitation","user":{"id":1,"name":"Tomas Stanik"}},{"type":"invitation","user":{"id":2,"name":"Jana Filova"}},{"type":"rejection","user":{"id":3,"name":"Jakub Arnold"}},{"type":"rejection","user":{"id":13,"name":"Petr Novák"}},{"type":"removal","user":{"id":11,"name":"E"}},{"type":"removal","user":{"id":12,"name":"F"}}]}
+```
+
+Errors:
+```
+{ "error": { "code": 111} }
+```
 # Feedbacks
 
 User can send feedbacks
