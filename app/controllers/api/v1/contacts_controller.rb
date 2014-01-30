@@ -20,12 +20,12 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   # User unvites registered or not registered users
   # If user is not registered than new user is created and new connection with new user is created
   # If user exists than only new connection is created
-  # 
+  #
   def invite
     phone = "+#{params[:contact][:phone]}".gsub(" ","")
     # Check if inveted user exists
     invited_user = User.where(phone: phone).first
-    
+
     # If invited user not exits than create new one
     invited_user = User.create!(phone: phone, password: 'asdfasdf', validation_code: SecureRandom.hex(2)) unless invited_user
 
@@ -38,7 +38,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       connection = current_user.connections.build(contact_params)
       connection.contact_id = invited_user.id
 
-      if connection.save 
+      if connection.save
         #ContactNotifications.added(connection)
         msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
         sms = Sms.new(invited_user.phone, msg).deliver
@@ -48,7 +48,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         render json: { error: { code: 101, message: connection.errors } }, status: 400
       end
     else
-      render json: { error: { code: 108 }  }, status: 400 
+      render json: { error: { code: 108 }  }, status: 400
     end
   end
 
@@ -56,7 +56,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     # Since the other user is accepting, we search for a contact where user_id
     # is the contact_id from the other user's perspective
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
-    
+
     connection.update_attributes!(is_pending: false)
     current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
 
@@ -81,6 +81,13 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     Connection.where(user_id: current_user.id, contact_id: params[:contact_id]).first.destroy
 
     ContactNotifications.status_changed(connection)
+
+    render json: {}, status: 200
+  end
+
+  def dismiss
+    connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
+    connection.destroy
 
     render json: {}, status: 200
   end

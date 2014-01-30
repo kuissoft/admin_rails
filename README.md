@@ -158,17 +158,20 @@ API Call
 
 Accept
 ```
-curl -XPOST http://localhost:3000/api/users/1/contacts/accept?auth_token=XXX   -d 'contact_id=2'
+curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/accept?auth_token=XXX   -d 'contact_id=2'
 ```
 Decline
 ```
-curl -XPOST http://localhost:3000/api/users/1/contacts/decline?auth_token=XXX  -d 'contact_id=2'
+curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/decline?auth_token=XXX  -d 'contact_id=2'
 ```
 Remove
 ```
-curl -XDELETE http://localhost:3000/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
+curl -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
 ```
-
+Dismiss
+```
+curl -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
+```
 Response 
 
 Ok, send 200 
