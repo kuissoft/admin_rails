@@ -1,41 +1,10 @@
 User.destroy_all
 
-u1 = User.create!(name: 'Tomas Stanik', phone: '+420 606 484 899', email: 'tomas@remoteassistant.me', password: 'asdfasdf', role: 1)
-u2 = User.create!(name: 'Jana Filova',  phone: '+420 608 166 448', email: 'jana@remoteassistant.me', password: 'asdfasdf', role: 1)
-u3 = User.create!(name: 'Jakub Arnold', phone: '+420 774 595 676', email: 'jakub@remoteassistant.me', password: 'asdfasdf', role: 1)
-u4 = User.create!(name: 'Jana Filova',  phone: '+420 608 166 448', email: 'jana@remoteassistant.me', password: 'asdfasdf', role: 1)
-u5 = User.create!(name: 'Jiri Kratochvil',  phone: '+420 720 733 688', email: 'jiri@remoteassistant.me', password: 'asdfasdf', role: 1)
-
-
-Connection.create!(user: u1, contact: u3, is_pending: false)
-Connection.create!(user: u1, contact: u4, is_pending: false)
-Connection.create!(user: u1, contact: u5, is_pending: false)
-
-Connection.create!(user: u2, contact: u1, is_pending: false)
-Connection.create!(user: u2, contact: u3, is_pending: false)
-Connection.create!(user: u2, contact: u4, is_pending: false)
-Connection.create!(user: u2, contact: u5, is_pending: false)
-
-Connection.create!(user: u3, contact: u1, is_pending: false)
-Connection.create!(user: u3, contact: u2, is_pending: false)
-Connection.create!(user: u3, contact: u4, is_pending: false)
-Connection.create!(user: u3, contact: u5, is_pending: false)
-
-Connection.create!(user: u4, contact: u1, is_pending: false)
-Connection.create!(user: u4, contact: u2, is_pending: false)
-Connection.create!(user: u4, contact: u3, is_pending: false)
-Connection.create!(user: u4, contact: u5, is_pending: false)
-
-Connection.create!(user: u5, contact: u1, is_pending: false)
-Connection.create!(user: u5, contact: u2, is_pending: false)
-Connection.create!(user: u5, contact: u3, is_pending: false)
-Connection.create!(user: u5, contact: u4, is_pending: false)
-
-Connection.create!(user: u1, contact: u2, is_pending: false)
-
-Connection.create!(user: u3, contact: u1, is_pending: false)
-Connection.create!(user: u3, contact: u2, is_pending: false)
-
-Connection.create!(user: u2, contact: u1, is_pending: false)
-Connection.create!(user: u2, contact: u3, is_pending: false)
-
+User.create!(id:1, name:'Tomáš Staník', phone:'+420606484899', email:'tomas@remoteassistant.me', password:'admin', role:'admin')
+User.create!(id:2, name:'Tomáš Staník 2', phone:'+421917328431', email:'tomas.stanik@gmail.com', password:'admin', role:'admin')
+User.create!(id:3, name:'Jiří Kratochvíl', phone:'+420720733688', email:'jiri@remoteassistant.me', password:'admin', role:'admin')
+User.create!(id:4, name:'Jiří Kratochvíl 2', phone:'+420602302314', email:'kratoj@gmail.com', password:'admin', role:'admin')
+User.create!(id:5, name:'Jiří Urbášek', phone:'+420604156985', email:'jirka@remoteassistant.me', password:'admin', role:'admin')
+User.create!(id:6, name:'Jiří Urbášek 2', phone:'+666666666666', email:'jiri.urbasek@gmail.com', password:'admin', role:'admin')
+User.create!(id:7, name:'Pavel Dostál', phone:'+420773646660', email:'pavel@remoteassistant.me', password:'admin', role:'admin')
+User.create!(id:8, name:'Pavel Dostál 2', phone:'+888888888888', email:'pdostal@pdostal.cz', password:'admin', role:'admin')
