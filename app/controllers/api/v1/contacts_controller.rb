@@ -39,7 +39,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       connection.contact_id = invited_user.id
 
       if connection.save
-        #ContactNotifications.added(connection)
+        ContactNotifications.notifications_updated(connection)
         msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
         sms = Sms.new(invited_user.phone, msg).deliver
         # Emailer.invitation_email(invited_user, current_user).deliver
@@ -57,6 +57,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     # is the contact_id from the other user's perspective
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
 
+    ContactNotifications.notifications_updated(connection)
     connection.update_attributes!(is_pending: false)
     current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
 
@@ -70,6 +71,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     connection.update_attributes!(is_pending: false, is_rejected: true)
 
     ContactNotifications.status_changed(connection)
+    ContactNotifications.notifications_updated(connection)
 
     render json: {}, status: 200
   end
@@ -81,6 +83,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     Connection.where(user_id: current_user.id, contact_id: params[:contact_id]).first.destroy
 
     ContactNotifications.status_changed(connection)
+    ContactNotifications.notifications_updated(connection)
 
     render json: {}, status: 200
   end

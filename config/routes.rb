@@ -5,6 +5,8 @@ RemoteAssistant::Application.routes.draw do
   resources :web_info, only: [:index, :destroy]
   resources :connections
 
+  get '/status', to: redirect('/status.html')
+
   devise_for :users, controllers: { sessions: "admin/sessions" }
   # web routes
   root 'users#index'
