@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   #    format: { with: /\A[\p{Word} ]+\z/ }
   validates :phone,
   uniqueness: true,
-  length: { in: 4..20 },
+  length: { in: 7..15 },
   format: { with: /\A(\+)?[0-9 ]+\z/ }
   # validates :email,
   #   uniqueness: true,
