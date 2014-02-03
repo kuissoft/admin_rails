@@ -56,7 +56,8 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   def accept
     # Since the other user is accepting, we search for a contact where user_id
     # is the contact_id from the other user's perspective
-
+    connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
+    
     ContactNotifications.notifications_updated(connection)
     connection.update_attributes!(is_pending: false)
     current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
