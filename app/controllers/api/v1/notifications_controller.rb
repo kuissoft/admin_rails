@@ -41,7 +41,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
       if type == 'invitation'
         notifications << Notification.new(type, d.contact_id, d.user_id)
       else
-        notifications << Notification.new(type, d.user_id, d.contact_id)
+        notifications << Notification.new(type, d.user_id, d.contact_id, d.nickname)
       end
     end
     notifications
