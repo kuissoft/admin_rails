@@ -91,7 +91,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
   def dismiss
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
-    connection.destroy
+    connection.destroy if connection
 
     render json: {}, status: 200
   end
