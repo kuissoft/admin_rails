@@ -4,7 +4,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   around_action :wrap_transaction
 
   def index
-    render json: current_user.connections, each_serializer: ContactSerializer
+    render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer
   end
 
   def update
@@ -57,7 +57,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     # Since the other user is accepting, we search for a contact where user_id
     # is the contact_id from the other user's perspective
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
-    
+
     ContactNotifications.notifications_updated(connection)
     connection.update_attributes!(is_pending: false)
     current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
