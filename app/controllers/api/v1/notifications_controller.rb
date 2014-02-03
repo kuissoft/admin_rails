@@ -4,7 +4,9 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
     user = User.where(id: params[:user_id], auth_token: params[:auth_token]).first
     if user
       notifications = create_notification(user.contact_connections.where(is_pending: true)) + create_notification(user.contact_connections.where(is_rejected: true),'rejection') + create_notification(user.contact_connections.where(is_removed: true),'removal')
-
+      logger.debug "=============== DEBUG START ================"
+      logger.debug "Debug Notification controller index: #{notifications.inspect}"
+      logger.debug "================ DEBUG END ================="
       render json: {notifications: notifications}, status: 200
     else
       render json: { error: { code: 111} }, status: 400

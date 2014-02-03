@@ -7,6 +7,9 @@ class Notification
     # @user_id = user_id
     @user = {id: from_user_id, name: get_user_name(from_user_id)}
     # @created_at = Time.now
+    Rails.logger.debug "=============== DEBUG START ================"
+    Rails.logger.debug "Debug Contacts notification initialize: #{@user.inspect}"
+    Rails.logger.debug "================ DEBUG END ================="
   end
 
   def get_user_name user_id
