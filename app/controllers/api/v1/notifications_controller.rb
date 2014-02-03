@@ -3,7 +3,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
   def index
     user = User.where(id: params[:user_id], auth_token: params[:auth_token]).first
     if user
-      notifications = create_notification(user.connections.where(is_pending: true)) + create_notification(user.connections.where(is_rejected: true),'rejection') + create_notification(user.connections.where(is_removed: true),'removal')
+      notifications = create_notification(user.contact_connections.where(is_pending: true)) + create_notification(user.contact_connections.where(is_rejected: true),'rejection') + create_notification(user.contact_connections.where(is_removed: true),'removal')
 
       render json: {notifications: notifications}, status: 200
     else
@@ -38,7 +38,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
   def create_notification data, type = 'invitation'
     notifications = []
     data.each do |d|
-      notifications << Notification.new(type, d.contact_id, d.user_id, d.nickname)
+      notifications << Notification.new(type, d.user_id, d.contact_id, d.nickname)
     end
     notifications
   end
