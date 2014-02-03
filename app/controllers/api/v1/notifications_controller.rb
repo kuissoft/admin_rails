@@ -38,7 +38,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
   def create_notification data, type = 'invitation'
     notifications = []
     data.each do |d|
-      notifications << Notification.new(type, d.user_id, d.contact_id, d.nickname)
+      notifications << Notification.new(type, d.contact_id, d.user_id)
     end
     notifications
   end

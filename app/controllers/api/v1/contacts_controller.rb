@@ -36,6 +36,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     unless conn
       # Build new connection with invited user id
       connection = current_user.connections.build(contact_params)
+      # Sending notification to cantact_id
       connection.contact_id = invited_user.id
 
       if connection.save
