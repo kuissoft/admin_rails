@@ -17,9 +17,6 @@ class ContactNotifications
     if invite
       Realtime.new.notify(connnection.contact_id, "notifications:update", {notifications_count: get_notifications_count(connnection.contact_id)})
     else
-      logger.debug "=============== DEBUG START ================"
-      logger.debug "Debug Contacts Notifications updated: #{connection.inspect}"
-      logger.debug "================ DEBUG END ================="
       Realtime.new.notify(connnection.user_id, "notifications:update", {notifications_count: get_notifications_count(connnection.user_id)})
     end
   end
