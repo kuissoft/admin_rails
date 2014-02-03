@@ -14,7 +14,11 @@ class ContactNotifications
   end
 
   def self.notifications_updated(connnection, invite = false)
-    Realtime.new.notify(connnection.contact_id, "notifications:update", {notifications_count: get_notifications_count(connnection.contact_id)})
+    if invite
+      Realtime.new.notify(connnection.contact_id, "notifications:update", {notifications_count: get_notifications_count(connnection.contact_id)})
+    else
+      Realtime.new.notify(connnection.user_id, "notifications:update", {notifications_count: get_notifications_count(connnection.user_id)})
+    end
   end
 
   private
