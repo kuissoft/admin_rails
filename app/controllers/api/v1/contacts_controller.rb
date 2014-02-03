@@ -39,7 +39,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       connection.contact_id = invited_user.id
 
       if connection.save
-        ContactNotifications.notifications_updated(connection)
+        ContactNotifications.notifications_updated(connection, true)
         msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
         sms = Sms.new(invited_user.phone, msg).deliver
         # Emailer.invitation_email(invited_user, current_user).deliver
