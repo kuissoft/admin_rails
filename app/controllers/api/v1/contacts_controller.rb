@@ -9,11 +9,16 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
   def update
     connection = current_user.connections.where(contact_id: params[:id]).first
-    if connection.update_attributes(contact_params)
-      ContactNotifications.updated(connection)
-      render json: {contact: {id: connection.contact_id, nickname: connection.nickname}}, status: 200
+    contact = User.where(id: params[:id]).first
+    if connection and contact
+      if connection.update_attributes(contact_params)
+        ContactNotifications.updated(connection)
+        render json: {contact: {id: connection.contact_id, name: contact.name, email: contact.email, phone: contact.phone, is_pending: connection.is_pending, is_rejected: connection.is_rejected, is_removed: connection.is_removed, nickname: connection.nickname}}, status: 200
+      else
+        render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
+      end
     else
-      render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
+      render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
     end
   end
 

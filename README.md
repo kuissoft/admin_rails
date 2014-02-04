@@ -187,11 +187,14 @@ Response
 
 Ok, send 200 
 ```
-{"contact":{"id":1,"nickname":"Bossak"}}
+{"contact":{"id":1,"name":"Tomas Stanik","email":"tomas@remoteassistant.me","phone":"+420606484899","is_pending":true,"is_rejected":false,"is_removed":false,"nickname":"Bossakovo"}}
 ```
 Errors:
 ```
 { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }
+```
+```
+{ error_info: { code: 111, title: '', message: 'User not exists' } }
 ```
 
 # Device 
