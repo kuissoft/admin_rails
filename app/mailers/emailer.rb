@@ -11,7 +11,8 @@ class Emailer < ActionMailer::Base
 
   def authentication_email user
     @user = user
-    mail to: user.email, subject: "Authentication e-mail"
+
+    mail to: user.email, subject: "Pin: #{@user.validation_code}"
   end
 
   def invitation_email user, invitator

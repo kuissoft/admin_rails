@@ -28,9 +28,6 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   # Resister user or send new code to activate new device
   # curl http://localhost:3000/api/authentication/register -d 'email=name@example.com'
   #
-  # TODO - find user via phone
-  # TODO - send sms validation code
-  # TODO - create or register device with device id
   # TODO - Validate device in 10 minutes or STFU
   def register
     # Find user by e-mail
@@ -51,7 +48,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
 
 
     # Generate Validation code
-    user.update! validation_code: 100000 + SecureRandom.random_number(900000) if user
+    user.update validation_code: 100000 + SecureRandom.random_number(900000) if user
 
     # If user is ok and has validation code
     # send e-mail notification and catch errors
@@ -60,7 +57,12 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     if user and user.validation_code
       # if Emailer.authentication_email(user).deliver
       msg = "PIN: #{user.validation_code}. Thank you for using Remote Assistant"
-      sms = Sms.new(user.phone, msg).deliver
+      if user.admin? 
+        Emailer.authentication_email(user).deliver
+        sms = [true, nil]
+      else
+        sms = Sms.new(user.phone, msg).deliver
+      end
       if sms.first
         render json: {}, status: 200
       else

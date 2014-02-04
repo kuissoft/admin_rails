@@ -42,8 +42,11 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       if connection.save
         ContactNotifications.notifications_updated(connection, true)
         msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
-        sms = Sms.new(invited_user.phone, msg).deliver
-        # Emailer.invitation_email(invited_user, current_user).deliver
+        unless invited_user.admin?
+          sms = Sms.new(invited_user.phone, msg).deliver 
+        else
+          Emailer.invitation_email(invited_user, current_user).deliver
+        end
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => connection.nickname}}, status: 200
       else
         render json: { error_info: { code: 101, title: '', message: connection.errors.full_messages.join(", ") } }, status: 400
