@@ -1,6 +1,12 @@
 class Emailer < ActionMailer::Base
   default from: "jiri@remoteassistant.me"
 
+  def feedback_email feedback 
+    @feedback = feedback
+
+    mail to: "project-4944826-c6516e79fe6f8eada19a7dcf@basecamp.com", subject: 'Feedback (iOS)'
+  end
+
   def authentication_email user
     @user = user
     mail to: user.email, subject: "Authentication e-mail"
