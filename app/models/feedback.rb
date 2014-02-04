@@ -1,3 +1,3 @@
 class Feedback < ActiveRecord::Base
-  validates :feedback_type, :message, :email, presence: true
+  validates :feedback_type, :message, presence: true
 end

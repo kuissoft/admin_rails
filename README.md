@@ -228,14 +228,11 @@ Required fields:
 
 * feedback_type - feedback type string [feature, bug, other]
 * message - text of feedback
-* email - user e-mail
+* user_id - user id of logged user
 
-Optional fields:
-
-* user_id - you can add id of user if is logged in
 
 ```
-curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"feedback":{"message":"I have bug when starting call. No cancel button appears! Thanks.", "email":"xxxx@example.com", "feedback_type":"bug", "user_id":""}}' http://rea-rails-development.herokuapp.com/api/feedbacks
+curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"feedback":{"message":"I have bug when starting call. No cancel button appears! Thanks.", "feedback_type":"bug", "user_id":"4"}}' http://rea-rails-development.herokuapp.com/api/feedbacks
 ```
 Response
 

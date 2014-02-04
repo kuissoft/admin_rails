@@ -4,6 +4,8 @@ class Emailer < ActionMailer::Base
   def feedback_email feedback 
     @feedback = feedback
 
+    @user = User.where(id: @feedback.user_id ).first if @feedback.user_id
+
     mail to: "project-4944826-c6516e79fe6f8eada19a7dcf@basecamp.com", subject: 'Feedback (iOS)'
   end
 

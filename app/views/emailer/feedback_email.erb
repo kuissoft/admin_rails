@@ -9,13 +9,13 @@
 </span>
 <br />
 <span>
-  User ID:
-  <%= @feedback.user_id %>
+  User:
+  <%= @user.name if @user %> (<%= @feedback.user_id %>)
 </span>
 <br />
 <span>
-  E-mail:
-  <%= @feedback.email %>
+  Phone:
+  <%= @user.phone if @user %> 
 </span>
 <br />
 <span>
