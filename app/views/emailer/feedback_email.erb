@@ -1,0 +1,25 @@
+<!--<span>
+  Created at:
+  <%= l(@feedback.created_at, format: "%d.%m.%Y %H:%M") %>
+</span>-->
+<br />
+<span>
+  Type:
+  <%= @feedback.feedback_type %>
+</span>
+<span>
+  User ID:
+  <%= @feedback.user_id %>
+</span>
+<br />
+<span>
+  E-mail:
+  <%= @feedback.email %>
+</span>
+<br />
+<span>
+  Message:
+</span>
+<p>
+  <%= @feedback.message %>
+</p>
