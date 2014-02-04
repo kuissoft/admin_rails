@@ -21,17 +21,21 @@ class Sms
     @client = Twilio::REST::Client.new account_sid, auth_token
 
     begin
-      @client.account.messages.create(
-      :from => @send_from,
-      :to => @send_to,
-      :body => @msg
-      )
-      return [true, nil]
+      if (@send_to.length < 7 and @send_to.length > 15) and /\A(\+)?[0-9 ]+\z/.match(@send_to)
+        return [false, "Phone number is not valid."]
+      else
+        @client.account.messages.create(
+        :from => @send_from,
+        :to => @send_to,
+        :body => @msg
+        )
+        return [true, nil]
+      end
     rescue Twilio::REST::RequestError => e
       Rails.logger.info "=============== DEBUG TWILIO START ================"
       Rails.logger.error "Twilio REST Error:  #{e.message}"
       Rails.logger.info "================ DEBUG TWILIO END ================="
-      return [false, e.message]
+      return [false, "Cannot send validation SMS. Please try again later."]
     end
   end
 

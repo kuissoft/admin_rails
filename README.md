@@ -63,7 +63,7 @@ Errors:
 ```
 
 ```
-{ error_info: { code: 106, message: "Authentication sms not sent" } }
+{ error_info: { code: 106, message: "Cannot send validation SMS. Please try again later." } }
 ```
 
 ```

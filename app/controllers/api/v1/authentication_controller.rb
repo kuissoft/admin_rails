@@ -64,7 +64,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       if sms.first
         render json: {}, status: 200
       else
-        render json: { error_info: { code: 106, title:'', message: "Authentication sms not sent" } }, status: 401
+        render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
       end
     else
       if err == 101
