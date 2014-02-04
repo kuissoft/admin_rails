@@ -1,0 +1,21 @@
+<h1>Devices</h1>
+
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>TOKEN</th>
+    <th>USER ID</th>
+    <th>CREATED AT</th>
+  </tr>
+  <% @devices.each do |device| %>
+    <tr>
+      <td><%= device.id%></td>
+      <td><%= device.token %></td>
+      <td><%= device.user_id %></td>
+      <td><%= l(device.created_at, format: "%d.%m.%Y %H:%M") %></td>
+    </tr>
+  <% end -%>
+</table>
+
+

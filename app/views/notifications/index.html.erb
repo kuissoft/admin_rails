@@ -1,0 +1,55 @@
+<h1>RAPNS Notifications</h1>
+
+<h2>RAPNS NOTIFICATIONS</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>DEVICE TOKEN</th>
+    <th>ALERT</th>
+    <th>DATA</th>
+    <th>EXPIRY</th>
+    <th>FAILED</th>
+    <th>FAILED AT</th>
+    <th>ERROR CODE</th>
+    <th>ERROR DESCRIPTION</th>
+    <th>DELIVER AFTER</th>
+    <th>CREATED AT</th>
+  </tr>
+  <% @notifications.each do |notification| %>
+    <tr>
+      <td><%= notification.id%></td>
+      <td><%= notification.device_token %></td>
+      <td><%= notification.alert %></td>
+      <td><p><%= notification.data %></p></td>
+      <td><%= notification.expiry %></td>
+      <td><%= notification.failed %></td>
+      <td><%= l(notification.failed_at, format: "%d.%m.%Y %H:%M") %></td>
+      <td><%= notification.error_code %></td>
+      <td><p><%= notification.error_description %></p></td>
+      <td><%= notification.deliver_after %></td>
+      <td><%= l(notification.created_at, format: "%d.%m.%Y %H:%M") %></td>
+    </tr>
+  <% end -%>
+</table>
+
+
+<h2>RAPNS FEEDBACK</h2>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>DEVICE TOKEN</th>
+    <th>FAILED AT</th>
+    <th>CREATED AT</th>
+    <th>APP</th>
+  </tr>
+  <% @feedbacks.each do |feedback| %>
+    <tr>
+      <td><%= feedback.id %></td>
+      <td><%= feedback.device_token %></td>
+      <td><%= l(feedback.failed_at, format: "%d.%m.%Y %H:%M") %></td>
+      <td><%= l(feedback.created_at, format: "%d.%m.%Y %H:%M") %></td>
+      <td><%= feedback.app %></td>
+    </tr>
+  <% end -%>
+</table>

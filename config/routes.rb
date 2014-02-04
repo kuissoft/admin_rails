@@ -2,6 +2,8 @@ require 'api_constraints'
 
 RemoteAssistant::Application.routes.draw do
 
+  get "devices/index"
+  get "notifications/index"
   resources :web_info, only: [:index, :destroy]
   resources :connections
 
