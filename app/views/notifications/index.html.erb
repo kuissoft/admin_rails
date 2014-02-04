@@ -23,7 +23,7 @@
       <td><p><%= notification.data %></p></td>
       <td><%= notification.expiry %></td>
       <td><%= notification.failed %></td>
-      <td><%= l(notification.failed_at, format: "%d.%m.%Y %H:%M") %></td>
+      <td><%= notification.failed_at %></td>
       <td><%= notification.error_code %></td>
       <td><p><%= notification.error_description %></p></td>
       <td><%= notification.deliver_after %></td>
@@ -47,7 +47,7 @@
     <tr>
       <td><%= feedback.id %></td>
       <td><%= feedback.device_token %></td>
-      <td><%= l(feedback.failed_at, format: "%d.%m.%Y %H:%M") %></td>
+      <td><%= feedback.failed_at %></td>
       <td><%= l(feedback.created_at, format: "%d.%m.%Y %H:%M") %></td>
       <td><%= feedback.app %></td>
     </tr>
