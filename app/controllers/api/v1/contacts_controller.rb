@@ -8,10 +8,10 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   end
 
   def update
-    connection = current_user.connections.find(params[:id])
+    connection = current_user.connections.where(contact_id: params[:id]).first
     if connection.update_attributes(contact_params)
       ContactNotifications.updated(connection)
-      render json: connection
+      render json: {contact: {id: connection.contact_id, nickname: connection.nickname}}, status: 200
     else
       render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
     end

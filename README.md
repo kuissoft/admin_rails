@@ -178,6 +178,22 @@ Ok, send 200
 {}
 ```
 
+### Update contact
+API Call
+```
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/:id?auth_token=xxxXXX -d '{"contact":{"nickname":"Bossak"}}'
+```
+Response 
+
+Ok, send 200 
+```
+{"contact":{"id":1,"nickname":"Bossak"}}
+```
+Errors:
+```
+{ errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }
+```
+
 # Device 
 ### Device create
 API Calls
