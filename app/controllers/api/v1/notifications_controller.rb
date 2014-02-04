@@ -7,7 +7,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
 
       render json: {notifications: notifications}, status: 200
     else
-      render json: { error: { code: 111} }, status: 400
+      render json: { error_info: { code: 111, title: '', message: 'User not exists'} }, status: 400
     end
   end
 

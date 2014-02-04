@@ -14,15 +14,15 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     # TODO - refactor to authentication service
     if user && user.auth_token == params[:token]
       # if user.expired_token?
-      #   render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
+      #   render json: { error_info: { code: 1, message: "Authentication token expired" } }, status: 401
       #   user.assign_new_token
       # else
       render json: {name: user.name, role: user.role }, status: 200
       # end
     elsif user && user.last_token == params[:token]
-      render json: { error: { code: 102} }, status: 401
+      render json: { error_info: { code: 102, title: 'Token expired', message: 'Authentication token expired'} }, status: 401
     else
-      render json: { error: { code: 103} }, status: 401
+      render json: { error_info: { code: 103, title: '', message: 'Validation code not match'} }, status: 401
     end
   end
   # Resister user or send new code to activate new device
@@ -64,13 +64,13 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       if sms.first
         render json: {}, status: 200
       else
-        render json: { error: { code: 106, message: "Authentication sms not sent and this is the reason: #{sms.last}" } }, status: 401
+        render json: { error_info: { code: 106, title:'', message: "Authentication sms not sent" } }, status: 401
       end
     else
       if err == 101
-        render json: { error: { code: 101, message: "Wrong format or blank phone number" } }, status: 401
+        render json: { error_info: { code: 101, title: '', message: "Wrong format or blank phone number" } }, status: 401
       else
-        render json: { error: { code: 100} }, status: 401
+        render json: { error_info: { code: 100, title: 'UNDEFINED ERROR', message: ''} }, status: 401
       end
     end
 
@@ -98,13 +98,13 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
           # render json: {user: user}, status: 200
           render json: user, status: 200, serializer: UserSerializer
         else
-          render json: { error: { code: 109 } }, status: 401
+          render json: { error_info: { code: 109, title: '', message: 'Validation code not match'} }, status: 401
         end
       else
-        render json: { error: { code: 110 } }, status: 401
+        render json: { error_info: { code: 110, title: '', message: 'No validation code' } }, status: 401
       end
     else
-      render json: { error: { code: 111 } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
     end
   end
 

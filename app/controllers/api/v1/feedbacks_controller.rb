@@ -13,7 +13,7 @@ class Api::V1::FeedbacksController < Api::V1::ApplicationController
 
       render json: {}, status: 200
     else
-      render json: { error: { code: 101, message: @feedback.errors  } }, status: 400
+      render json: { error_info: { code: 101, title: '', message: @feedback.errors.full_messages.join(", ")  } }, status: 400
     end
   end
 

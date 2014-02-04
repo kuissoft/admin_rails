@@ -13,7 +13,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       ContactNotifications.updated(connection)
       render json: connection
     else
-      render json: { errors: connection.errors }, status: 400
+      render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
     end
   end
 
@@ -46,10 +46,10 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         # Emailer.invitation_email(invited_user, current_user).deliver
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => connection.nickname}}, status: 200
       else
-        render json: { error: { code: 101, message: connection.errors } }, status: 400
+        render json: { error_info: { code: 101, title: '', message: connection.errors.full_messages.join(", ") } }, status: 400
       end
     else
-      render json: { error: { code: 108 }  }, status: 400
+      render json: { error_info: { code: 108, title: '', message: 'Connection already exists' }  }, status: 400
     end
   end
 

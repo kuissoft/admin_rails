@@ -17,7 +17,7 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
     if device.save
       render json: device
     else
-      render json: { error: { code: 101, message: device.errors } }, status: 400
+      render json: { error_info: { code: 101, message: device.errors.full_message.join(", ") } }, status: 400
     end
   end
 

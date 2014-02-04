@@ -8,10 +8,10 @@ class Api::V1::UsersController < Api::V1::ApplicationController
       if user.update(user_params_change)
         render json: {}, status: 200
       else
-        render json: { error: { code: 101, message: user.errors } }, status: 422
+        render json: { error_info: { code: 101, title: '', message: user.errors.full_messages.join(", ") } }, status: 422
       end
     else
-      render json: { error: { code: 2, message: "Invalid authentication token" } }, status: 401
+      render json: { error_info: { code: 103, title: '',  message: "Invalid authentication token" } }, status: 401
     end
   end
 

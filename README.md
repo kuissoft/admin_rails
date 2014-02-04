@@ -1,6 +1,5 @@
 Backend
 =======
-
 API
 ---
 
@@ -40,10 +39,10 @@ Ok, sends 200
 ```
 Errors:
 ```
-{"error":{"code": 102}}
+{"error_info":{"code": 102, title: 'Token expired', message: 'Authentication token expired'}}
 ```
 ```
-{"error":{"code": 103}}
+{"error_info":{"code": 103, title: '', message: 'Validation code not match'}}
 ```
 
 ### Device user registration
@@ -60,15 +59,15 @@ Ok, send 200
 ```
 Errors:
 ```
-{ error: { code: 101, message: "Wrong format or blank phone number" } }
+{ error_info: { code: 101, message: "Wrong format or blank phone number" } }
 ```
 
 ```
-{ error: { code: 106, message: "Authentication sms not sent" } }
+{ error_info: { code: 106, message: "Authentication sms not sent" } }
 ```
 
 ```
-{ error: { code: 100 } }
+{ error_info: { code: 100, title: 'UNDEFINED ERROR', message: '' } }
 ```
 
 ### Device code validation
@@ -84,15 +83,15 @@ Ok, send 200
 ```
 Errors:
 ```
-{ error: { code: 109 } }
+{ error_info: { code: 109, title: '', message: 'Validation code not match' } }
 ```
 
 ```
-{ error: { code: 110 } }
+{ error_info: { code: 110, title: '', message: 'No validation code' } }
 ```
 
 ```
-{ error: { code: 111} }
+{ error_info: { code: 111, title: '', message: 'User not exists'} }
 ```
 
 # Calls
@@ -110,7 +109,7 @@ Ok, send 200
 
 Errors:
 ```
-{"error":{"code":101,"message":"Invalid call id"}}
+{"error_info":{"code":101,"message":"Invalid call id"}}
 ```
 
 # Contacts
@@ -146,11 +145,11 @@ Ok, send 200
 ```
 Errors:
 ```
-{"error":{"code":108}}
+{"error_info":{"code":108, title: '', message: 'Connection already exists'}}
 ```
 
 ```
-{ error: { code: 101, message: connection.errors } }
+{ error_info: { code: 101, message: "User_id blablabla cant be blank, Contact_id cant be blank..." } }
 ```
 
 ### Accept/Decline/Remove a contact
@@ -199,7 +198,7 @@ If device not registered to my account, it is created a send device object
 
 If device errors 
 ```
-{"error":{"code": 101,"message": "token":["has already been taken"]}}
+{"error_info":{"code": 101,"message": "token has already been taken"}}
 ```
 # Notifications
 
@@ -218,7 +217,7 @@ Ok, send 200
 
 Errors:
 ```
-{ "error": { "code": 111} }
+{ "error_info": { "code": 111, title: '', message: 'User not exists'} }
 ```
 # Feedbacks
 
@@ -243,7 +242,7 @@ Ok, send 200
 
 Error:
 ```
-{"error":{"code":101,"message": "feedback_type":["can't be blank"],"message":["can't be blank"],"email":["can't be blank"]}}
+{"error_info":{"code":101,"message": "feedback_type can't be blank , message can't be blank"}}
 ```
 # Users update
 
@@ -263,11 +262,11 @@ Ok, send 200
 Error:
 E-mail is invalid
 ```
-{"error":{"code": 101, "message":"email":["is invalid","is invalid"]}}
+{"error_info":{"code": 101, "message":"email is invalid"]}}
 ```
 User try to change another user or invalid or expired token
 ```
-{"error":{"code":103}}
+{"error_info":{"code":103, title: '',  message: "Invalid authentication token" }}
 ```
 
 
