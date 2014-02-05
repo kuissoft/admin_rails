@@ -20,7 +20,8 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
     device_ids = Device.where(user_id: params[:assistant_id]).map(&:token)
     Rails.logger.warn "Found devices #{device_ids}"
     name = "Unknown User"
-    user = User.connections.where(contact_id: params[:caller_id]).first
+    con = User.where(id: params[:assistant_id]).first
+    user = con.connections.where(contact_id: params[:caller_id]).first
     if user and !user.nickname.blank?
       name = user.nickname 
     else
