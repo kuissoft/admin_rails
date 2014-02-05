@@ -28,4 +28,29 @@ module ApplicationHelper
   def list_users
     "Show users"
   end
+
+  def get_settings_value constant_name, default_value = nil
+    setting = Setting.where(name: constant_name.to_s.underscore).first
+
+    if setting
+      get_array_or_value setting.value
+    else
+      default_value
+    end
+  end
+  alias_method :settings_value, :get_settings_value
+
+  protected
+
+  def get_array_or_value value
+    values = value.split("|")
+    if values.size == 1
+      return values.first
+    else
+      return values
+    end
+  end
+
+
+  
 end

@@ -18,7 +18,7 @@ class Api::V1::AuthenticatedController < Api::V1::ApplicationController
           sign_in user, store: false
         # end
       elsif user.last_token == params[:auth_token]
-        render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
+        render json: { error_info: { code: 102, title: '', message: 'Validation code not match'} }, status: 401
       end
     end
   end

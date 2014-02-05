@@ -2,8 +2,12 @@ require 'api_constraints'
 
 RemoteAssistant::Application.routes.draw do
 
+  get "devices/index"
+  get "notifications/index"
   resources :web_info, only: [:index, :destroy]
   resources :connections
+
+  get '/status', to: redirect('/status.html')
 
   devise_for :users, controllers: { sessions: "admin/sessions" }
   # web routes
@@ -39,6 +43,7 @@ RemoteAssistant::Application.routes.draw do
             post :accept
             post :decline
             delete :remove
+            delete :dismiss
             post :invite
           end
         end

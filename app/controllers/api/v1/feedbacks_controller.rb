@@ -2,12 +2,18 @@ class Api::V1::FeedbacksController < Api::V1::ApplicationController
   respond_to :json
 
   def create
-    feedback = Feedback.new(feedback_params)
+    @feedback = Feedback.new(feedback_params)
   
-    if feedback.save
-      render json: {success: true}, status: 200
+    if @feedback.save
+      begin
+        Emailer.feedback_email(@feedback).deliver
+      rescue => e
+        logger.error "Feedback::send_email => exception #{e.class.name} : #{e.message}"
+      end
+
+      render json: {}, status: 200
     else
-      render json: { error: feedback.errors }, status: 400
+      render json: { error_info: { code: 101, title: '', message: @feedback.errors.full_messages.join(", ")  } }, status: 400
     end
   end
 
