@@ -19,12 +19,26 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
 
     device_ids = Device.where(user_id: params[:assistant_id]).map(&:token)
     Rails.logger.warn "Found devices #{device_ids}"
-
+    name = "Unknown User"
+    user = User.connections.where(contact_id: params[:caller_id]).first
+    if user and !user.nickname.blank?
+      name = user.nickname 
+    else
+      user = User.where(id: params[:caller_id]).first
+      if user
+        if user.name.blank?
+          name = user.phone
+        else
+          name = user.name
+        end
+      end
+    end
+    
     device_ids.each do |device_id|
       n = Rapns::Apns::Notification.new
       n.app = Rapns::Apns::App.find_by_name("ios_app")
       n.device_token = device_id
-      n.alert = "Request from #{User.find(params[:caller_id]).name}"
+      n.alert = "Request from #{name}"
       n.attributes_for_device = { call_id: key }
       n.sound = "Calling.wav"
       n.save!
