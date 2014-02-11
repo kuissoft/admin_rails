@@ -70,7 +70,7 @@ RemoteAssistant::Application.configure do
   
   config.action_mailer.perform_deliveries = true
   
-  config.action_mailer.default_url_options = {host: "http://rea-rails-development.herokuapp.com"}
+  config.action_mailer.default_url_options = {host: "http://rea-rails.herokuapp.com"}
 
   config.action_mailer.smtp_settings = {
     :address              => "smtp.postmarkapp.com",
@@ -99,8 +99,8 @@ RemoteAssistant::Application.configure do
   API_NAME = "remoteassistant"
   API_PASSWORD = "eR35xZ65"
 
-  NODE_HOST = "http://rea-node-development.herokuapp.com"
-  RAILS_HOST = "http://rea-rails-development.herokuapp.com"
+  NODE_HOST = "http://rea-node.herokuapp.com"
+  RAILS_HOST = "http://rea-rails.herokuapp.com"
 
   NODE_ACCESS_NAME = 'remote'
   NODE_ACCESS_PASSWORD = 'asdfasdf'
