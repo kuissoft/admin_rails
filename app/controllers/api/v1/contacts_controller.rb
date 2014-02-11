@@ -45,19 +45,29 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       connection.contact_id = invited_user.id
 
       if connection.save
-        ContactNotifications.notifications_updated(connection, true)
-        msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
-        unless invited_user.admin?
-          sms = Sms.new(invited_user.phone, msg).deliver 
-        else
-          Emailer.invitation_email(invited_user, current_user).deliver
-        end
+        send_sms_or_email(connection, current_user, invited_user)
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => connection.nickname}}, status: 200
       else
         render json: { error_info: { code: 101, title: '', message: connection.errors.full_messages.join(", ") } }, status: 400
       end
     else
-      render json: { error_info: { code: 108, title: '', message: 'Connection already exists' }  }, status: 400
+      # If connection exists and it's pending send invitation msg agaim
+      if conn.is_pending
+        send_sms_or_email(conn, current_user, invited_user)
+        render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
+      else
+        render json: { error_info: { code: 108, title: '', message: 'Connection already exists' }  }, status: 400
+      end
+    end
+  end
+
+  def send_sms_or_email connection, current_user, invited_user
+    ContactNotifications.notifications_updated(connection, true)
+    msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
+    unless invited_user.admin?
+      sms = Sms.new(invited_user.phone, msg).deliver
+    else
+      Emailer.invitation_email(invited_user, current_user).deliver
     end
   end
 
