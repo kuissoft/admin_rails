@@ -78,11 +78,14 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
     ContactNotifications.notifications_updated(connection)
     connection.update_attributes!(is_pending: false)
-    current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
+    begin
+      current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
+      ContactNotifications.status_changed(connection)
 
-    ContactNotifications.status_changed(connection)
-
-    render json: {}, status: 200
+      render json: {}, status: 200
+    rescue
+      render json: { error_info: { code: 108, title: '', message: 'Connection already exists' }  }, status: 400
+    end
   end
 
   def decline
@@ -98,14 +101,17 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
   def remove
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
-    connection.update_attributes!(is_removed: true)
+    begin
+      connection.update_attributes!(is_removed: true)
+      Connection.where(user_id: current_user.id, contact_id: params[:contact_id]).first.destroy
 
-    Connection.where(user_id: current_user.id, contact_id: params[:contact_id]).first.destroy
+      ContactNotifications.status_changed(connection)
+      ContactNotifications.notifications_updated(connection)
 
-    ContactNotifications.status_changed(connection)
-    ContactNotifications.notifications_updated(connection)
-
-    render json: {}, status: 200
+      render json: {}, status: 200
+    rescue
+      render json: { error_info: { code: 113, title: '', message: 'URL or Record not found' }  }, status: 500
+    end
   end
 
   def dismiss

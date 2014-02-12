@@ -20,6 +20,7 @@ API
     0 110    NO_VALIDATION_CODE
     0 111    USER_NOT_EXISTS
     0 112    USER_ID_BLANK          User ID can't be blank
+    0 113    URL_NOT_FOUND         Url not found
     
 }
 ```
@@ -201,7 +202,7 @@ Errors:
 ### Device create
 API Calls
 ```
-curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"auth_token":"xxxxxxx","device":{"user_id":"23", "token":"fdsfdsfdsfdsf"}}'
+curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"user_id":"23", "auth_token":"xxxxxxx","device":{ "token":"fdsfdsfdsfdsf"}}'
 ```
 Response
 
