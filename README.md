@@ -21,6 +21,7 @@ API
     0 111    USER_NOT_EXISTS
     0 112    USER_ID_BLANK          User ID can't be blank
     0 113    URL_NOT_FOUND         Url not found
+    0 114    RESEND_LIMIT_REACHED        Resend limit reached
     
 }
 ```
@@ -93,6 +94,31 @@ Errors:
 
 ```
 { error_info: { code: 111, title: '', message: 'User not exists'} }
+
+```
+
+### Resend verification code
+Resend verification code
+
+```
+curl http://rea-rails-development.herokuapp.com/api/authentication/resend_code -d 'phone=420xxxxxxxxx'
+```
+
+Ok, send 200
+```
+{}
+```
+Errors:
+```
+{ error_info: { code: 114, title:'', message: 'Resend Verification code limit reached' } }, status: 401
+```
+
+```
+{ error_info: { code: 106, title:'', message: sms.last } }, status: 401
+```
+
+```
+{ error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
 ```
 
 # Calls

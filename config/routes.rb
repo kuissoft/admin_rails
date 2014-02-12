@@ -52,6 +52,7 @@ RemoteAssistant::Application.routes.draw do
       post "/authentication/validate", to: "authentication#validate"
       post "/authentication/register", to: "authentication#register"
       post "/authentication/validate_code", to: "authentication#validate_code"
+      post "/authentication/resend_code", to: "authentication#resend_verification_code"
     end
   end
   match "*path", :to => "application#routing_error", :via => :all
