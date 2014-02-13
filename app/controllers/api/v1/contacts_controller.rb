@@ -31,8 +31,10 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     # Check if inveted user exists
     invited_user = User.where(phone: phone).first
 
+
     # If invited user not exits than create new one
     invited_user = User.create!(phone: phone, password: 'asdfasdf', validation_code: SecureRandom.hex(2)) unless invited_user
+
 
     # Find if connection between users exists
     conn = Connection.where(user_id: current_user, contact_id: invited_user).first
@@ -62,12 +64,27 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   end
 
   def send_sms_or_email connection, current_user, invited_user
-    ContactNotifications.status_changed(connection, true)
-    msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
-    unless invited_user.admin?
-      sms = Sms.new(invited_user.phone, msg).deliver
+    # Device for sms count
+    device = DeviceControl.where(phone: current_user.phone).first
+    allow_send = true
+    if device
+      if device.sms_count == 10 and Time.new < device.created_at + 30.days
+        allow_send = false
+      elsif device.sms_count == 10 and Time.new > device.created_at + 30.days
+        device.update sms_count: 0, created_at: Time.now
+        allow_send = true
+      end
     else
-      Emailer.invitation_email(invited_user, current_user).deliver
+      allow_send = false
+    end
+    ContactNotifications.status_changed(connection, true)
+    if allow_send
+      msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
+      unless invited_user.admin?
+        sms = Sms.new(invited_user.phone, msg).deliver
+      else
+        Emailer.invitation_email(invited_user, current_user).deliver
+      end
     end
   end
 

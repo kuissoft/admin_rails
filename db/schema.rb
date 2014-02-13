@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140213125924) do
+ActiveRecord::Schema.define(version: 20140213165739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,18 @@ ActiveRecord::Schema.define(version: 20140213125924) do
     t.boolean  "is_rejected", default: false
     t.string   "nickname"
     t.boolean  "is_removed",  default: false
+  end
+
+  create_table "device_controls", force: true do |t|
+    t.string   "uuid"
+    t.string   "verification_code"
+    t.boolean  "resent",            default: false
+    t.string   "phone"
+    t.integer  "invalid_count",     default: 0
+    t.integer  "sms_count",         default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "resent_at"
   end
 
   create_table "devices", force: true do |t|
