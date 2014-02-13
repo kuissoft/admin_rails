@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140212222526) do
+ActiveRecord::Schema.define(version: 20140213125924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,8 @@ ActiveRecord::Schema.define(version: 20140212222526) do
     t.string   "validation_code"
     t.integer  "verification_code_sent_count",    default: 0
     t.integer  "verification_code_invalid_count", default: 0
+    t.boolean  "is_online",                       default: false
+    t.string   "connection_type"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -1,7 +1,6 @@
 class Api::V1::UsersController < Api::V1::ApplicationController
   respond_to :json
 
-
   def update
     user = User.where(id: params[:id], auth_token: params[:user][:auth_token]).first
     if user
@@ -15,6 +14,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     end
   end
 
+
   private
 
   def user_params
@@ -22,7 +22,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def user_params_change
-    params.require(:user).permit(:name, :email)
+    params.require(:user).permit(:name, :email, :last_sign_in_at, :is_online, :connection_type)
   end
 end
 

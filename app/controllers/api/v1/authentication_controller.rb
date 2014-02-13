@@ -18,6 +18,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       #   render json: { error_info: { code: 1, message: "Authentication token expired" } }, status: 401
       #   user.assign_new_token
       # else
+      user.update is_online: true, connection_type: params[:connection_type]
       render json: {name: user.name, role: user.role }, status: 200
       # end
     elsif user && user.last_token == params[:token]
@@ -92,7 +93,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
 
     if user
       # If user request verification 3 times send user that he reached limit 
-      if user.verification_code_sent_count == 2
+      if user.verification_code_sent_count == 1
         render json: { error_info: { code: 114, title:'', message: 'Resend Verification code limit reached' } }, status: 401
       else
         # if user has no verification code 
