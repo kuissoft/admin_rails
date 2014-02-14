@@ -83,7 +83,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       user = User.where(phone: device.phone).first
 
       if user and user.admin?
-        Emailer.authentication_email(user).deliver
+        Emailer.authentication_email(user, device).deliver
         sms = [true, nil]
       else
         sms = Sms.new(device.phone, msg).deliver
@@ -127,25 +127,25 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     end
   end
 
-  # Validate recieved validation code
-  # curl http://localhost:3000/api/authentication/validate_code -d 'email=name@example.com&validation_code=1234'
+  # Validate recieved verification code
+  # curl http://localhost:3000/api/authentication/validate_code -d 'email=name@example.com&verification_code=1234'
   #
   # TODO - validate device
   # TODO - validate via phone
-  def validate_code
+  def verify_code
     phone = "+#{params[:phone]}".gsub(" ","")
     device = DeviceControl.where(phone: phone).first
 
 
     # If user exists or send error response
     if device
-      # Delete validation code after 3 wrong attempts
+      # Delete verification code after 3 wrong attempts
       device.update verification_code: nil, invalid_count: 0 if device.invalid_count == 3
-      # If device has validation code generated or send error response
+      # If device has verification code generated or send error response
       if device.verification_code
-        # If validation code on db match with recieved code or send error response
-        if device.verification_code == params[:validation_code]
-          # Nil validation code
+        # If verification code on db match with recieved code or send error response
+        if device.verification_code == params[:verification_code]
+          # Nil verification code
           device.update verification_code: nil, invalid_count: 0
           user = User.where(phone: phone).first
           #create user

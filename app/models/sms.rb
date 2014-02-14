@@ -33,7 +33,7 @@ class Sms
       Rails.logger.info "=============== DEBUG TWILIO START ================"
       Rails.logger.error "Twilio REST Error:  #{e.message}"
       Rails.logger.info "================ DEBUG TWILIO END ================="
-      return [false, "Cannot send validation SMS. Please try again later."]
+      return [false, "Cannot send verification SMS. Please try again later."]
     end
   end
 

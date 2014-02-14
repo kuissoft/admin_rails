@@ -65,7 +65,7 @@ Errors:
 ```
 
 ```
-{ error_info: { code: 106, message: "Cannot send validation SMS. Please try again later." } }
+{ error_info: { code: 106, message: "Cannot send verification SMS. Please try again later." } }
 ```
 
 ```
@@ -76,7 +76,7 @@ Errors:
 Validate recieved validation code
 
 ```
-curl http://rea-rails-development.herokuapp.com/api/authentication/validate_code -d 'phone=420xxxxxxxxx&validation_code=1234'
+curl http://rea-rails-development.herokuapp.com/api/authentication/verify_code -d 'phone=420xxxxxxxxx&verification_code=1234'
 ```
 
 Ok, send 200
