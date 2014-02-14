@@ -19,6 +19,9 @@ class ApplicationController < ActionController::Base
   def error(e)
     #render :template => "#{Rails::root}/public/404.html"
     if env["ORIGINAL_FULLPATH"] =~ /^\/api/
+      logger.error "=============== DEBUG START ================"
+      logger.error "Debug: #{e.inspect}"
+      logger.error "================ DEBUG END ================="
 
     render json: { error_info: { code: 113, title: '', message: 'URL or Record not found'} }, status: 500
     else

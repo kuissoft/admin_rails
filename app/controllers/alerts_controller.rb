@@ -32,12 +32,12 @@ class AlertsController < ApplicationController
     # but the reflection does not work (this works fine)
 
     # destroy unregistered devices
-    Rapns::Apns::Feedback.all.each do |feedback|
+    Rpush::Apns::Feedback.all.each do |feedback|
       Device.where(:token => feedback.device_token).destroy_all
     end
 
     # clear feedback
-    Rapns::Apns::Feedback.destroy_all
+    Rpush::Apns::Feedback.destroy_all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -51,7 +51,7 @@ class AlertsController < ApplicationController
     @alert = Alert.new(params[:alert])
 
     # check message length
-    n = Rapns::Apns::Notification.new
+    n = Rpush::Apns::Notification.new
     n.alert = @alert.message
     if n.payload_size > 256
       overflow_bytesize = (n.payload_size - 256).to_s
@@ -65,8 +65,8 @@ class AlertsController < ApplicationController
 
         # send notifications
         Device.all.each do |device|
-           n = Rapns::Apns::Notification.new
-           n.app = Rapns::Apns::App.find_by_name("ios_app")
+           n = Rpush::Apns::Notification.new
+           n.app = Rpush::Apns::App.find_by_name("ios_app")
            n.device_token = device.token
            n.alert = @alert.message
            n.sound = "Calling.wav"

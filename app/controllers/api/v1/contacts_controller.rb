@@ -117,13 +117,16 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   def remove
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
     begin
-      connection.update_attributes!(is_removed: true)
+      connection.update_attributes!(is_removed: true) if connection
       Connection.where(user_id: current_user.id, contact_id: params[:contact_id]).first.destroy
 
-      ContactNotifications.status_changed(connection)
+      ContactNotifications.status_changed(connection) if connection
 
       render json: {}, status: 200
-    rescue
+    rescue => e
+      logger.error "=============== DEBUG START ================"
+      logger.error "Debug: #{e.inspect}"
+      logger.error "================ DEBUG END ================="
       render json: { error_info: { code: 113, title: '', message: 'URL or Record not found' }  }, status: 500
     end
   end

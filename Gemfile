@@ -14,7 +14,7 @@ gem 'rest-client'
 gem 'memcachier'
 gem 'dalli'
 
-gem 'rapns'
+gem 'rpush'
 
 # Rack Cors
 gem "rack-cors", require: "rack/cors"
