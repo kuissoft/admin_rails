@@ -1,6 +1,6 @@
 module Api
-  module V1
-    class Api::V1::UsersController < Api::V1::ApplicationController
+  module V2
+    class Api::V2::UsersController < Api::V1::ApplicationController
       respond_to :json
 
       def update

@@ -1,6 +1,7 @@
 module Api
-  module V1
-    class Api::V1::AuthenticationController < Api::V1::ApplicationController
+  module V2
+    class Api::V2::AuthenticationController < Api::V1::ApplicationController
+
       def create
         user = User.find_by_email(params[:email])
         if user && user.valid_password?(params[:password])
@@ -164,6 +165,8 @@ module Api
           render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
         end
       end
+
+
     end
   end
 end

@@ -1,6 +1,6 @@
 module Api
-  module V1
-    class Api::V1::NotificationsController < Api::V1::ApplicationController
+  module V2
+    class Api::V2::NotificationsController < Api::V1::ApplicationController
 
       def index
         user = User.where(id: params[:user_id], auth_token: params[:auth_token]).first
