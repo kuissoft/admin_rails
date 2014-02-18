@@ -1,17 +1,15 @@
 module Api
   module V1
-    class Api::V1::AuthenticatedController < Api::V1::ApplicationController
-      before_filter :authenticate_user_from_token!
-      #before_filter :authenticate_user!
-
+    class Api::V1::ApplicationController < ActionController::Base  before_filter :authenticate_user_from_token!
+      before_filter :authenticate_user!
 
       private
 
       def authenticate_user_from_token!
-        user = User.where(id: params[:user_id]).first
-
+        user = User.where("auth_token = ? OR last_token = ?", params[:auth_token], params[:auth_token]).first
+        # TODO - refactor to authentication service
         if user
-          if user.auth_token == params[:auth_token] or user.last_token == params[:auth_token]
+          if user.auth_token == params[:auth_token]
             # if user.expired_token?
             #   user.assign_new_token
             #   user.save!
@@ -20,11 +18,9 @@ module Api
             # else
               sign_in user, store: false
             # end
-          else
-            render json: { error_info: { code: 102, title: '', message: 'Auth token not match'} }, status: 401
+          elsif user.last_token == params[:auth_token]
+            render json: { error_info: { code: 102, title: '', message: 'Validation code not match'} }, status: 401
           end
-        else
-          render json: { error_info: { code: 104, title: '', message: 'User not authenticated'} }, status: 401
         end
       end
     end

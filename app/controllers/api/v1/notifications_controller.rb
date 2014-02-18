@@ -1,6 +1,6 @@
 module Api
   module V1
-    class Api::V1::NotificationsController < Api::V1::ApplicationController
+    class Api::V1::ApplicationController < ActionController::Base
 
       def index
         user = User.where(id: params[:user_id], auth_token: params[:auth_token]).first
@@ -38,8 +38,8 @@ module Api
         end
         
         device_ids.each do |device_id|
-          n = Rpush::Apns::Notification.new
-          n.app = Rpush::Apns::App.find_by_name("ios_app")
+          n = Rapns::Apns::Notification.new
+          n.app = Rapns::Apns::App.find_by_name("ios_app")
           n.device_token = device_id
           n.alert = "Request from #{name}"
           n.attributes_for_device = { call_id: key }
@@ -47,7 +47,7 @@ module Api
           n.save!
         end
 
-        Rpush.push
+        Rapns.push
 
         render json: {}, status: 200
       end
@@ -66,3 +66,4 @@ module Api
     end
   end
 end
+
