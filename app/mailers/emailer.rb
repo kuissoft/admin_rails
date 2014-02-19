@@ -13,8 +13,11 @@ class Emailer < ActionMailer::Base
     @user = user
     @device = device
     # Fix for API
-    subject = "Pin: #{@user.validation_code}"  if @device.blank?
-    subject = "Pin: #{@device.verification_code}"  if @device
+    if @device.blank?
+      subject = "Pin: #{@user.validation_code}"  
+    else
+      subject = "Pin: #{@device.verification_code}"
+    end
 
     mail to: user.email, subject: subject
   end
