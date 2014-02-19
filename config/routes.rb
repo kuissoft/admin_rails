@@ -1,5 +1,3 @@
-require 'api_constraints'
-
 RemoteAssistant::Application.routes.draw do
 
   get "devices/index"
@@ -22,14 +20,14 @@ RemoteAssistant::Application.routes.draw do
   resources :locations
   resources :contacts
   resources :settings
-  resources :activity_monitor do 
+  resources :activity_monitor do
     get :refresh_logs, on: :collection
   end
   resources :feedbacks, only: [:index, :show, :destroy]
 
   # api routes
   namespace :api, defaults: {format: 'json'} do
-    scope :module => :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+    api_version(:module => "V1", :path => {:value => "v1"}, :default => true) do
       resources :devices, only: [:create]
       resources :calls
       resources :notifications
