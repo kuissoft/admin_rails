@@ -4,6 +4,10 @@
 </head>
 <body>
   <h1>Authenitcation e-mail</h1>
-  <span>Your authentication code is: <strong><%= @device.verification_code%></strong> </span>
+  <% if @device %>
+    <span>Your authentication code is: <strong><%= @device.verification_code%></strong> </span>
+  <% else %>
+    <span>Your authentication code is: <strong><%= @user.validation_code%></strong> </span>
+  <% end -%>
 </body>
 </html>
