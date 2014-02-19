@@ -5,7 +5,11 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   around_action :wrap_transaction
 
   def index
-    render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer
+    if params[:only_ids]
+      render json: {contacts: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false).map(&:contact_id)}
+    else
+      render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer
+    end
   end
 
   def update
