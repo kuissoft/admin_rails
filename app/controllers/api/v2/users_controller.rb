@@ -4,6 +4,7 @@ module Api
       respond_to :json
 
       def update
+        destroy_device(params) if params[:device].present?
         user = User.where(id: params[:id], auth_token: params[:user][:auth_token]).first
         if user
           if user.update(user_params_change)
@@ -18,6 +19,14 @@ module Api
 
 
       private
+
+      def destroy_device params
+        # Find if device token exists for another user
+        device = Device.where("token = ? and user_id = ?", params[:device][:token], params[:device][:user_id]).first
+
+        # If device exists and has different user_id destroy it
+        device.destroy if device
+      end
 
       def user_params
         params.require(:user).permit(:name, :phone, :email, :password)

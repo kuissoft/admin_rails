@@ -5,6 +5,7 @@ class ApiConstraints
   end
 
   def matches?(req)
-    @default || req.headers['Accept'].include?("application/vnd.remoteassistant.v#{@version}")
+    return true if @default
+    return req.headers['Accept'].include?("application/vnd.remoteassistant.v#{@version}") if req.headers['Accept']
   end
 end

@@ -29,7 +29,7 @@ RemoteAssistant::Application.routes.draw do
 
   # api routes
   namespace :api, defaults: {format: 'json'} do
-    scope :module => :v1, constraints: ApiConstraints.new(version: 1) do
+    scope :module => :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       resources :devices, only: [:create]
       resources :calls
       resources :notifications
@@ -51,10 +51,9 @@ RemoteAssistant::Application.routes.draw do
       post "/authentication", to: "authentication#create"
       post "/authentication/validate", to: "authentication#validate"
       post "/authentication/register", to: "authentication#register"
-      post "/authentication/verify_code", to: "authentication#verify_code"
-      post "/authentication/resend_code", to: "authentication#resend_verification_code"
+      post "/authentication/validate_code", to: "authentication#validate_code"
     end
-    scope :module => :v2, constraints: ApiConstraints.new(version: 2, default: :true) do
+    scope :module => :v2, constraints: ApiConstraints.new(version: 2) do
       resources :devices, only: [:create]
       resources :calls
       resources :notifications
