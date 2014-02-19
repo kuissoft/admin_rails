@@ -9,17 +9,11 @@ class Emailer < ActionMailer::Base
     mail to: "project-4944826-c6516e79fe6f8eada19a7dcf@basecamp.com", subject: 'Feedback (iOS)'
   end
 
-  def authentication_email user, device = ""
+  def authentication_email user, device
     @user = user
     @device = device
-    # Fix for API
-    if @device.blank?
-      subject = "Pin: #{@user.validation_code}"  
-    else
-      subject = "Pin: #{@device.verification_code}"
-    end
 
-    mail to: user.email, subject: subject
+    mail to: user.email, subject: "Pin: #{@device.verification_code}"
   end
 
   def invitation_email user, invitator

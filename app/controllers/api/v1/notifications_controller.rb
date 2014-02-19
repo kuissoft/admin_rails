@@ -38,8 +38,8 @@ module Api
         end
         
         device_ids.each do |device_id|
-          n = Rapns::Apns::Notification.new
-          n.app = Rapns::Apns::App.find_by_name("ios_app")
+          n = Rpush::Apns::Notification.new
+          n.app = Rpush::Apns::App.find_by_name("ios_app")
           n.device_token = device_id
           n.alert = "Request from #{name}"
           n.attributes_for_device = { call_id: key }
@@ -47,7 +47,7 @@ module Api
           n.save!
         end
 
-        Rapns.push
+        Rpush.push
 
         render json: {}, status: 200
       end
@@ -66,4 +66,3 @@ module Api
     end
   end
 end
-
