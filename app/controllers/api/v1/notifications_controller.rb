@@ -1,6 +1,6 @@
 module Api
   module V1
-    class Api::V1::ApplicationController < ActionController::Base
+    class Api::V1::ApplicationController < Api::V1::ApplicationController
 
       def index
         user = User.where(id: params[:user_id], auth_token: params[:auth_token]).first

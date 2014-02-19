@@ -1,6 +1,6 @@
 module Api
   module V2
-    class Api::V2::AuthenticationController < Api::V1::ApplicationController
+    class Api::V2::AuthenticationController < Api::V2::ApplicationController
 
       def create
         user = User.find_by_email(params[:email])
@@ -106,7 +106,7 @@ module Api
         if device
           # If device request verification 1 times send device that he reached limit
           if device.resent and Time.new < device.resent_at + 1.day
-              render json: { error_info: { code: 114, title:'', message: 'Resend Verification code limit reached' } }, status: 401
+            render json: { error_info: { code: 114, title:'', message: 'Resend Verification code limit reached' } }, status: 401
           else
             # Reset resent if it is older than 24 hours
             device.update(resent: false, resent_at: nil) if device.resent_at and Time.new > (device.resent_at + 1.day)

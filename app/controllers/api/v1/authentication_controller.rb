@@ -1,6 +1,6 @@
 module Api
   module V1
-    class Api::V1::ApplicationController < ActionController::Base
+    class Api::V1::ApplicationController < Api::V1::ApplicationController
       def create
         user = User.find_by_email(params[:email])
         if user && user.valid_password?(params[:password])

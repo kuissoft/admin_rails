@@ -1,7 +1,7 @@
 require 'digest/sha1'
 module Api
   module V2
-    class Api::V2::ContactsController < Api::V1::AuthenticatedController
+    class Api::V2::ContactsController < Api::V2::AuthenticatedController
       respond_to :json
       around_action :wrap_transaction
 

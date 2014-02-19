@@ -1,6 +1,6 @@
 module Api
   module V2
-    class Api::V2::DevicesController < Api::V1::AuthenticatedController
+    class Api::V2::DevicesController < Api::V2::AuthenticatedController
       def create
         # Find if device token exists for another user
         device = Device.where("token = ? and user_id != ?", params[:device][:token], current_user.id).first
