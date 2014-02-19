@@ -1,6 +1,6 @@
 module Api
   module V1
-    class Api::V1::ApplicationController < Api::V1::ApplicationController
+    class Api::V1::CallsController < Api::V1::ApplicationController
     	def index
 		    call = Rails.cache.read(params[:call_id])
 		    if call

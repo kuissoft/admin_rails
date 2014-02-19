@@ -1,6 +1,6 @@
 module Api
   module V1
-    class Api::V1::ApplicationController < Api::V1::ApplicationController
+    class Api::V1::FeedbacksController < Api::V1::ApplicationController
       respond_to :json
 
       def create
