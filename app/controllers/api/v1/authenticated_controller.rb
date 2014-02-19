@@ -1,6 +1,6 @@
 module Api
   module V1
-    class Api::V1::ApplicationController < Api::V1::ApplicationController
+    class Api::V1::AuthenticatedController < Api::V1::ApplicationController
       before_filter :authenticate_user_from_token!
       before_filter :authenticate_user!
 
