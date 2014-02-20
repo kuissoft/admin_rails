@@ -89,7 +89,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         sms = Sms.new(device.phone, msg).deliver
       end
     else
-      sms = [false, 'You reached maximum limit(10 sms for 30 days) for sending sms. ']
+      sms = [false, 'You reached maximum authentication limit (10 SMS for 30 days).']
     end
     sms
   end
