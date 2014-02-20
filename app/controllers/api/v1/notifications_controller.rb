@@ -23,7 +23,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
     con = User.where(id: params[:assistant_id]).first
     user = con.connections.where(contact_id: params[:caller_id]).first
     if user and !user.nickname.blank?
-      name = user.nickname 
+      name = user.nickname
     else
       user = User.where(id: params[:caller_id]).first
       if user
@@ -34,10 +34,10 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
         end
       end
     end
-    
+
     device_ids.each do |device_id|
-      n = Rapns::Apns::Notification.new
-      n.app = Rapns::Apns::App.find_by_name("ios_app")
+      n = Rpush::Apns::Notification.new
+      n.app = Rpush::Apns::App.find_by_name("ios_app")
       n.device_token = device_id
       n.alert = "Request from #{name}"
       n.attributes_for_device = { call_id: key }
@@ -45,7 +45,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
       n.save!
     end
 
-    Rapns.push
+    Rpush.push
 
     render json: {}, status: 200
   end
@@ -62,3 +62,4 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
     notifications
   end
 end
+

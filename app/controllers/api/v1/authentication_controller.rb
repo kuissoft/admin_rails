@@ -1,4 +1,5 @@
 class Api::V1::AuthenticationController < Api::V1::ApplicationController
+
   def create
     user = User.find_by_email(params[:email])
     if user && user.valid_password?(params[:password])
@@ -17,6 +18,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       #   render json: { error_info: { code: 1, message: "Authentication token expired" } }, status: 401
       #   user.assign_new_token
       # else
+      user.update is_online: true, connection_type: params[:connection_type]
       render json: {name: user.name, role: user.role }, status: 200
       # end
     elsif user && user.last_token == params[:token]
@@ -27,43 +29,31 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   end
   # Resister user or send new code to activate new device
   # curl http://localhost:3000/api/authentication/register -d 'email=name@example.com'
-  #
-  # TODO - Validate device in 10 minutes or STFU
   def register
-    # Find user by e-mail
-    # user = User.find_by_email(params[:email])
+    # Find device by phone
     phone = "+#{params[:phone]}".gsub(" ","")
-    user = User.find_by_phone(phone)
 
+    device = DeviceControl.where(phone: phone).first
 
-    # If user not exists => create new user
-    # TODO - What about password? How do I log in on web?
-    unless user
+    # If device not exists => create new device and generate verification code
+    unless device
       begin
-        user = User.create!(phone: phone, password: 'asdfasdf')
+        device = DeviceControl.create!(phone: phone, uuid: params[:uuid], verification_code: 100000 + SecureRandom.random_number(900000))
       rescue
         err = 101
       end
+    else
+      device.update verification_code: 100000 + SecureRandom.random_number(900000), uuid: params[:uuid]
     end
 
-
-    # Generate Validation code
-    user.update validation_code: 100000 + SecureRandom.random_number(900000) if user
-
-    # If user is ok and has validation code
+    # If device is ok and has verification code
     # send e-mail notification and catch errors
     # If there is any error send and error response
     # else send 200
-    if user and user.validation_code
-      # if Emailer.authentication_email(user).deliver
-      msg = "PIN: #{user.validation_code}. Thank you for using Remote Assistant"
-      if user.admin? 
-        Emailer.authentication_email(user).deliver
-        sms = [true, nil]
-      else
-        sms = Sms.new(user.phone, msg).deliver
-      end
+    if device and device.verification_code
+      sms = send_sms_or_email(device)
       if sms.first
+        device.update sms_count: device.sms_count + 1
         render json: {}, status: 200
       else
         render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
@@ -79,31 +69,95 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
 
   end
 
-  # Validate recieved validation code
-  # curl http://localhost:3000/api/authentication/validate_code -d 'email=name@example.com&validation_code=1234'
+  def send_sms_or_email device
+    allow_send = true
+    if device.sms_count == 10 and Time.new < device.created_at + 30.days
+      allow_send = false
+    elsif device.sms_count == 10 and Time.new > device.created_at + 30.days
+      device.update sms_count: 0, created_at: Time.now
+      allow_send = true
+    end
+
+    if allow_send
+      msg = "PIN: #{device.verification_code}. Thank you for using Remote Assistant"
+      user = User.where(phone: device.phone).first
+
+      if user and user.admin?
+        Emailer.authentication_email(user, device).deliver
+        sms = [true, nil]
+      else
+        sms = Sms.new(device.phone, msg).deliver
+      end
+    else
+      sms = [false, 'You reached maximum authentication limit (10 SMS for 30 days).']
+    end
+    sms
+  end
+
+  # Resend verification code
+  # curl http://localhost:3000/api/authentication/resend_verification_code -d 'phone=420xxxxxxxxx'
+  #
+  def resend_verification_code
+    phone = "+#{params[:phone]}".gsub(" ","")
+    device = DeviceControl.where(phone: phone).first
+
+    if device
+      # If device request verification 1 times send device that he reached limit
+      if device.resent and Time.new < device.resent_at + 1.day
+        render json: { error_info: { code: 114, title:'', message: 'Resend Verification code limit reached' } }, status: 401
+      else
+        # Reset resent if it is older than 24 hours
+        device.update(resent: false, resent_at: nil) if device.resent_at and Time.new > (device.resent_at + 1.day)
+        # if device has no verification code
+        unless device.verification_code.present?
+          # Generate Validation code
+          device.update verification_code: 100000 + SecureRandom.random_number(900000)
+        end
+        # send sms
+        sms = send_sms_or_email(device)
+        if sms.first
+          device.update sms_count: device.sms_count + 1, resent_at: Time.new, resent: true
+          render json: {}, status: 200
+        else
+          render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
+        end
+      end
+    else
+      render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
+    end
+  end
+
+  # Validate recieved verification code
+  # curl http://localhost:3000/api/authentication/validate_code -d 'email=name@example.com&verification_code=1234'
   #
   # TODO - validate device
   # TODO - validate via phone
-  def validate_code
+  def verify_code
     phone = "+#{params[:phone]}".gsub(" ","")
-    # Find user by e-mail
-    user = User.find_by_phone(phone)
+    device = DeviceControl.where(phone: phone).first
+
 
     # If user exists or send error response
-    if user
-      # If user has validation code generated or send error response
-      if user.validation_code
-        # If validation code on db match with recieved code or send error response
-        if user.validation_code == params[:validation_code]
-          # Nil validation code
-          user.update! validation_code: nil
-          # render json: {user: user}, status: 200
+    if device
+      # Delete verification code after 3 wrong attempts
+      device.update verification_code: nil, invalid_count: 0 if device.invalid_count == 3
+      # If device has verification code generated or send error response
+      if device.verification_code
+        # If verification code on db match with recieved code or send error response
+        if device.verification_code == params[:verification_code]
+          # Nil verification code
+          device.update verification_code: nil, invalid_count: 0
+          user = User.where(phone: phone).first
+          #create user
+          user = User.create phone: phone, password: SecureRandom.hex unless user
           render json: user, status: 200, serializer: UserSerializer
         else
-          render json: { error_info: { code: 109, title: '', message: 'Validation code not match'} }, status: 401
+          # Count invalid attempts
+          device.update invalid_count: device.invalid_count += 1
+          render json: { error_info: { code: 109, title: '', message: 'Verification code not match'} }, status: 401
         end
       else
-        render json: { error_info: { code: 110, title: '', message: 'No validation code' } }, status: 401
+        render json: { error_info: { code: 110, title: '', message: 'No verification code' } }, status: 401
       end
     else
       render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
@@ -112,3 +166,4 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
 
 
 end
+

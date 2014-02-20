@@ -27,3 +27,4 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
     params.require(:device).permit(:token)
   end
 end
+

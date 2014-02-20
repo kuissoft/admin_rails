@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140129105817) do
+ActiveRecord::Schema.define(version: 20140214114957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,18 @@ ActiveRecord::Schema.define(version: 20140129105817) do
     t.boolean  "is_rejected", default: false
     t.string   "nickname"
     t.boolean  "is_removed",  default: false
+  end
+
+  create_table "device_controls", force: true do |t|
+    t.string   "uuid"
+    t.string   "verification_code"
+    t.boolean  "resent",            default: false
+    t.string   "phone"
+    t.integer  "invalid_count",     default: 0
+    t.integer  "sms_count",         default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "resent_at"
   end
 
   create_table "devices", force: true do |t|
@@ -54,19 +66,23 @@ ActiveRecord::Schema.define(version: 20140129105817) do
 
   add_index "locations", ["session_id"], name: "index_locations_on_session_id", using: :btree
 
-  create_table "rapns_apps", force: true do |t|
-    t.string   "name",                    null: false
+  create_table "rpush_apps", force: true do |t|
+    t.string   "name",                                null: false
     t.string   "environment"
     t.text     "certificate"
     t.string   "password"
-    t.integer  "connections", default: 1, null: false
+    t.integer  "connections",             default: 1, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type",                    null: false
+    t.string   "type",                                null: false
     t.string   "auth_key"
+    t.string   "client_id"
+    t.string   "client_secret"
+    t.string   "access_token"
+    t.datetime "access_token_expiration"
   end
 
-  create_table "rapns_feedback", force: true do |t|
+  create_table "rpush_feedback", force: true do |t|
     t.string   "device_token", limit: 64, null: false
     t.datetime "failed_at",               null: false
     t.datetime "created_at"
@@ -74,9 +90,9 @@ ActiveRecord::Schema.define(version: 20140129105817) do
     t.string   "app"
   end
 
-  add_index "rapns_feedback", ["device_token"], name: "index_rapns_feedback_on_device_token", using: :btree
+  add_index "rpush_feedback", ["device_token"], name: "index_rpush_feedback_on_device_token", using: :btree
 
-  create_table "rapns_notifications", force: true do |t|
+  create_table "rpush_notifications", force: true do |t|
     t.integer  "badge"
     t.string   "device_token",      limit: 64
     t.string   "sound",                        default: "default"
@@ -99,9 +115,11 @@ ActiveRecord::Schema.define(version: 20140129105817) do
     t.text     "registration_ids"
     t.integer  "app_id",                                           null: false
     t.integer  "retries",                      default: 0
+    t.string   "uri"
+    t.datetime "fail_after"
   end
 
-  add_index "rapns_notifications", ["app_id", "delivered", "failed", "deliver_after"], name: "index_rapns_notifications_multi", using: :btree
+  add_index "rpush_notifications", ["app_id", "delivered", "failed", "deliver_after"], name: "index_rpush_notifications_multi", using: :btree
 
   create_table "settings", force: true do |t|
     t.datetime "created_at"
@@ -114,15 +132,15 @@ ActiveRecord::Schema.define(version: 20140129105817) do
     t.string   "name"
     t.string   "phone"
     t.string   "email"
-    t.string   "role",                   default: "user"
+    t.string   "role",                            default: "user"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "encrypted_password",     default: "",     null: false
+    t.string   "encrypted_password",              default: "",     null: false
     t.string   "auth_token"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,      null: false
+    t.integer  "sign_in_count",                   default: 0,      null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -130,6 +148,10 @@ ActiveRecord::Schema.define(version: 20140129105817) do
     t.string   "last_token"
     t.datetime "token_updated_at"
     t.string   "validation_code"
+    t.integer  "verification_code_sent_count",    default: 0
+    t.integer  "verification_code_invalid_count", default: 0
+    t.boolean  "is_online",                       default: false
+    t.string   "connection_type"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

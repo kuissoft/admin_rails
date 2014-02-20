@@ -14,7 +14,7 @@ gem 'rest-client'
 gem 'memcachier'
 gem 'dalli'
 
-gem 'rapns'
+gem 'rpush'
 
 # Rack Cors
 gem "rack-cors", require: "rack/cors"
@@ -30,7 +30,7 @@ group :production do
 
   # Monitoring
   gem 'sentry-raven'
-  gem 'newrelic_rpm'
+  #gem 'newrelic_rpm'
   
   gem 'postmark-rails' # enable e-mail sending for Heroku
 end
@@ -74,6 +74,8 @@ gem 'coffeebeans'
 
 # SMS messenger
 gem "twilio-ruby"
+
+gem 'versionist'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

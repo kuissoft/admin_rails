@@ -3,7 +3,7 @@ class Api::V1::FeedbacksController < Api::V1::ApplicationController
 
   def create
     @feedback = Feedback.new(feedback_params)
-  
+
     if @feedback.save
       begin
         Emailer.feedback_email(@feedback).deliver
@@ -23,3 +23,4 @@ class Api::V1::FeedbacksController < Api::V1::ApplicationController
     params.require(:feedback).permit(:feedback_type, :message, :email, :user_id)
   end
 end
+
