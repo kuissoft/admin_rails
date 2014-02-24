@@ -29,15 +29,17 @@ API
 
 # Versioning
 
-Please specify 'Accept: application/vnd.remoteassistant.v1' header.
-But server use default version when it's not specified in header.
+Please specify V1 or V2 uri, if not it uses default API
+
+# DEFAULT API: V2
+
 
 # Authentication
 
 ### Validate
 API Call
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
+curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
 ```
 Response
 
@@ -82,7 +84,7 @@ Errors:
 Validate recieved validation code
 
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' http://rea-rails-development.herokuapp.com/api/authentication/verify_code -d 'phone=420xxxxxxxxx&verification_code=1234'
+curl http://rea-rails-development.herokuapp.com/api/authentication/verify_code -d 'phone=420xxxxxxxxx&verification_code=1234'
 ```
 
 Ok, send 200
@@ -107,7 +109,7 @@ Errors:
 Resend verification code
 
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' http://rea-rails-development.herokuapp.com/api/authentication/resend_code -d 'phone=420xxxxxxxxx'
+curl http://rea-rails-development.herokuapp.com/api/authentication/resend_code -d 'phone=420xxxxxxxxx'
 ```
 
 Ok, send 200
@@ -131,7 +133,7 @@ Errors:
 ### Get call info !!ONLY WHEN NOTIFICATION IS SENT!!
 API Call
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' http://rea-rails-development.herokuapp.com/api/calls\?call_id=Ul2jrfWYQG8QsQ2RoTqbzA
+curl http://rea-rails-development.herokuapp.com/api/calls\?call_id=Ul2jrfWYQG8QsQ2RoTqbzA
 ```
 Response
 
@@ -151,7 +153,7 @@ Errors:
 
 API Call
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' http://rea-rails-development.herokuapp.com/api/users/1/contacts.json?auth_token=XXX
+curl http://rea-rails-development.herokuapp.com/api/users/1/contacts.json?auth_token=XXX
 ```
 Response
 
@@ -168,7 +170,7 @@ Errors:
 ### Inivte new contact
 API Call
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/invite?auth_token=xxxXXXX -d '{"contact":{"nickname":"Papuska", "phone":"421917328431"}}'
+curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/invite?auth_token=xxxXXXX -d '{"contact":{"nickname":"Papuska", "phone":"421917328431"}}'
 ```
 Response
 
@@ -190,19 +192,19 @@ API Call
 
 Accept
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/accept?auth_token=XXX   -d 'contact_id=2'
+curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/accept?auth_token=XXX   -d 'contact_id=2'
 ```
 Decline
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/decline?auth_token=XXX  -d 'contact_id=2'
+curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/decline?auth_token=XXX  -d 'contact_id=2'
 ```
 Remove
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
+curl -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
 ```
 Dismiss
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
+curl -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
 ```
 Response 
 
@@ -214,7 +216,7 @@ Ok, send 200
 ### Update contact
 API Call
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/:id?auth_token=xxxXXX -d '{"contact":{"nickname":"Bossak"}}'
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/:id?auth_token=xxxXXX -d '{"contact":{"nickname":"Bossak"}}'
 ```
 Response 
 
@@ -234,7 +236,7 @@ Errors:
 ### Device create
 API Calls
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"user_id":"23", "auth_token":"xxxxxxx","device":{ "token":"fdsfdsfdsfdsf"}}'
+curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"user_id":"23", "auth_token":"xxxxxxx","device":{ "token":"fdsfdsfdsfdsf"}}'
 ```
 Response
 
@@ -257,7 +259,7 @@ If device errors
 ### Get all notifications for user
 API call
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' http://rea-rails-development.herokuapp.com/api/notifications?user_id=4&auth_token=xxxXXX
+curl http://rea-rails-development.herokuapp.com/api/notifications?user_id=4&auth_token=xxxXXX
 ```
 
 Responds
@@ -283,7 +285,7 @@ Required fields:
 
 
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"feedback":{"message":"I have bug when starting call. No cancel button appears! Thanks.", "feedback_type":"bug", "user_id":"4"}}' http://rea-rails-development.herokuapp.com/api/feedbacks
+curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"feedback":{"message":"I have bug when starting call. No cancel button appears! Thanks.", "feedback_type":"bug", "user_id":"4"}}' http://rea-rails-development.herokuapp.com/api/feedbacks
 ```
 Response
 
@@ -304,8 +306,15 @@ Required fields:
 * email - user e-mail
 
 ```
-curl -H 'Accept: application/vnd.remoteassistant.v1' -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"user":{"name":"Karel Novák", "phone":"+421917328431", "email":"name@example.com", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"user":{"name":"Karel Novák", "phone":"+421917328431", "email":"name@example.com", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
 ```
+
+
+# Avatar upload
+```
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"user":{"avatar":"Image Object", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
+```
+
 Ok, send 200
 ```
 {}

@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Avatar:</strong>
+  <%= image_tag @user.avatar.url(:big_ret), class: 'circular_images' %>
+</p>
+
+<p>
   <strong>ID:</strong>
   <%= @user.id %>
 </p>

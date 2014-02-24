@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th></th>
 			<th>ID</th>
       <th>Name</th>
       <th>Phone</th>
@@ -18,6 +19,7 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td><%= image_tag user.avatar.url(:small), class: 'circular_images' %></td>
 				<td><%= user.id %></td>
         <td><%= link_to user.name, user %></td>
         <td><%= user.phone %></td>

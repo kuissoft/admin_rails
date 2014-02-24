@@ -75,7 +75,11 @@ gem 'coffeebeans'
 # SMS messenger
 gem "twilio-ruby"
 
+# Versioning for API
 gem 'versionist'
+
+# Images upload
+gem "paperclip"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

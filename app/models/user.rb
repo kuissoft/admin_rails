@@ -30,6 +30,12 @@ class User < ActiveRecord::Base
 
   scope :sorted, -> { order("id DESC, role DESC, email ASC") }
 
+  # User avatar image #50x50 #100x100 #150x150 300x300x
+  has_attached_file :avatar, :styles => { :big_ret => "300x300#", :small_ret => "100x100#",:big => "150x150#", :small => "50x50#"  }, :default_url => "/images/:style/missing.png"
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+  validates_attachment_size :avatar, :in => 0..1.megabytes
+
+
   def email_required?
     false
   end
