@@ -43,7 +43,7 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
         err = 101
       end
     else
-      device.update verification_code: 100000 + SecureRandom.random_number(900000), uuid: params[:uuid]
+      device.update language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000), uuid: params[:uuid]
     end
 
     # If device is ok and has verification code
