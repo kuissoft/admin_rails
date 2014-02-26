@@ -1,4 +1,4 @@
 cs:
   sms:
     authorization: "PIN: %{code}. Děkujeme za používání Remote Assistant"
-    invitation: "Dobrý den! #{user} vám poslal pozvánku do aplikace Remote Assistant."
+    invitation: "Dobrý den! %{user} vám poslal pozvánku do aplikace Remote Assistant."

@@ -1,4 +1,4 @@
 en:
   sms:
     authorization: "PIN: %{code}. Thank you for using Remote Assistant"
-    invitation: "Hi! #{user} invites you to connect with him via Remote Assistant."
+    invitation: "Hi! %{user} invites you to connect with him via Remote Assistant."
