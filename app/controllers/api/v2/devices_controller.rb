@@ -1,4 +1,5 @@
 class Api::V2::DevicesController < Api::V2::AuthenticatedController
+  skip_before_action :authenticate_user_from_token!, only: :change_language
   def create
     # Find if device token exists for another user
     device = Device.where("token = ? and user_id != ?", params[:device][:token], current_user.id).first
@@ -18,6 +19,15 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
       render json: device
     else
       render json: { error_info: { code: 101, message: device.errors.full_message.join(", ") } }, status: 400
+    end
+  end
+
+  def change_language
+    device = DeviceControl.where(phone: params[:phone]).first
+    if device
+      render json: {}, status: 200 if device.update language: params[:language]
+    else
+      render json: { error_info: { code: 115, message: 'Device not exists' } }, status: 400
     end
   end
 

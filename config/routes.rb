@@ -56,7 +56,9 @@ RemoteAssistant::Application.routes.draw do
   # api routes v2
   namespace :api, defaults: {format: 'json'} do
     api_version(:module => "V2", :path => {:value => "v2"}, :default => true) do
-      resources :devices, only: [:create]
+      resources :devices, only: [:create] do 
+        put :change_language, on: :collection
+      end
       resources :calls
       resources :notifications
       resources :sessions, :except => [:edit, :update]

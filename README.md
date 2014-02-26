@@ -23,6 +23,7 @@ API
     0 112    USER_ID_BLANK          User ID can't be blank
     0 113    URL_NOT_FOUND         Url not found
     0 114    RESEND_LIMIT_REACHED        Resend limit reached
+    0 115    DEVICE_NOT_EXISTS      
     
 }
 ```
@@ -272,6 +273,22 @@ Ok, send 200
 Errors:
 ```
 { "error_info": { "code": 111, title: '', message: 'User not exists'} }
+```
+### Change device language
+API call
+```
+curl -H 'Content-Type: application/json' -X PUT http://localhost:3000/api/devices/change_language -d '{"phone":"+420720733688", "language":"cs"}'
+```
+Responds
+
+Ok, send 200
+```
+{}
+```
+
+Errors:
+```
+{ "error_info": { "code": 115, title: '', message: 'Device not exists'} }
 ```
 # Feedbacks
 

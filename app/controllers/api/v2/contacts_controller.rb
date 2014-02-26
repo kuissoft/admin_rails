@@ -68,6 +68,13 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     end
   end
 
+  def set_language_by_area_code phone
+    lang = 'en'
+    lang = 'cs' if phone[1..3] == "420"
+    lang = 'sk' if phone[1..3] == "421"
+    lang
+  end
+
   def send_sms_or_email connection, current_user, invited_user
     # Device for sms count
     device = DeviceControl.where(phone: current_user.phone).first
@@ -84,7 +91,8 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     end
     ContactNotifications.status_changed(connection, true)
     if allow_send
-      msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
+
+      msg = t('sms.invitation', user: current_user.name, locale:  set_language_by_area_code(invited_user.phone))
       unless invited_user.admin?
         sms = Sms.new(invited_user.phone, msg).deliver
       else

@@ -38,7 +38,7 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
     # If device not exists => create new device and generate verification code
     unless device
       begin
-        device = DeviceControl.create!(phone: phone, uuid: params[:uuid], verification_code: 100000 + SecureRandom.random_number(900000))
+        device = DeviceControl.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
       rescue
         err = 101
       end
@@ -79,7 +79,7 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
     end
 
     if allow_send
-      msg = "PIN: #{device.verification_code}. Thank you for using Remote Assistant"
+      msg = t('sms.authorization', code: device.verification_code, locale: device.language)
       user = User.where(phone: device.phone).first
 
       if user and user.admin?
