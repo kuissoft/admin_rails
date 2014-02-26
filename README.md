@@ -315,6 +315,11 @@ curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.her
 curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"user":{"avatar":"Image Object", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
 ```
 
+# Avatar remove
+```
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id/remove_avatar -d '{"auth_token":"WtcEvb-uF819dwCsiocg"}'
+```
+
 Ok, send 200
 ```
 {}
