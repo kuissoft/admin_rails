@@ -92,7 +92,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     ContactNotifications.status_changed(connection, true)
     if allow_send
 
-      msg = t('sms.invitation', user: resolve_name(usercurrent_user), locale:  set_language_by_area_code(invited_user.phone))
+      msg = t('sms.invitation', user: resolve_name(current_user), locale:  set_language_by_area_code(invited_user.phone))
       unless invited_user.admin?
         sms = Sms.new(invited_user.phone, msg).deliver
       else
