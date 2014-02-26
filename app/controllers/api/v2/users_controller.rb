@@ -15,6 +15,18 @@ class Api::V2::UsersController < Api::V2::ApplicationController
     end
   end
 
+  # Remove avatar
+  def remove_avatar
+    user = User.where(id: params[:id], auth_token: params[:auth_token]).first
+    if user
+      user.avatar = nil
+      user.save
+      render json: {}, status: 200
+    else
+      render json: { error_info: { code: 103, title: '',  message: "Invalid authentication token" } }, status: 401
+    end 
+  end
+
 
   private
 

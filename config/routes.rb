@@ -63,6 +63,9 @@ RemoteAssistant::Application.routes.draw do
       resources :locations
       resources :feedbacks, only: [:create]
       resources :users, only: [:update] do
+        member do
+          put :remove_avatar
+        end
         resources :contacts do
           collection do
             get :connections
