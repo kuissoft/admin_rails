@@ -81,6 +81,9 @@ gem 'versionist'
 # Images upload
 gem "paperclip"
 
+# Font awesome
+gem 'font-awesome-sass'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
