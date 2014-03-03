@@ -11,6 +11,12 @@ module ApplicationHelper
     end
   end
 
+  # Extra class for active menu item
+  def current_class?(test_path)
+    return 'active' if request.path == test_path
+    return 'active' if request.path == root_path && test_path == users_path
+  end
+
   # Return relation sign for connection
   def get_relation user, contact_id
     follows = user.follows_me?(contact_id)
