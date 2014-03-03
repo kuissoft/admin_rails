@@ -75,7 +75,10 @@
                     <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li>
+                      <%= link_to(raw("<i class='fa fa-sign-out fa-fw'></i> Logout"), destroy_user_session_path, method: "delete") %>
+                        
+                      
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -105,10 +108,12 @@
             * Chybějící views
             -->
             <li>
-              <a href="index.html" class="active"><i class="fa fa-dashboard fa-fw fa-3x"></i> Dashboard</a>
+              <%= link_to(users_path, :class => current_class?(users_path)) do %>
+                <i class="fa fa-dashboard fa-fw fa-3x"></i> Dashboard
+              <% end %>
             </li>
             <li>
-              <%= link_to(activity_monitor_index_path) do %>
+              <%= link_to(activity_monitor_index_path, :class => current_class?(activity_monitor_index_path)) do %>
                 <i class="fa fa-desktop fa-fw fa-3x"></i> Activity monitor
               <% end %>
             </li>
@@ -116,13 +121,13 @@
               <a href="#"><i class="fa fa-users fa-fw fa-3x"></i> Users<span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
                 <li>
-                    <%= link_to('All users', users_path) %>
+                    <%= link_to('All users', users_path, :class => current_class?(users_path)) %>
                 </li>
                 <li>
-                    <% link_to('Connections', connections_path) %>
+                    <% link_to('Connections', connections_path, :class => current_class?(connections_path)) %>
                 </li>
                 <li>
-                    <% link_to('Devices', devices_index_path) %>
+                    <% link_to('Devices', devices_index_path, :class => current_class?(devices_index_path)) %>
                 </li>
               </ul>
               <!-- /.nav-second-level -->
@@ -131,19 +136,23 @@
               <a href="#"><i class="fa fa-folder-open fa-fw fa-3x"></i> Internal<span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
                 <li>
-                  <%= link_to "Notifications", notifications_index_path %>
+                  <%= link_to("Notifications", notifications_index_path, :class => current_class?(notifications_index_path)) %>
                 </li>
               </ul>
               <!-- /.nav-second-level -->
             </li>
             <li>
-              <%= link_to "Feedback", feedbacks_path %>
+              <%= link_to(feedbacks_path, :class => current_class?(feedbacks_path)) do %>
+                <i class="fa fa-envelope fa-fw fa-3x"></i> Feedback
+              <% end %>
             </li>
             <li>
-              <%= link_to "Web Feedback", web_info_index_path %>
+              <%= link_to(web_info_index_path, :class => current_class?(web_info_index_path)) do %>
+                <i class="fa fa-rss fa-fw fa-3x"></i> Newsletter
+              <% end %>
             </li>
             <li>
-              <%= link_to(settings_path) do %>
+              <%= link_to(settings_path, :class => current_class?(settings_path)) do %>
                 <i class="fa fa-cog fa-fw fa-3x"></i> Settings
               <% end %>
             </li>
