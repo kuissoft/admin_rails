@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Remote Assistant</title>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="author" href="http://grozav.com"/>
+  </head>
+  <body>
+    <div id="wrapper">
+      <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <a class="navbar-brand" href="index.html"><%= image_tag 'Logo-Small.png', class: 'brand-logo' %></a> 
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-comment fa-2x fa-fw"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-messages">
+                    <li>
+                        <a href="#">
+                            <%= image_tag 'profile-2.jpg', class: 'pull-left dropdown-messages-profile' %>
+                            <div>
+                                <strong>Lara Smith</strong>
+                                <span class="pull-right dropdown-messages-date text-muted">
+                                    <em>Yesterday</em>
+                                </span>
+                            </div>
+                            <div class="dropdown-messages-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <%= image_tag 'profile-3.jpg', class: 'pull-left dropdown-messages-profile' %>
+                            <div>
+                                <strong>Jack Black</strong>
+                                <span class="pull-right dropdown-messages-date text-muted">
+                                    <em>Yesterday</em>
+                                </span>
+                            </div>
+                            <div class="dropdown-messages-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <%= image_tag 'profile-4.jpg', class: 'pull-left dropdown-messages-profile' %>
+                            <div>
+                                <strong>Alex Smith</strong>
+                                <span class="pull-right dropdown-messages-date text-muted">
+                                    <em>Yesterday</em>
+                                </span>
+                            </div>
+                            <div class="dropdown-messages-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="text-center" href="mail.html">
+                            <span class="btn btn-primary btn-block">
+                                <small>Read All Messages</small>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-messages -->
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user  fa-2x fa-fw"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </ul>
+        <!-- /.navbar-top-links -->
+      </nav>
+      <!-- /.navbar-static-top -->
+
+      <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+          <ul class="nav" id="side-menu">
+            <!--
+            * Přepsat buttony
+            * Fixnout barvu neaktivních submenu
+            * Autor v HTML hlavičce
+            * Active class
+            * Zarovnání
+            * Chybějící views
+            -->
+            <li>
+              <a href="index.html" class="active"><i class="fa fa-dashboard fa-fw fa-3x"></i> Dashboard</a>
+            </li>
+            <li>
+              <%= link_to(activity_monitor_index_path) do %>
+                <i class="fa fa-desktop fa-fw fa-3x"></i> Activity monitor
+              <% end %>
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-users fa-fw fa-3x"></i> Users<span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level">
+                <li>
+                    <%= link_to('All users', users_path) %>
+                </li>
+                <li>
+                    <% link_to('Connections', connections_path) %>
+                </li>
+                <li>
+                    <% link_to('Devices', devices_index_path) %>
+                </li>
+              </ul>
+              <!-- /.nav-second-level -->
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-folder-open fa-fw fa-3x"></i> Internal<span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level">
+                <li>
+                  <%= link_to "Notifications", notifications_index_path %>
+                </li>
+              </ul>
+              <!-- /.nav-second-level -->
+            </li>
+            <li>
+              <%= link_to "Feedback", feedbacks_path %>
+            </li>
+            <li>
+              <%= link_to "Web Feedback", web_info_index_path %>
+            </li>
+            <li>
+              <%= link_to(settings_path) do %>
+                <i class="fa fa-cog fa-fw fa-3x"></i> Settings
+              <% end %>
+            </li>
+          </ul>
+          <!-- /#side-menu -->
+        </div>
+        <!-- /.sidebar-collapse -->
+      </nav>
+      <!-- /.navbar-static-side -->
+      <div id="page-wrapper">
+
+        <!--  YIELD -->
+        <%= yield %>
+        <!-- /YIELD -->
+
+      </div>
+    </div>
+
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  </body>
+</html>

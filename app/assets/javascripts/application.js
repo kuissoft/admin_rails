@@ -10,7 +10,10 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
-//= require bootstrap
+//= require jquery-1.10.2
+//= require bootstrap.min
+//= require jquery.metisMenu
+//= require morris
+//= require raphael-2.1.0.min
+//= require mint-admin
 //= require_tree .
