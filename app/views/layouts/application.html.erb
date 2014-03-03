@@ -72,14 +72,23 @@
                     <i class="fa fa-user  fa-2x fa-fw"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                  <% if current_user %>
+                    <li>
+                      <%= link_to(current_user) do %>
+                        <i class="fa fa-user fa-fw"></i> User Profile
+                      <% end -%>
                     </li>
                     <li class="divider"></li>
                     <li>
-                      <%= link_to(raw("<i class='fa fa-sign-out fa-fw'></i> Logout"), destroy_user_session_path, method: "delete") %>
-                        
-                      
+                      <%= link_to(destroy_user_session_path, method: "delete") do %>
+                        <i class='fa fa-sign-out fa-fw'></i> Sign out
+                      <% end -%>
                     </li>
+                  <% else %>
+                    <%= link_to(new_user_session_path) do %>
+                      <i class='fa fa-sign-in fa-fw'></i> Sign in
+                    <% end -%>
+                  <% end -%>
                 </ul>
                 <!-- /.dropdown-user -->
             </li>

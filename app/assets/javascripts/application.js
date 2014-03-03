@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery-1.10.2
+//= require jquery_ujs
 //= require bootstrap.min
 //= require jquery.metisMenu
 //= require morris
