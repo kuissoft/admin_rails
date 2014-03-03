@@ -10,7 +10,7 @@
   <body>
     <div id="wrapper">
       <nav class="navbar navbar-default navbar-static-top" role="navigation">
-        <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/Logo-Small.png" alt=""/></a> 
+        <a class="navbar-brand" href="index.html"><%= image_tag 'Logo-Small.png', class: 'brand-logo' %></a> 
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -19,7 +19,7 @@
                 <ul class="dropdown-menu dropdown-messages">
                     <li>
                         <a href="#">
-                            <img class="pull-left dropdown-messages-profile" src="img/profile-2.jpg"/>
+                            <%= image_tag 'profile-2.jpg', class: 'pull-left dropdown-messages-profile' %>
                             <div>
                                 <strong>Lara Smith</strong>
                                 <span class="pull-right dropdown-messages-date text-muted">
@@ -32,7 +32,7 @@
                     <li class="divider"></li>
                     <li>
                         <a href="#">
-                            <img class="pull-left dropdown-messages-profile" src="img/profile-3.jpg"/>
+                            <%= image_tag 'profile-3.jpg', class: 'pull-left dropdown-messages-profile' %>
                             <div>
                                 <strong>Jack Black</strong>
                                 <span class="pull-right dropdown-messages-date text-muted">
@@ -45,7 +45,7 @@
                     <li class="divider"></li>
                     <li>
                         <a href="#">
-                            <img class="pull-left dropdown-messages-profile" src="img/profile-4.jpg"/>
+                            <%= image_tag 'profile-4.jpg', class: 'pull-left dropdown-messages-profile' %>
                             <div>
                                 <strong>Alex Smith</strong>
                                 <span class="pull-right dropdown-messages-date text-muted">
@@ -103,13 +103,6 @@
             * Active class
             * Zarovnání
             * Chybějící views
-            <% if signed_in? %>
-            <%= link_to "Connections", connections_path %>
-            <%= link_to "Application Feedbacks", feedbacks_path %>
-            <%= link_to "RAPNS Notifications", notifications_index_path %>
-            <%= link_to "Devices", devices_index_path %>
-            <%= link_to "Web Feedbacks & SignUps", web_info_index_path %>
-            <% end %>
             -->
             <li>
               <a href="index.html" class="active"><i class="fa fa-dashboard fa-fw fa-3x"></i> Dashboard</a>
@@ -126,10 +119,10 @@
                     <%= link_to('All users', users_path) %>
                 </li>
                 <li>
-                    <a href="mail.html">Connections</a>
+                    <% link_to('Connections', connections_path) %>
                 </li>
                 <li>
-                    <a href="mail.html">Devices</a>
+                    <% link_to('Devices', devices_index_path) %>
                 </li>
               </ul>
               <!-- /.nav-second-level -->
@@ -138,13 +131,16 @@
               <a href="#"><i class="fa fa-folder-open fa-fw fa-3x"></i> Internal<span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
                 <li>
-                  <a href="flot.html">Notifications</a>
+                  <%= link_to "Notifications", notifications_index_path %>
                 </li>
               </ul>
               <!-- /.nav-second-level -->
             </li>
             <li>
-              <a href="tables.html"><i class="fa fa-rss fa-fw fa-3x"></i> Newsletter</a>
+              <%= link_to "Feedback", feedbacks_path %>
+            </li>
+            <li>
+              <%= link_to "Web Feedback", web_info_index_path %>
             </li>
             <li>
               <%= link_to(settings_path) do %>
