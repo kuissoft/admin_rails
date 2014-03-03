@@ -11,7 +11,7 @@ class Api::V2::UsersController < Api::V2::ApplicationController
         render json: { error_info: { code: 101, title: '', message: user.errors.full_messages.join(", ") } }, status: 422
       end
     else
-      render json: { error_info: { code: 103, title: '',  message: "Invalid authentication token" } }, status: 401
+      render json: { error_info: { code: 103, title: '',  message: t('errors.token_invalid') } }, status: 401
     end
   end
 
@@ -23,7 +23,7 @@ class Api::V2::UsersController < Api::V2::ApplicationController
       user.save
       render json: {}, status: 200
     else
-      render json: { error_info: { code: 103, title: '',  message: "Invalid authentication token" } }, status: 401
+      render json: { error_info: { code: 103, title: '',  message: t('errors.token_invalid') } }, status: 401
     end 
   end
 

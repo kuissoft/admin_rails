@@ -19,10 +19,10 @@ class Api::V2::AuthenticatedController < Api::V2::ApplicationController
         sign_in user, store: false
         # end
       else
-        render json: { error_info: { code: 102, title: '', message: 'Auth token not match'} }, status: 401
+        render json: { error_info: { code: 102, title: '', message: t('errors.token_not_match')} }, status: 401
       end
     else
-      render json: { error_info: { code: 104, title: '', message: 'User not authenticated'} }, status: 401
+      render json: { error_info: { code: 104, title: '', message: t('errors.user_not_authenticated')} }, status: 401
     end
   end
 end

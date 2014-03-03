@@ -1,4 +1,24 @@
 en:
   sms:
-    authorization: "PIN: %{code}. Thank you for using Remote Assistant"
+    authorization: "PIN: %{code}. Thank you for using Remote Assistant."
     invitation: "Hi! %{user} invites you to connect with him via Remote Assistant."
+  errors:
+    token_expired: 'Token expired'
+    token_expired_msg: 'Authentication token expired.'
+    token_not_match: 'Authentication token not match.'
+    token_invalid: 'Invalid authentication token.'
+    wrong_format: 'Wrong format or blank phone number.'
+    number_not_valid: 'Phone number is not valid.'
+    cannot_send: 'Cannot send verification SMS. Please try again later.'
+    sms_limit: 'You reached maximum authentication limit (10 SMS for 30 days).'
+    resend_limit: 'Resend Verification code limit reached.'
+    undefined_error: 'Undefined error.'
+    user_not_exists: 'User not exists.'
+    verification_not_match: 'Verification code not match.'
+    no_verification_code: 'No verification code.'
+    connection_exists: 'Connection already exists.'
+    url_or_record_not_found: 'URL or Record not found.'
+    invalid_call_id: 'Invalid call id.'
+    device_not_exists: 'Device not exists.'
+  
+

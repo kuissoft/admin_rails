@@ -12,7 +12,10 @@ development:
 
 test: &test
   database: remoteassistant_test
-  <<: *defaults
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
 
 production:
   database: remoteassistant_development

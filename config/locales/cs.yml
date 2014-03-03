@@ -2,3 +2,68 @@ cs:
   sms:
     authorization: "PIN: %{code}. Děkujeme za používání Remote Assistant"
     invitation: "Dobrý den! %{user} vám poslal pozvánku do aplikace Remote Assistant."
+  errors:
+    token_expired: 'Token vypršel'
+    token_expired_msg: 'Platnost autentifikačního tokenu vypršela.'
+    token_not_match: 'Autentifikační token se nerovná.'
+    token_invalid: 'Neplatný autentifikační token.'
+    user_not_authenticated: 'Uživatel nebyl autentifikován.'
+    wrong_format: 'Špatný formát nebo prázdné telefoní číslo.'
+    number_not_valid: 'Telefoní číslo není platné.'
+    cannot_send: 'Nelze odeslat potvrzovací sms. Zkuste to později.'
+    sms_limit: 'Dosáhli jste maximálního počtu odeslaných autentifikačních sms(10 SMS za 30 dní).'
+    resend_limit: 'Dosáhli jsem maximálního limitu přeposlání sms.'
+    undefined_error: 'Neznámá chyba'
+    user_not_exists: 'Uživatel neexistuje'
+    verification_not_match: 'Nesprávný potvrzovací kód.'
+    no_verification_code: 'Nezadali jste potvrzovací kód.'
+    connection_exists: 'Nelze pozvat člověka, kterého již máte v kontaktech.'
+    url_or_record_not_found: 'Adresa nebo záznam nenalezen.'
+    invalid_call_id: 'Neplatné id hovoru'
+    device_not_exists: 'Zařízení neexistuje'
+    activerecord:
+      attributes:
+        connection:
+          user_id: 'Uživatelské id'
+          contact_id: 'Id Kontaktu'
+          nickname: 'Přezdívka'
+          is_pending: 'Čeká na schválení'
+          is_rejected: 'Odmítnutá'
+          is_removed: 'Samazaná'
+        device_control:
+          uuid: 'UUID'
+          verification_code: 'Potvrzovací kód'
+          resent: 'Přeposláno'
+          phone: 'Telefoní číslo'
+          invalid_count: 'Špatný potvrzovací kód'
+          sms_count: 'Počet odeslaných sms'
+          resent_at: 'Přeposláno v'
+          language: 'Jazyk'
+        device:
+          token: 'Token'
+          user_id: 'Uživatelské id'
+        feedback:
+          message: 'Zpráva'
+          feedback_type: 'Druh odezvy'
+          email: 'E-mail'
+          user_id: 'Uživatelské id'
+        setting:
+          name: 'Název'
+          value: 'Hodnota'
+        user:
+          name: 'Jméno'
+          phone: 'Telefoní číslo'
+          email: 'E-mail'
+          role: 'Role'
+          password: 'Heslo'
+          auth_token: 'Autentifikační token'
+          is_online: 'Online?'
+          connection_type: 'Internetové připojení'
+          avatar: 'Profilové foto'
+      errors:
+        models:
+          connection:
+            attributes:
+              user_id:
+                blank: 'nesmí být prázdné'
+    

@@ -27,7 +27,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
     if device
       render json: {}, status: 200 if device.update language: params[:language]
     else
-      render json: { error_info: { code: 115, message: 'Device not exists' } }, status: 400
+      render json: { error_info: { code: 115, message: t('errors.device_not_exists') } }, status: 400
     end
   end
 

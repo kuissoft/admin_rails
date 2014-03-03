@@ -23,7 +23,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
         render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
       end
     else
-      render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists') } }, status: 401
     end
   end
 
@@ -63,17 +63,12 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
         send_sms_or_email(conn, current_user, invited_user)
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
       else
-        render json: { error_info: { code: 108, title: '', message: 'Connection already exists' }  }, status: 400
+        render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists') }  }, status: 400
       end
     end
   end
 
-  def set_language_by_area_code phone
-    lang = 'en'
-    lang = 'cs' if phone[1..3] == "420"
-    lang = 'sk' if phone[1..3] == "421"
-    lang
-  end
+  
 
   def send_sms_or_email connection, current_user, invited_user
     # Device for sms count
@@ -118,7 +113,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
 
       render json: {}, status: 200
     rescue
-      render json: { error_info: { code: 108, title: '', message: 'Connection already exists' }  }, status: 400
+      render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists')  }  }, status: 400
     end
   end
 
@@ -145,7 +140,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
       logger.error "=============== DEBUG START ================"
       logger.error "Debug: #{e.inspect}"
       logger.error "================ DEBUG END ================="
-      render json: { error_info: { code: 113, title: '', message: 'URL or Record not found' }  }, status: 500
+      render json: { error_info: { code: 113, title: '', message: t('errors.url_or_record_not_found') }  }, status: 500
     end
   end
 

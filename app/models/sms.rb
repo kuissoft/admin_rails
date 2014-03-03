@@ -20,7 +20,7 @@ class Sms
 
     begin
       if (@send_to.length < 7 and @send_to.length > 15) and /\A(\+)?[0-9 ]+\z/.match(@send_to)
-        return [false, "Phone number is not valid."]
+        return [false, ::I18n.t('errors.number_not_valid')]
       else
         @client.account.messages.create(
         :from => @send_from,
@@ -33,7 +33,7 @@ class Sms
       Rails.logger.info "=============== DEBUG TWILIO START ================"
       Rails.logger.error "Twilio REST Error:  #{e.message}"
       Rails.logger.info "================ DEBUG TWILIO END ================="
-      return [false, "Cannot send verification SMS. Please try again later."]
+      return [false, ::I18n.t('errors.cannot_send')]
     end
   end
 

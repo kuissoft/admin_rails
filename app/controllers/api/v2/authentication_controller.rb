@@ -22,9 +22,9 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
       render json: {name: user.name, role: user.role }, status: 200
       # end
     elsif user && user.last_token == params[:token]
-      render json: { error_info: { code: 102, title: 'Token expired', message: 'Authentication token expired'} }, status: 401
+      render json: { error_info: { code: 102, title: t('errors.token_expired'), message: t('errors.token_expired_msg')} }, status: 401
     else
-      render json: { error_info: { code: 103, title: '', message: 'Validation code not match'} }, status: 401
+      render json: { error_info: { code: 103, title: '', message: t('errors.token_not_match')} }, status: 401
     end
   end
   # Resister user or send new code to activate new device
@@ -60,9 +60,9 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
       end
     else
       if err == 101
-        render json: { error_info: { code: 101, title: '', message: "Wrong format or blank phone number" } }, status: 401
+        render json: { error_info: { code: 101, title: '', message: t('errors.wrong_format', locale: set_language_by_area_code(phone)) } }, status: 401
       else
-        render json: { error_info: { code: 100, title: 'UNDEFINED ERROR', message: ''} }, status: 401
+        render json: { error_info: { code: 100, title: t('errors.undefined_error', locale: set_language_by_area_code(phone)), message: ''} }, status: 401
       end
     end
 
@@ -89,7 +89,7 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
         sms = Sms.new(device.phone, msg).deliver
       end
     else
-      sms = [false, 'You reached maximum authentication limit (10 SMS for 30 days).']
+      sms = [false, t('errors.sms_limit')]
     end
     sms
   end
@@ -104,7 +104,7 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
     if device
       # If device request verification 1 times send device that he reached limit
       if device.resent and Time.new < device.resent_at + 1.day
-        render json: { error_info: { code: 114, title:'', message: 'Resend Verification code limit reached' } }, status: 401
+        render json: { error_info: { code: 114, title:'', message: t('errors.resend_limit', locale: device.language) } }, status: 401
       else
         # Reset resent if it is older than 24 hours
         device.update(resent: false, resent_at: nil) if device.resent_at and Time.new > (device.resent_at + 1.day)
@@ -123,7 +123,7 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
         end
       end
     else
-      render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists', locale: set_language_by_area_code(phone)) } }, status: 401
     end
   end
 
@@ -154,13 +154,13 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
         else
           # Count invalid attempts
           device.update invalid_count: device.invalid_count += 1
-          render json: { error_info: { code: 109, title: '', message: 'Verification code not match'} }, status: 401
+          render json: { error_info: { code: 109, title: '', message: t('errors.verification_not_match', locale: device.language)} }, status: 401
         end
       else
-        render json: { error_info: { code: 110, title: '', message: 'No verification code' } }, status: 401
+        render json: { error_info: { code: 110, title: '', message: t('errors.no_verification_code', locale: device.language) } }, status: 401
       end
     else
-      render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists', locale: set_language_by_area_code(phone)) } }, status: 401
     end
   end
 
