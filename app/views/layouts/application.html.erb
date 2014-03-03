@@ -75,7 +75,10 @@
                     <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li>
+                      <%= link_to(raw("<i class='fa fa-sign-out fa-fw'></i> Logout"), destroy_user_session_path, method: "delete") %>
+                        
+                      
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
