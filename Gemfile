@@ -67,6 +67,9 @@ group :test, :development do
   gem 'pry', '~> 0.9.12'
   gem 'pry-nav', '~> 0.2.3'
   gem "capybara"
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
 end
 
 # Support for coffescript
