@@ -1,4 +1,4 @@
-<%= form_for(@user) do |f| %>
+<%= form_for(@user, html: {autocomplete: 'off'}) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -13,13 +13,15 @@
 
   <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name, :autocomplete => "off" %>
+    <%= f.text_field :name, id: 'u_name'%>
   </div>
 
-  <div class="field">
-    <%= f.label :password %><br>
-    <%= f.password_field :password %>
-  </div>
+  <% if @user.admin? %>
+    <div class="field">
+      <%= f.label :password %><br>
+      <%= f.password_field :password %>
+    </div>
+  <% end -%>
 
   <div class="field">
     <%= f.label :phone %><br>
@@ -27,7 +29,7 @@
   </div>
   <div class="field">
     <%= f.label :email %><br>
-    <%= f.email_field :email %>
+    <%= f.text_field :email, autocomplete: 'off' %>
   </div>
   <div class="field">
     <%= f.label :role %><br>
@@ -37,3 +39,5 @@
     <%= f.submit %>
   </div>
 <% end %>
+
+
