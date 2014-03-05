@@ -5,19 +5,31 @@
 </div>
 
 
-<table>
+<table width="100%">
   <tr>
-    <th>ID</th>
-    <th>TOKEN</th>
-    <th>USER ID</th>
-    <th>CREATED AT</th>
+    <th>UUID</th>
+    <th>PHONE</th>
+    <th>LANGUAGE</th>
+    <th>VERIFICATION CODE</th>
+    <th>INVALID VERIFICATIONS</th>
+    <th>SMS SENT</th>
+    <th>RESENT</th>
+    <th>RESENT AT</th>
+    <th></th>
   </tr>
   <% @devices.each do |device| %>
     <tr>
-      <td><%= device.id%></td>
-      <td><%= device.token %></td>
-      <td><%= device.user_id %></td>
-      <td><%= l(device.created_at, format: "%d.%m.%Y %H:%M") %></td>
+      <td><%= device.uuid%></td>
+      <td><%= device.phone%></td>
+      <td><%= device.language%></td>
+      <td><%= device.verification_code %></td>
+      <td><%= device.invalid_count %></td>
+      <td><%= device.sms_count %></td>
+      <td><%= device.resent %></td>
+      <td><%= l(device.resent_at, format: "%d.%m.%Y %H:%M") %></td>
+      <td>
+        <%= link_to("Reset sms", reset_sms_device_path(device), method: :put) %>
+      </td>
     </tr>
   <% end -%>
 </table>

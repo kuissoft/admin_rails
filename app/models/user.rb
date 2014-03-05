@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   #   uniqueness: true,
   #   length: { in: 5..70 },
   #   format: { with: /\A.+(\@).+(\.).+\z/ }
+  validates :email, presence: true, if: -> {role == 'admin'}
 
   # validates :password, length: { in: 5..100 }
   validates :role, presence: true
@@ -36,12 +37,37 @@ class User < ActiveRecord::Base
   validates_attachment_size :avatar, :in => 0..1.megabytes
 
 
+  attr_accessor :remove
+
+  before_save :delete_avatar, if: ->{ remove == '1' && !avatar_updated_at_changed? }
+  before_save :reset_password, if: -> { role == 'admin' && role_changed?}
+
+  def delete_avatar
+    self.avatar = nil
+  end
+
   def email_required?
     false
   end
 
   def admin?
     role == 'admin'
+  end
+
+  def role_changed?
+    user = User.find(id)
+    user.role == 'user'
+  end
+
+  def reset_password!
+    reset_password
+    save
+  end
+
+  def reset_password
+    new_password = SecureRandom.urlsafe_base64
+    self.password = new_password
+    Emailer.reset_password_email(self, new_password).deliver
   end
 
   def expired_token?

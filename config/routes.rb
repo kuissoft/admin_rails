@@ -13,6 +13,7 @@ RemoteAssistant::Application.routes.draw do
   resources :users do
     member do
       put :expire_token
+      put :reset_password
     end
     delete :destroy_connection, on: :collection
   end
@@ -20,6 +21,11 @@ RemoteAssistant::Application.routes.draw do
   resources :locations
   resources :contacts
   resources :settings
+  resources :devices do 
+    member do
+      put :reset_sms
+    end
+  end
   resources :activity_monitor do
     get :refresh_logs, on: :collection
   end

@@ -1,4 +1,4 @@
-<%= form_for(@user, html: {autocomplete: 'off'}) do |f| %>
+<%= form_for(@user, html: {autocomplete: 'off',  multipart: true}) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -12,14 +12,20 @@
   <% end %>
 
   <div class="field">
+    <%= image_tag @user.avatar.url(:small), class: 'circular_images' if @user.avatar %> <br />
+    <%= f.label :avatar %><br>
+    <%= f.file_field :avatar %>
+    <%= f.check_box :remove %> Remove avatar <br />
+  </div>
+
+  <div class="field">
     <%= f.label :name %><br>
     <%= f.text_field :name, id: 'u_name'%>
   </div>
 
   <% if @user.admin? %>
     <div class="field">
-      <%= f.label :password %><br>
-      <%= f.password_field :password %>
+      <%= link_to("Reset password", reset_password_user_path(@user), method: :put) %>
     </div>
   <% end -%>
 
@@ -35,6 +41,9 @@
     <%= f.label :role %><br>
     <%= f.select :role, ['admin', 'user'] %>
   </div>
+
+  
+
   <div class="actions">
     <%= f.submit('Update User', class: 'btn btn-primary') %>
   </div>

@@ -1,6 +1,6 @@
 class UsersController < AuthenticatedController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :destroy_connection]
-  before_action :set_connections, except: [:index, :new, :create]
+  before_action :set_connections, except: [:index, :new, :create, :reset_password]
 
   # GET /users
   # GET /users.json
@@ -78,6 +78,12 @@ class UsersController < AuthenticatedController
     end
   end
 
+  def reset_password
+    user = User.find(params[:id])
+    user.reset_password!
+    redirect_to :back
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -90,6 +96,6 @@ class UsersController < AuthenticatedController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :phone, :email, :password, :role)
+      params.require(:user).permit(:name, :phone, :email, :password, :role, :avatar, :remove)
     end
 end

@@ -143,6 +143,15 @@
                 <!-- /.nav-second-level -->
               </li>
               <li>
+                <a href="#"><i class="fa fa-mobile fa-fw fa-3x"></i> Devices<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                  <li>
+                      <%= link_to('All devices', devices_path, :class => current_class?(devices_path)) %>
+                  </li>
+                </ul>
+                <!-- /.nav-second-level -->
+              </li>
+              <li>
                 <a href="#"><i class="fa fa-folder-open fa-fw fa-3x"></i> Internal<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                   <li>

@@ -12,7 +12,7 @@ module UsersHelper
       " | " +
       link_to(image_tag('edit.png'), edit_connection_path(id: conn.id, user: (reverse ? conn.contact.id : conn.user.id))) +
       " | " +
-      link_to(image_tag('destroy.png'), destroy_connection_users_path(id: @user, conn_id: conn.id), :confirm => 'Are you sure?', :method => :delete) +
+      link_to(image_tag('destroy.png'), destroy_connection_users_path(id: @user, conn_id: conn.id), data: { confirm: 'Are you sure?' }, :method => :delete) +
       tag(:br)
     end
   end
