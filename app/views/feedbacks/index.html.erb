@@ -3,7 +3,7 @@
     <h3 class="page-header text-asbestos">Feedbacks</h3>
   </div>
 </div>
-
+<h2>Application Feedbacks</h2>
 <table>
   <tr>
     <th>TYPE </th>
@@ -29,6 +29,28 @@
       <td><p><%= feedback.message %></p></td>
       <td><%= l(feedback.created_at, format: "%d.%m.%Y %H:%M") %></td>
       <td><%= link_to 'Destroy', feedback, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end -%>
+</table>
+
+<h2>Web Feedbacks</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>NAME</th>
+    <th>E-MAIL</th>
+    <th>MESSAGE</th>
+    <th>CREATED AT</th>
+    <th></th>
+  </tr>
+  <% @web_feedbacks.each do |web_feedback| %>
+    <tr>
+      <td><%= web_feedback['id'] %></td>
+      <td><%= web_feedback['name'] %></td>
+      <td><%= web_feedback['email'] %></td>
+      <td><p><%= web_feedback['message'] %></p></td>
+      <td><%= l(web_feedback['created_at'].to_datetime, format: "%d.%m.%Y %H:%M") %></td>
+      <td><%= link_to 'Destroy', feedback_path(id: web_feedback['id'], model: 'feedbacks'), method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end -%>
 </table>

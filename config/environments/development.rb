@@ -34,18 +34,14 @@ RemoteAssistant::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  API_HOST = "http://localhost:3000/api/"
+  # WEB API SETTINGS
+  API_HOST = "http://www.remoteassistant.me/api/"
   API_NAME = "remoteassistant"
-  API_PASSWORD = "asdfasdf"
+  API_PASSWORD = "eR35xZ65"
 
   NODE_HOST = "http://localhost:4000"
   RAILS_HOST = "http://localhost:3000"
 
-  ## Activity monitor connection settings
-  EMAIL = "log@remoteassistant.me"
-  PASSWORD = "asdfasdf"
-  TOKEN = "j1AaDSyen7KAsJCNeLgX"
-  USER_ID = 18
   NODE_ACCESS_NAME = 'remote'
   NODE_ACCESS_PASSWORD = 'asdfasdf'
 end

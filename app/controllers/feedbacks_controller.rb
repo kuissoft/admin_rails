@@ -5,14 +5,22 @@ class FeedbacksController < AuthenticatedController
     else
       @feedbacks = Feedback.order('created_at desc')
     end
+
+    begin
+      @web_feedbacks = ActiveSupport::JSON.decode(connect_api('feedbacks'))['feedbacks']
+    rescue => e
+      logger.error "Error: #{e.inspect}"
+    end
   end
 
-  def show
-  end
 
   def destroy
-    @feedback = Feedback.find(params[:id])
-    @feedback.destroy
+    if params[:model]
+      api_destroy params
+    else
+      @feedback = Feedback.find(params[:id])
+      @feedback.destroy
+    end
     respond_to do |format|
       format.html { redirect_to feedbacks_url }
     end

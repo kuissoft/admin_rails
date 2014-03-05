@@ -1,33 +1,8 @@
 <div class="row">
   <div class="col-lg-12">
-    <h3 class="page-header text-asbestos">Web Info</h3>
+    <h3 class="page-header text-asbestos">Newsletter</h3>
   </div>
 </div>
-
-<h2>Feedbacks</h2>
-<table>
-  <tr>
-    <th>ID</th>
-    <th>NAME</th>
-    <th>E-MAIL</th>
-    <th>MESSAGE</th>
-    <th>CREATED AT</th>
-    <th></th>
-  </tr>
-  <% @feedbacks.each do |feedback| %>
-    <tr>
-      <td><%= feedback['id'] %></td>
-      <td><%= feedback['name'] %></td>
-      <td><%= feedback['email'] %></td>
-      <td><p><%= feedback['message'] %></p></td>
-      <td><%= l(feedback['created_at'].to_datetime, format: "%d.%m.%Y %H:%M") %></td>
-      <td><%= link_to 'Destroy', web_info_path(id: feedback['id'], model: 'feedbacks'), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end -%>
-</table>
-
-
-<h2>SignUps</h2>
 
 <table>
   <tr>
