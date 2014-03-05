@@ -26,7 +26,7 @@
       <td><%= device.invalid_count %></td>
       <td><%= device.sms_count %></td>
       <td><%= device.resent %></td>
-      <td><%= l(device.resent_at, format: "%d.%m.%Y %H:%M") %></td>
+      <td><%= l(device.resent_at, format: "%d.%m.%Y %H:%M") if device.resent_at%></td>
       <td>
         <%= link_to("Reset sms", reset_sms_device_path(device), method: :put) %>
       </td>
