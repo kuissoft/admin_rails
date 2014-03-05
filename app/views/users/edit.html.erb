@@ -1,6 +1,17 @@
-<h1>Editing user</h1>
+<div class="row">
+  <div class="col-lg-12">
+    <h3 class="page-header text-asbestos">Editing user</h3>
+  </div>
+</div>
+<div class='row'>
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+    	<%= render 'form' %>
+      </div>
+    </div>
+  </div>
+</div>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<%= link_to 'Show', @user, class: 'btn btn-default' %>
+<%= link_to 'Back', users_path, class: 'btn btn-default' %>
