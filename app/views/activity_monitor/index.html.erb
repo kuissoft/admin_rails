@@ -1,3 +1,4 @@
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="<%= NODE_HOST %>/socket.io/socket.io.js"></script>
 <script>
   var api_base_url = '<%= RAILS_HOST %>';
@@ -26,7 +27,7 @@
   function parseOnlineUsers(data){
     users = JSON.parse(data);
 
-    online_users_html = '<table><tr><th>ID</th><th>User name</th><th>Network</th><th>Logged since</th></tr>';
+    online_users_html = '<table><tr><th>ID</th><th>User name</th><th>Network</th><th>App state</th><th>Logged since</th></tr>';
     users.forEach(function(value, index){
       online_users_html += usersShowTmpl(value);
     });
@@ -53,7 +54,7 @@
 
   function usersShowTmpl(value){
     if(value){
-      return '<tr><td>' + value.user.id + '</td>' + '<td>' + value.user.name + '</td>' + '<td>' + value.user.connection.type + '</td>' + '<td>' + value.user.log_since + '</td></tr>';
+      return '<tr><td>' + value.user.id + '</td>' + '<td>' + value.user.name + '</td>' + '<td>' + value.user.connection.type + '</td>' + '<td>' + value.user.state + '</td>' + '<td>' + value.user.log_since + '</td></tr>';
     }
   }
 
