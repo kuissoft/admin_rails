@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :contacts, through: :connections
   has_many :devices, dependent: :destroy
 
+
   # TODO: figure out production lengths and regexes
   #validates :name,
   #    length: { in: 3..70 },
@@ -44,6 +45,10 @@ class User < ActiveRecord::Base
 
   def delete_avatar
     self.avatar = nil
+  end
+
+  def devices_list
+    DeviceControl.where(phone: phone)
   end
 
   def email_required?

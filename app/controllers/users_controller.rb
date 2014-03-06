@@ -1,6 +1,7 @@
 class UsersController < AuthenticatedController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :destroy_connection]
   before_action :set_connections, except: [:index, :new, :create, :reset_password]
+  before_action :set_devices, except: [:index, :new, :create, :reset_password]
 
   # GET /users
   # GET /users.json
@@ -92,6 +93,10 @@ class UsersController < AuthenticatedController
 
     def set_connections
       @connections = User.where(id: @user.followers_uniq)
+    end
+
+    def set_devices
+      @devices = @user.devices_list
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

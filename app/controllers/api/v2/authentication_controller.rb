@@ -33,17 +33,28 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
     # Find device by phone
     phone = "+#{params[:phone]}".gsub(" ","")
 
-    device = DeviceControl.where(phone: phone).first
+    devices = DeviceControl.where(phone: phone)
 
-    # If device not exists => create new device and generate verification code
-    unless device
+    # If device exists
+    if devices
+      # tests if device uuid exists for current phone number and if yes just update data
+      if device = devices.select{|d| d.uuid == params[:uuid]}.first
+        device.update language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000)
+      else
+        # if not exists create new device for phone number
+        begin
+          device = DeviceControl.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
+        rescue
+          err = 101
+        end
+      end
+    else
+      # If device not exists => create new device and generate verification code
       begin
         device = DeviceControl.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
       rescue
         err = 101
       end
-    else
-      device.update language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000), uuid: params[:uuid]
     end
 
     # If device is ok and has verification code
@@ -166,4 +177,3 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
 
 
 end
-

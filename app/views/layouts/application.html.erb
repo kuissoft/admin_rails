@@ -134,21 +134,15 @@
                       <%= link_to('All users', users_path, :class => current_class?(users_path)) %>
                   </li>
                   <li>
-                      <% link_to('Connections', connections_path, :class => current_class?(connections_path)) %>
+                      <%= link_to('Connections', connections_path, :class => current_class?(connections_path)) %>
                   </li>
                   <li>
-                      <% link_to('Devices', devices_index_path, :class => current_class?(devices_index_path)) %>
+                      <%= link_to('Devices', devices_path, :class => current_class?(devices_path)) %>
                   </li>
                 </ul>
                 <!-- /.nav-second-level -->
               </li>
               <li>
-                <a href="#"><i class="fa fa-mobile fa-fw fa-3x"></i> Devices<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                  <li>
-                      <%= link_to('All devices', devices_path, :class => current_class?(devices_path)) %>
-                  </li>
-                </ul>
                 <!-- /.nav-second-level -->
               </li>
               <li>

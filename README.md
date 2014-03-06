@@ -61,7 +61,7 @@ Errors:
 Resister user or send new code to activate new device
 
 ```
-curl http://rea-rails-development.herokuapp.com/api/authentication/register -d 'phone=420xxxxxxxxx&language=en|cs|sk'
+curl http://rea-rails-development.herokuapp.com/api/authentication/register -d 'phone=420xxxxxxxxx&uuid=3s2d4fd2f4fd2&language=en|cs|sk'
 ```
 
 Ok, send 200
