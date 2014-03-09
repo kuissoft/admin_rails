@@ -12,10 +12,14 @@
   <% end %>
 
   <div class="field">
-    <%= image_tag @user.avatar.url(:small), class: 'circular_images' if @user.avatar %> <br />
-    <%= f.label :avatar %><br>
-    <%= f.file_field :avatar %>
-    <%= f.check_box :remove %> Remove avatar <br />
+    <%= f.label :avatar %>
+    <div class="imagefield">
+      <%= image_tag @user.avatar.url(:small), class: 'circular_images' if @user.avatar %>
+      <div class="imagedescription">
+        <%= f.file_field :avatar %>
+        <%= f.check_box :remove %> Remove avatar <br />
+      </div>
+    </div>
   </div>
 
   <div class="field">
@@ -41,9 +45,7 @@
     <%= f.label :role %><br>
     <%= f.select :role, ['admin', 'user'] %>
   </div>
-
-  
-
+  <hr />
   <div class="actions">
     <%= f.submit('Update User', class: 'btn btn-primary') %>
   </div>
