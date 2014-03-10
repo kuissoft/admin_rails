@@ -60,8 +60,8 @@ class User < ActiveRecord::Base
   end
 
   def role_changed?
-    user = User.find(id)
-    user.role == 'user'
+    user = User.where(id: id).first
+    user.role == 'user' if user
   end
 
   def reset_password!
@@ -87,7 +87,6 @@ class User < ActiveRecord::Base
     self.last_token = self.auth_token
     self.auth_token = generate_authentication_token
     self.token_updated_at = Time.zone.now
-    save!
   end
 
   def follows_me? user_id
