@@ -158,9 +158,17 @@ curl http://rea-rails-development.herokuapp.com/api/users/1/contacts.json?auth_t
 ```
 Response
 
+#### Photo sizes:
+
+* _original
+* _x50
+* _x100
+* _x150
+* _x300
+
 Ok, sends 200
 ```
-{"contacts":[{"id":33,"name":null,"email":null,"phone":"+420602302314","is_pending":true,"is_rejected":false,"is_removed":false, "nickname":"Jirka"}]}
+{"contacts":[{"id":33,"name":null,"email":null,"phone":"+420602302314","is_pending":true,"is_rejected":false,"is_removed":false, "nickname":"Jirka","last_online":"2014-03-10T14:47:55.633Z","is_online":true,"connection_type":"edge","photo_url":"http://localhost:3000/images/photos/users/1/1394531141"}]}
 ```
 
 Errors:
@@ -329,12 +337,12 @@ curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.her
 
 # Avatar upload
 ```
-curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"user":{"avatar":"Image Object", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"user":{"photo":"Image Object", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
 ```
 
 # Avatar remove
 ```
-curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id/remove_avatar -d '{"auth_token":"WtcEvb-uF819dwCsiocg"}'
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id/remove_photo -d '{"auth_token":"WtcEvb-uF819dwCsiocg"}'
 ```
 
 Ok, send 200

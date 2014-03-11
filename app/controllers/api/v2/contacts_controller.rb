@@ -72,7 +72,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
 
   def send_sms_or_email connection, current_user, invited_user
     # Device for sms count
-    device = DeviceControl.where(phone: current_user.phone).first
+    device = Device.where(phone: current_user.phone).first
     allow_send = true
     if device
       if device.sms_count == 10 and Time.new < device.created_at + 30.days

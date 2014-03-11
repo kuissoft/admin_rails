@@ -30,7 +30,6 @@ RemoteAssistant::Application.routes.draw do
     get :refresh_logs, on: :collection
   end
   resources :feedbacks, only: [:index, :show, :destroy]
-
   # api routes
   namespace :api, defaults: {format: 'json'} do
     api_version(:module => "V1", :path => {:value => "v1"}) do
@@ -59,6 +58,7 @@ RemoteAssistant::Application.routes.draw do
       post "/authentication/resend_code", to: "authentication#resend_verification_code"
     end
   end
+
   # api routes v2
   namespace :api, defaults: {format: 'json'} do
     api_version(:module => "V2", :path => {:value => "v2"}, :default => true) do
@@ -72,8 +72,9 @@ RemoteAssistant::Application.routes.draw do
       resources :feedbacks, only: [:create]
       resources :users, only: [:update] do
         member do
-          put :remove_avatar
         end
+        put :remove_photo
+
         resources :contacts do
           collection do
             get :connections

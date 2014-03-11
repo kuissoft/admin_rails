@@ -59,7 +59,7 @@ cs:
           auth_token: 'Autentifikační token'
           is_online: 'Online?'
           connection_type: 'Internetové připojení'
-          avatar: 'Profilové foto'
+          photo: 'Profilové foto'
       errors:
         models:
           connection:

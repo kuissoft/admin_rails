@@ -1,7 +1,7 @@
 class UsersController < AuthenticatedController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :destroy_connection]
-  before_action :set_connections, except: [:index, :new, :create, :reset_password]
-  before_action :set_devices, except: [:index, :new, :create, :reset_password]
+  before_action :set_connections, except: [:index, :new, :create, :reset_password, :photo]
+  before_action :set_devices, except: [:index, :new, :create, :reset_password, :photo]
 
   # GET /users
   # GET /users.json
@@ -96,11 +96,11 @@ class UsersController < AuthenticatedController
     end
 
     def set_devices
-      @devices = @user.devices_list
+      @devices = @user.devices
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :phone, :email, :password, :role, :avatar, :remove)
+      params.require(:user).permit(:name, :phone, :email, :password, :role, :photo, :remove)
     end
 end

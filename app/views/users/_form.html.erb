@@ -12,14 +12,10 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :avatar %>
-    <div class="imagefield">
-      <%= image_tag @user.avatar.url(:small), class: 'circular_images' if @user.avatar %>
-      <div class="imagedescription">
-        <%= f.file_field :avatar %>
-        <%= f.check_box :remove %> Remove avatar <br />
-      </div>
-    </div>
+    <%= image_tag @user.photo.url(:x100), class: 'circular_images' if @user.photo %> <br />
+    <%= f.label :photo %><br>
+    <%= f.file_field :photo %>
+    <%= f.check_box :remove %> Remove photo <br />
   </div>
 
   <div class="field">
