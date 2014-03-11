@@ -35,10 +35,15 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     phone = "+#{params[:contact][:phone]}".gsub(" ","")
     # Check if inveted user exists
     invited_user = User.where(phone: phone).first
-
+    device = Device.where(phone: phone).first
 
     # If invited user not exits than create new one
-    invited_user = User.create!(phone: phone, password: 'asdfasdf', validation_code: SecureRandom.hex(2)) unless invited_user
+    invited_user = User.create!(phone: phone, password: 'asdfasdf') unless invited_user
+    unless device
+      device = Device.create!(phone: phone, language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id, verification_code: 100000 + SecureRandom.random_number(900000))
+    else
+      device.update verification_code: 100000 + SecureRandom.random_number(900000), user_id: invited_user.id, language: set_language_by_area_code(invited_user.phone)
+    end
 
 
     # Find if connection between users exists
@@ -52,7 +57,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       connection.contact_id = invited_user.id
 
       if connection.save
-        send_sms_or_email(connection, current_user, invited_user)
+        send_sms_or_email(connection, current_user, invited_user, device)
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => connection.nickname}}, status: 200
       else
         render json: { error_info: { code: 101, title: '', message: connection.errors.full_messages.join(", ") } }, status: 400
@@ -60,7 +65,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     else
       # If connection exists and it's pending send invitation msg agaim
       if conn.is_pending
-        send_sms_or_email(conn, current_user, invited_user)
+        send_sms_or_email(conn, current_user, invited_user, device)
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
       else
         render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists') }  }, status: 400
@@ -70,9 +75,8 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
   
 
-  def send_sms_or_email connection, current_user, invited_user
+  def send_sms_or_email connection, current_user, invited_user, device
     # Device for sms count
-    device = Device.where(phone: current_user.phone).first
     allow_send = true
     if device
       if device.sms_count == 10 and Time.new < device.created_at + 30.days
@@ -91,7 +95,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       unless invited_user.admin?
         sms = Sms.new(invited_user.phone, msg).deliver
       else
-        Emailer.invitation_email(invited_user, current_user).deliver
+        Emailer.invitation_email(invited_user, current_user, device).deliver
       end
     end
   end

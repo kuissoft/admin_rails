@@ -14,11 +14,6 @@ class Api::V1::AuthenticatedController < Api::V1::ApplicationController
         # if user.expired_token?
         #   user.assign_new_token
         #   user.save!
-        Rails.logger.debug '==========START DEBUG============'
-        Rails.logger.debug "Params: #{params.inspect}"
-        Rails.logger.debug "Device: #{device.inspect}"
-        Rails.logger.debug "Device user: #{device.user.inspect}"
-        Rails.logger.debug '===========END DEBUG============='
 
         #   render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
         # else

@@ -16,9 +16,10 @@ class Emailer < ActionMailer::Base
     mail to: user.email, subject: "Pin: #{@device.verification_code}"
   end
 
-  def invitation_email user, invitator
+  def invitation_email user, invitator, device
     @user = user
     @invitator = invitator
+    @device = device
     mail to: @user.email, subject: "Invitation e-mail from #{@invitator.name}"
   end
 
