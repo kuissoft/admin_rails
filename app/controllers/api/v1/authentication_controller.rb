@@ -14,7 +14,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     device = Device.where(user_id: params[:user_id]).first
 
     # TODO - refactor to authentication service
-    if device and params[:token].present? and (device.auth_token == params[:token] or device.last_token == params[:token])
+    if device and params[:token].present? and (ydevice.auth_token == params[:token] or device.last_token == params[:token])
       # if user.expired_token?
       #   render json: { error_info: { code: 1, message: "Authentication token expired" } }, status: 401
       #   user.assign_new_token
