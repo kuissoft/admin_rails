@@ -60,7 +60,7 @@ RemoteAssistant::Application.routes.draw do
       end
       post "/authentication", to: "authentication#create"
       post "/authentication/validate", to: "authentication#validate"
-      post "/authentication/register", to: "authentication#register"
+      post "/authentication/authenticate", to: "authentication#authenticate"
       post "/authentication/verify_code", to: "authentication#verify_code"
       post "/authentication/resend_code", to: "authentication#resend_verification_code"
     end

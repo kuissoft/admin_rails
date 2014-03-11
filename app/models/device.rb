@@ -31,7 +31,7 @@ class Device < ActiveRecord::Base
   def generate_authentication_token
     loop do
       token = Devise.friendly_token
-      break token unless User.exists?(auth_token: token)
+      break token unless Device.exists?(auth_token: token)
     end
   end
 end

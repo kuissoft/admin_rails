@@ -20,5 +20,6 @@ en:
     url_or_record_not_found: 'URL or Record not found.'
     invalid_call_id: 'Invalid call id.'
     device_not_exists: 'Device not exists.'
+    user_not_authenticated: 'User not authenticated.'
   
 

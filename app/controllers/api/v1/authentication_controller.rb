@@ -14,7 +14,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     device = Device.where(user_id: params[:user_id]).first
 
     # TODO - refactor to authentication service
-    if device and params[:token].present? and (ydevice.auth_token == params[:token] or device.last_token == params[:token])
+    if device and params[:token].present? and (device.auth_token == params[:token] or device.last_token == params[:token])
       # if user.expired_token?
       #   render json: { error_info: { code: 1, message: "Authentication token expired" } }, status: 401
       #   user.assign_new_token
@@ -31,7 +31,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   end
   # Resister user or send new code to activate new device
   # curl http://localhost:3000/api/authentication/register -d 'email=name@example.com'
-  def register
+  def authenticate
     # Find device by phone
     phone = "+#{params[:phone]}".gsub(" ","")
 
@@ -47,6 +47,9 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         begin
           device = Device.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
         rescue => e
+          Rails.logger.debug '==========START DEBUG============'
+          Rails.logger.debug "1: #{e.inspect}"
+          Rails.logger.debug '===========END DEBUG============='
           err = 101
         end
       end
@@ -55,6 +58,9 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       begin
         device = Device.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
       rescue => e
+        Rails.logger.debug '==========START DEBUG============'
+          Rails.logger.debug "2: #{e.inspect}"
+          Rails.logger.debug '===========END DEBUG============='
         err = 101
       end
     end
@@ -168,7 +174,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
           else
             device.update user_id: user.id
           end
-          render json: user, status: 200, serializer: UserSerializer
+          render json: { user: { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role, auth_token: device.auth_token, last_token: device.last_token, token_updated_at: device.token_updated_at }}, status: 200
         else
           # Count invalid attempts
           device.update invalid_count: device.invalid_count += 1

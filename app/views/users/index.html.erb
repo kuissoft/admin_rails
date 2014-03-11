@@ -17,7 +17,6 @@
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>Token</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -33,7 +32,6 @@
                   <td><%= user.phone %></td>
                   <td><%= user.email %></td>
                   <td><%= user.role %></td>
-                  <td><%= user.auth_token %></td>
                   <td><%= link_to 'Show', user, class: 'btn btn-link' %></td>
                   <td><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-default' %></td>
                   <td><%= link_to 'Destroy', user, method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' } %></td>

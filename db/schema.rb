@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140310161906) do
+ActiveRecord::Schema.define(version: 20140311151457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,20 +25,6 @@ ActiveRecord::Schema.define(version: 20140310161906) do
     t.boolean  "is_rejected", default: false
     t.string   "nickname"
     t.boolean  "is_removed",  default: false
-  end
-
-  create_table "device_controls", force: true do |t|
-    t.string   "uuid"
-    t.string   "verification_code"
-    t.boolean  "resent",            default: false
-    t.string   "phone"
-    t.integer  "invalid_count",     default: 0
-    t.integer  "sms_count",         default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "resent_at"
-    t.string   "language",          default: "en"
-    t.integer  "reset_count",       default: 0
   end
 
   create_table "devices", force: true do |t|
@@ -79,6 +65,15 @@ ActiveRecord::Schema.define(version: 20140310161906) do
   end
 
   add_index "locations", ["session_id"], name: "index_locations_on_session_id", using: :btree
+
+  create_table "notifications", force: true do |t|
+    t.string   "notification_type"
+    t.integer  "user_id"
+    t.string   "user_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "from_user_id"
+  end
 
   create_table "rpush_apps", force: true do |t|
     t.string   "name",                                null: false
@@ -146,25 +141,19 @@ ActiveRecord::Schema.define(version: 20140310161906) do
     t.string   "name"
     t.string   "phone"
     t.string   "email"
-    t.string   "role",                            default: "user"
+    t.string   "role",                   default: "user"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "encrypted_password",              default: "",     null: false
-    t.string   "auth_token"
+    t.string   "encrypted_password",     default: "",     null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                   default: 0,      null: false
+    t.integer  "sign_in_count",          default: 0,      null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "last_token"
-    t.datetime "token_updated_at"
-    t.string   "validation_code"
-    t.integer  "verification_code_sent_count",    default: 0
-    t.integer  "verification_code_invalid_count", default: 0
-    t.boolean  "is_online",                       default: false
+    t.boolean  "is_online",              default: false
     t.string   "connection_type"
     t.string   "photo_file_name"
     t.string   "photo_content_type"
