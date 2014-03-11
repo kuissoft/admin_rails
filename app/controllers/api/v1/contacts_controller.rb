@@ -8,7 +8,11 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     if params[:only_ids]
       render json: {contacts: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false).map(&:contact_id)}
     else
-      render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer
+      respond_to do |format|
+        format.html { render :error_404 }
+        format.json {render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer}
+      end
+      # render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer
     end
   end
 
@@ -23,7 +27,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
       end
     else
-      render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists') } }, status: 401
     end
   end
 
@@ -63,14 +67,16 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         send_sms_or_email(conn, current_user, invited_user)
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
       else
-        render json: { error_info: { code: 108, title: '', message: 'Connection already exists' }  }, status: 400
+        render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists') }  }, status: 400
       end
     end
   end
 
+  
+
   def send_sms_or_email connection, current_user, invited_user
     # Device for sms count
-    device = DeviceControl.where(phone: current_user.phone).first
+    device = Device.where(phone: current_user.phone).first
     allow_send = true
     if device
       if device.sms_count == 10 and Time.new < device.created_at + 30.days
@@ -84,13 +90,19 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     end
     ContactNotifications.status_changed(connection, true)
     if allow_send
-      msg = "Hi! #{current_user.name} invites you to connect with him via Remote Assistant."
+
+      msg = t('sms.invitation', user: resolve_name(current_user), locale:  set_language_by_area_code(invited_user.phone))
       unless invited_user.admin?
         sms = Sms.new(invited_user.phone, msg).deliver
       else
         Emailer.invitation_email(invited_user, current_user).deliver
       end
     end
+  end
+
+  def resolve_name user
+    return user.phone if user.name.blank?
+    user.name
   end
 
   def accept
@@ -105,7 +117,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
       render json: {}, status: 200
     rescue
-      render json: { error_info: { code: 108, title: '', message: 'Connection already exists' }  }, status: 400
+      render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists')  }  }, status: 400
     end
   end
 
@@ -132,7 +144,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       logger.error "=============== DEBUG START ================"
       logger.error "Debug: #{e.inspect}"
       logger.error "================ DEBUG END ================="
-      render json: { error_info: { code: 113, title: '', message: 'URL or Record not found' }  }, status: 500
+      render json: { error_info: { code: 113, title: '', message: t('errors.url_or_record_not_found') }  }, status: 500
     end
   end
 

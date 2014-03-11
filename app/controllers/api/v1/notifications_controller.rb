@@ -1,13 +1,15 @@
 class Api::V1::NotificationsController < Api::V1::ApplicationController
 
   def index
-    user = User.where(id: params[:user_id], auth_token: params[:auth_token]).first
-    if user
+    # user = User.where(id: params[:user_id], auth_token: params[:auth_token]).first
+    device = Device.where(user_id: params[:user_id]).first
+    if device and device.auth_token == params[:auth_token] or device.last_token == params[:auth_token]
+      user = device.user
       notifications = create_notification(user.contact_connections.where(is_pending: true)) + create_notification(user.connections.where(is_rejected: true),'rejection') + create_notification(user.connections.where(is_removed: true),'removal')
 
       render json: {notifications: notifications}, status: 200
     else
-      render json: { error_info: { code: 111, title: '', message: 'User not exists'} }, status: 400
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists')} }, status: 400
     end
   end
 

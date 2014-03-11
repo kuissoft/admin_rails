@@ -2,29 +2,31 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
 
   def create
     user = User.find_by_email(params[:email])
-    if user && user.valid_password?(params[:password])
-      render json: { user_id: user.id, auth_token: user.auth_token, name: user.name }, status: 200
+    device = Device.where(user_id: user.id).first
+    if device && user.valid_password?(params[:password])
+      render json: { user_id: user.id, auth_token: device.auth_token, name: user.name }, status: 200
     else
       render json: {}, status: 401
     end
   end
 
   def validate
-    user = User.find_by_id(params[:user_id])
+    device = Device.where(user_id: params[:user_id]).first
 
     # TODO - refactor to authentication service
-    if user && user.auth_token == params[:token]
+    if device && device.auth_token == params[:token]
       # if user.expired_token?
       #   render json: { error_info: { code: 1, message: "Authentication token expired" } }, status: 401
       #   user.assign_new_token
       # else
+      user = device.user
       user.update is_online: true, connection_type: params[:connection_type]
       render json: {name: user.name, role: user.role }, status: 200
       # end
-    elsif user && user.last_token == params[:token]
-      render json: { error_info: { code: 102, title: 'Token expired', message: 'Authentication token expired'} }, status: 401
+    elsif device && device.last_token == params[:token]
+      render json: { error_info: { code: 102, title: t('errors.token_expired'), message: t('errors.token_expired_msg')} }, status: 401
     else
-      render json: { error_info: { code: 103, title: '', message: 'Validation code not match'} }, status: 401
+      render json: { error_info: { code: 103, title: '', message: t('errors.token_not_match')} }, status: 401
     end
   end
   # Resister user or send new code to activate new device
@@ -33,17 +35,28 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     # Find device by phone
     phone = "+#{params[:phone]}".gsub(" ","")
 
-    device = DeviceControl.where(phone: phone).first
+    devices = Device.where(phone: phone)
 
-    # If device not exists => create new device and generate verification code
-    unless device
-      begin
-        device = DeviceControl.create!(phone: phone, uuid: params[:uuid], verification_code: 100000 + SecureRandom.random_number(900000))
-      rescue
-        err = 101
+    # If device exists
+    if devices
+      # tests if device uuid exists for current phone number and if yes just update data
+      if device = devices.select{|d| d.uuid == params[:uuid]}.first
+        device.update language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000)
+      else
+        # if not exists create new device for phone number
+        begin
+          device = Device.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
+        rescue => e
+          err = 101
+        end
       end
     else
-      device.update verification_code: 100000 + SecureRandom.random_number(900000), uuid: params[:uuid]
+      # If device not exists => create new device and generate verification code
+      begin
+        device = Device.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
+      rescue => e
+        err = 101
+      end
     end
 
     # If device is ok and has verification code
@@ -60,9 +73,9 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       end
     else
       if err == 101
-        render json: { error_info: { code: 101, title: '', message: "Wrong format or blank phone number" } }, status: 401
+        render json: { error_info: { code: 101, title: '', message: t('errors.wrong_format', locale: set_language_by_area_code(phone)) } }, status: 401
       else
-        render json: { error_info: { code: 100, title: 'UNDEFINED ERROR', message: ''} }, status: 401
+        render json: { error_info: { code: 100, title: t('errors.undefined_error', locale: set_language_by_area_code(phone)), message: ''} }, status: 401
       end
     end
 
@@ -79,7 +92,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     end
 
     if allow_send
-      msg = "PIN: #{device.verification_code}. Thank you for using Remote Assistant"
+      msg = t('sms.authorization', code: device.verification_code, locale: device.language)
       user = User.where(phone: device.phone).first
 
       if user and user.admin?
@@ -89,7 +102,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         sms = Sms.new(device.phone, msg).deliver
       end
     else
-      sms = [false, 'You reached maximum authentication limit (10 SMS for 30 days).']
+      sms = [false, t('errors.sms_limit')]
     end
     sms
   end
@@ -99,12 +112,12 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   #
   def resend_verification_code
     phone = "+#{params[:phone]}".gsub(" ","")
-    device = DeviceControl.where(phone: phone).first
+    device = Device.where(phone: phone).first
 
     if device
       # If device request verification 1 times send device that he reached limit
       if device.resent and Time.new < device.resent_at + 1.day
-        render json: { error_info: { code: 114, title:'', message: 'Resend Verification code limit reached' } }, status: 401
+        render json: { error_info: { code: 114, title:'', message: t('errors.resend_limit', locale: device.language) } }, status: 401
       else
         # Reset resent if it is older than 24 hours
         device.update(resent: false, resent_at: nil) if device.resent_at and Time.new > (device.resent_at + 1.day)
@@ -123,7 +136,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         end
       end
     else
-      render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists', locale: set_language_by_area_code(phone)) } }, status: 401
     end
   end
 
@@ -134,7 +147,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   # TODO - validate via phone
   def verify_code
     phone = "+#{params[:phone]}".gsub(" ","")
-    device = DeviceControl.where(phone: phone).first
+    device = Device.where(phone: phone).first
 
 
     # If user exists or send error response
@@ -149,21 +162,25 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
           device.update verification_code: nil, invalid_count: 0
           user = User.where(phone: phone).first
           #create user
-          user = User.create phone: phone, password: SecureRandom.hex unless user
+          unless user
+            user = User.create phone: phone, password: SecureRandom.hex
+            device.update user_id: user.id
+          else
+            device.update user_id: user.id
+          end
           render json: user, status: 200, serializer: UserSerializer
         else
           # Count invalid attempts
           device.update invalid_count: device.invalid_count += 1
-          render json: { error_info: { code: 109, title: '', message: 'Verification code not match'} }, status: 401
+          render json: { error_info: { code: 109, title: '', message: t('errors.verification_not_match', locale: device.language)} }, status: 401
         end
       else
-        render json: { error_info: { code: 110, title: '', message: 'No verification code' } }, status: 401
+        render json: { error_info: { code: 110, title: '', message: t('errors.no_verification_code', locale: device.language) } }, status: 401
       end
     else
-      render json: { error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists', locale: set_language_by_area_code(phone)) } }, status: 401
     end
   end
 
 
 end
-

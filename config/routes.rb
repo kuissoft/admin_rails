@@ -30,38 +30,10 @@ RemoteAssistant::Application.routes.draw do
     get :refresh_logs, on: :collection
   end
   resources :feedbacks, only: [:index, :show, :destroy]
+
   # api routes
   namespace :api, defaults: {format: 'json'} do
-    api_version(:module => "V1", :path => {:value => "v1"}) do
-      resources :devices, only: [:create]
-      resources :calls
-      resources :notifications
-      resources :sessions, :except => [:edit, :update]
-      resources :locations
-      resources :feedbacks, only: [:create]
-      resources :users, only: [:update] do
-        resources :contacts do
-          collection do
-            get :connections
-            post :accept
-            post :decline
-            delete :remove
-            delete :dismiss
-            post :invite
-          end
-        end
-      end
-      post "/authentication", to: "authentication#create"
-      post "/authentication/validate", to: "authentication#validate"
-      post "/authentication/register", to: "authentication#register"
-      post "/authentication/verify_code", to: "authentication#verify_code"
-      post "/authentication/resend_code", to: "authentication#resend_verification_code"
-    end
-  end
-
-  # api routes v2
-  namespace :api, defaults: {format: 'json'} do
-    api_version(:module => "V2", :path => {:value => "v2"}, :default => true) do
+    api_version(:module => "V1", :path => {:value => "v1"}, :default => true) do
       resources :devices, only: [:create] do 
         put :change_language, on: :collection
       end
