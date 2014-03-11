@@ -18,6 +18,10 @@ class Api::V1::AuthenticatedController < Api::V1::ApplicationController
         #   render json: { error: { code: 1, message: "Authentication token expired" } }, status: 401
         # else
         sign_in device.user, store: false
+        Rails.logger.debug '==========START DEBUG============'
+        Rails.logger.debug "Params: #{params.inspect}"
+        Rails.logger.debug "Device: #{device.inspect}"
+        Rails.logger.debug '===========END DEBUG============='
         # end
       else
         render json: { error_info: { code: 102, title: '', message: t('errors.token_not_match')} }, status: 401

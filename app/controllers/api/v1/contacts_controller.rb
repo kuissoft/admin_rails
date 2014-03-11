@@ -8,11 +8,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     if params[:only_ids]
       render json: {contacts: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false).map(&:contact_id)}
     else
-      respond_to do |format|
-        format.html { render :error_404 }
-        format.json {render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer}
-      end
-      # render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer
+      render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer
     end
   end
 
