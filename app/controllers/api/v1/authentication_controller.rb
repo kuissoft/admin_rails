@@ -155,7 +155,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   # TODO - validate via phone
   def verify_code
     phone = "+#{params[:phone]}".gsub(" ","")
-    device = Device.where(phone: phone).first
+    device = Device.where(phone: phone, uuid: params[:uuid]).first
 
 
     # If user exists or send error response
