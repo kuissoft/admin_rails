@@ -3,7 +3,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
   def index
     # user = User.where(id: params[:user_id], auth_token: params[:auth_token]).first
     device = Device.where(user_id: params[:user_id]).first
-    if device and device.auth_token == params[:auth_token] or device.last_token == params[:auth_token]
+    if device and params[:auth_token].present? and (device.auth_token == params[:auth_token] or device.last_token == params[:auth_token])
       user = device.user
       notifications = create_notification(user.contact_connections.where(is_pending: true)) + create_notification(user.connections.where(is_rejected: true),'rejection') + create_notification(user.connections.where(is_removed: true),'removal')
 
