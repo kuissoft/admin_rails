@@ -5,7 +5,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     nullify_device(params) if params[:device].present?
     # user = User.where(id: params[:id], auth_token: params[:user][:auth_token]).first
     device = Device.where(user_id: params[:id]).first
-    if device and params[:auth_token].present? and (device.auth_token = params[:user][:auth_token] or device.last_token = params[:user][:auth_token])
+    if device and params[:user][:auth_token].present? and (device.auth_token = params[:user][:auth_token] or device.last_token = params[:user][:auth_token])
       user = device.user
       if user.update(user_params_change)
         render json: {}, status: 200
@@ -20,7 +20,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   # Remove photo
   def remove_photo
     device = Device.where(user_id: params[:id]).first
-    if device and params[:auth_token].present? and (device.auth_token = params[:user][:auth_token] or device.last_token = params[:user][:auth_token])
+    if device and params[:user][:auth_token].present? and (device.auth_token = params[:user][:auth_token] or device.last_token = params[:user][:auth_token])
       user = device.user
       user.photo = nil
       user.save

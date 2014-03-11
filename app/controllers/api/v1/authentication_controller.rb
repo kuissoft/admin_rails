@@ -43,7 +43,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       if device = devices.select{|d| d.uuid == params[:uuid]}.first
         device.update language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000)
       elsif device = devices.select{|d| d.uuid == nil }.first
-        device.update language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000)
+        device.update uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000)
       else
         # if not exists create new device for phone number
         begin
