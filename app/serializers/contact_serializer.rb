@@ -1,5 +1,5 @@
 class ContactSerializer < ActiveModel::Serializer
-  attributes :id, :name, :email, :phone, :is_pending, :is_rejected, :is_removed, :nickname, :last_online, :is_online, :connection_type
+  attributes :id, :name, :email, :phone, :is_pending, :is_rejected, :is_removed, :nickname, :last_online, :is_online, :connection_type, :photo_url
 
   def id
     object.contact.id if object.contact
@@ -27,5 +27,9 @@ class ContactSerializer < ActiveModel::Serializer
 
   def connection_type
     object.contact.connection_type if object.contact
+  end
+
+  def photo_url
+    "#{RAILS_HOST}#{object.contact.photo.url.gsub(/_.*/,'')}" if object.contact
   end
 end

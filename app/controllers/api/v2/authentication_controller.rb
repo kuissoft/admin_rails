@@ -2,26 +2,28 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
 
   def create
     user = User.find_by_email(params[:email])
-    if user && user.valid_password?(params[:password])
-      render json: { user_id: user.id, auth_token: user.auth_token, name: user.name }, status: 200
+    device = Device.where(user_id: user.id).first
+    if device && user.valid_password?(params[:password])
+      render json: { user_id: user.id, auth_token: device.auth_token, name: user.name }, status: 200
     else
       render json: {}, status: 401
     end
   end
 
   def validate
-    user = User.find_by_id(params[:user_id])
+    device = Device.where(user_id: params[:user_id]).first
 
     # TODO - refactor to authentication service
-    if user && user.auth_token == params[:token]
+    if device && device.auth_token == params[:token]
       # if user.expired_token?
       #   render json: { error_info: { code: 1, message: "Authentication token expired" } }, status: 401
       #   user.assign_new_token
       # else
+      user = device.user
       user.update is_online: true, connection_type: params[:connection_type]
       render json: {name: user.name, role: user.role }, status: 200
       # end
-    elsif user && user.last_token == params[:token]
+    elsif device && device.last_token == params[:token]
       render json: { error_info: { code: 102, title: t('errors.token_expired'), message: t('errors.token_expired_msg')} }, status: 401
     else
       render json: { error_info: { code: 103, title: '', message: t('errors.token_not_match')} }, status: 401
@@ -33,7 +35,7 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
     # Find device by phone
     phone = "+#{params[:phone]}".gsub(" ","")
 
-    devices = DeviceControl.where(phone: phone)
+    devices = Device.where(phone: phone)
 
     # If device exists
     if devices
@@ -43,16 +45,16 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
       else
         # if not exists create new device for phone number
         begin
-          device = DeviceControl.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
-        rescue
+          device = Device.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
+        rescue => e
           err = 101
         end
       end
     else
       # If device not exists => create new device and generate verification code
       begin
-        device = DeviceControl.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
-      rescue
+        device = Device.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
+      rescue => e
         err = 101
       end
     end
@@ -110,7 +112,7 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
   #
   def resend_verification_code
     phone = "+#{params[:phone]}".gsub(" ","")
-    device = DeviceControl.where(phone: phone).first
+    device = Device.where(phone: phone).first
 
     if device
       # If device request verification 1 times send device that he reached limit
@@ -145,7 +147,7 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
   # TODO - validate via phone
   def verify_code
     phone = "+#{params[:phone]}".gsub(" ","")
-    device = DeviceControl.where(phone: phone).first
+    device = Device.where(phone: phone).first
 
 
     # If user exists or send error response
@@ -160,7 +162,12 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
           device.update verification_code: nil, invalid_count: 0
           user = User.where(phone: phone).first
           #create user
-          user = User.create phone: phone, password: SecureRandom.hex unless user
+          unless user
+            user = User.create phone: phone, password: SecureRandom.hex
+            device.update user_id: user.id
+          else
+            device.update user_id: user.id
+          end
           render json: user, status: 200, serializer: UserSerializer
         else
           # Count invalid attempts

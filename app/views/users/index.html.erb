@@ -27,7 +27,7 @@
             <tbody>
               <% @users.each do |user| %>
                 <tr>
-                  <td><%= image_tag user.avatar.url(:small), class: 'circular_images' %></td>
+                  <td><%= image_tag user.photo.url(:x100), class: 'circular_images' %></td>
           				<td><%= user.id %></td>
                   <td><%= link_to user.name, user %></td>
                   <td><%= user.phone %></td>
