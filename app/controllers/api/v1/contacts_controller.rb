@@ -35,14 +35,14 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     phone = "+#{params[:contact][:phone]}".gsub(" ","")
     # Check if inveted user exists
     invited_user = User.where(phone: phone).first
-    device = Device.where(phone: phone).first
+    device = Device.where(phone: phone, uuid: params[:uuid]).first
 
     # If invited user not exits than create new one
     invited_user = User.create!(phone: phone, password: 'asdfasdf') unless invited_user
     unless device
-      device = Device.create!(phone: phone, language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id, verification_code: 100000 + SecureRandom.random_number(900000))
+      device = Device.create!(phone: phone, uuid: params[:uuid], language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id, verification_code: 100000 + SecureRandom.random_number(900000))
     else
-      device.update verification_code: 100000 + SecureRandom.random_number(900000), user_id: invited_user.id, language: set_language_by_area_code(invited_user.phone)
+      device.update  uuid: params[:uuid], verification_code: 100000 + SecureRandom.random_number(900000), user_id: invited_user.id, language: set_language_by_area_code(invited_user.phone)
     end
 
 

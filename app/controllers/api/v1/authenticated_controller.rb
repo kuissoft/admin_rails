@@ -6,8 +6,8 @@ class Api::V1::AuthenticatedController < Api::V1::ApplicationController
   private
 
   def authenticate_user_from_token!
-    # user = User.where(id: params[:user_id]).first
-    device = Device.where(user_id: params[:user_id]).first
+    # Find device by combination user_id and device uuid 
+    device = Device.where(user_id: params[:user_id], uuid: params[:uuid]).first
 
     if device
       if params[:auth_token].present? and (device.auth_token == params[:auth_token] or device.last_token == params[:auth_token])

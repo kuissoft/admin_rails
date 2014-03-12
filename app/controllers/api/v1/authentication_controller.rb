@@ -11,7 +11,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   end
 
   def validate
-    device = Device.where(user_id: params[:user_id]).first
+    device = Device.where(user_id: params[:user_id], uuid: params[:uuid]).first
 
     # TODO - refactor to authentication service
     if device and params[:token].present? and (device.auth_token == params[:token] or device.last_token == params[:token])
@@ -21,7 +21,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       # else
       user = device.user
       user.update is_online: true, connection_type: params[:connection_type]
-      render json: {name: user.name, role: user.role }, status: 200
+      render json: {name: user.name, role: user.role, uuid: device.uuid }, status: 200
       # end
     elsif device && device.last_token == params[:token]
       render json: { error_info: { code: 102, title: t('errors.token_expired'), message: t('errors.token_expired_msg')} }, status: 401
@@ -120,7 +120,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   #
   def resend_verification_code
     phone = "+#{params[:phone]}".gsub(" ","")
-    device = Device.where(phone: phone).first
+    device = Device.where(phone: phone, uuid: params[:uuid]).first
 
     if device
       # If device request verification 1 times send device that he reached limit

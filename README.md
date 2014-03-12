@@ -40,7 +40,7 @@ Please specify V1 or V2 uri, if not it uses default API
 ### Validate
 API Call
 ```
-curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h'
+curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf'
 ```
 Response
 
@@ -85,7 +85,7 @@ Errors:
 Validate recieved validation code
 
 ```
-curl http://rea-rails-development.herokuapp.com/api/authentication/verify_code -d 'phone=420xxxxxxxxx&verification_code=1234'
+curl http://rea-rails-development.herokuapp.com/api/authentication/verify_code -d 'phone=420xxxxxxxxx&verification_code=1234&uuid=fsdfdsfsf'
 ```
 
 Ok, send 200
@@ -110,7 +110,7 @@ Errors:
 Resend verification code
 
 ```
-curl http://rea-rails-development.herokuapp.com/api/authentication/resend_code -d 'phone=420xxxxxxxxx'
+curl http://rea-rails-development.herokuapp.com/api/authentication/resend_code -d 'phone=420xxxxxxxxx&uuid=fsdfdsfsf'
 ```
 
 Ok, send 200
@@ -154,7 +154,7 @@ Errors:
 
 API Call
 ```
-curl http://rea-rails-development.herokuapp.com/api/users/1/contacts.json?auth_token=XXX
+curl http://rea-rails-development.herokuapp.com/api/users/1/contacts.json?auth_token=XXX&uuid=fsdfdsfsf
 ```
 Response
 
@@ -179,7 +179,7 @@ Errors:
 ### Inivte new contact
 API Call
 ```
-curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/invite?auth_token=xxxXXXX -d '{"contact":{"nickname":"Papuska", "phone":"421917328431"}}'
+curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/invite?auth_token=xxxXXXX&uuid=fsdfdsfsf -d '{"contact":{"nickname":"Papuska", "phone":"421917328431"}}'
 ```
 Response
 
@@ -201,19 +201,19 @@ API Call
 
 Accept
 ```
-curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/accept?auth_token=XXX   -d 'contact_id=2'
+curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/accept?auth_token=XXX&uuid=fsdfdsfsf   -d 'contact_id=2'
 ```
 Decline
 ```
-curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/decline?auth_token=XXX  -d 'contact_id=2'
+curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/decline?auth_token=XXX&uuid=fsdfdsfsf  -d 'contact_id=2'
 ```
 Remove
 ```
-curl -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
+curl -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX&uuid=fsdfdsfsf -d 'contact_id=2'
 ```
 Dismiss
 ```
-curl -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX -d 'contact_id=2'
+curl -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX&uuid=fsdfdsfsf -d 'contact_id=2'
 ```
 Response 
 
@@ -225,7 +225,7 @@ Ok, send 200
 ### Update contact
 API Call
 ```
-curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/:id?auth_token=xxxXXX -d '{"contact":{"nickname":"Bossak"}}'
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/:id?auth_token=xxxXXX&uuid=fsdfdsfsf -d '{"contact":{"nickname":"Bossak"}}'
 ```
 Response 
 
@@ -245,7 +245,7 @@ Errors:
 ### Device create
 API Calls
 ```
-curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"user_id":"23", "auth_token":"xxxxxxx","device":{ "token":"fdsfdsfdsfdsf"}}'
+curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"user_id":"23", "auth_token":"xxxxxxx","device":{ "token":"fdsfdsfdsfdsf", "uuid":"dfsfdsf"}}'
 ```
 Response
 
@@ -268,7 +268,7 @@ If device errors
 ### Get all notifications for user
 API call
 ```
-curl http://rea-rails-development.herokuapp.com/api/notifications?user_id=4&auth_token=xxxXXX
+curl http://rea-rails-development.herokuapp.com/api/notifications?user_id=4&auth_token=xxxXXX&uuid=fsdfdsfsf
 ```
 
 Responds
@@ -285,7 +285,7 @@ Errors:
 ### Change device language
 API call
 ```
-curl -H 'Content-Type: application/json' -X PUT http://localhost:3000/api/devices/change_language -d '{"phone":"+420720733688", "language":"cs"}'
+curl -H 'Content-Type: application/json' -X PUT http://localhost:3000/api/devices/change_language -d '{"phone":"+420720733688","uuid":"fsfdsfdsf", "language":"cs"}'
 ```
 Responds
 
@@ -331,18 +331,18 @@ Required fields:
 * email - user e-mail
 
 ```
-curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"user":{"name":"Karel Novák", "phone":"+421917328431", "email":"name@example.com", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"uuid": "fdsfdsfds", "user":{"name":"Karel Novák", "phone":"+421917328431", "email":"name@example.com", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
 ```
 
 
 # Avatar upload
 ```
-curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"user":{"photo":"Image Object", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"uuid": "fdsfdsfds", "user":{"photo":"Image Object", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
 ```
 
 # Avatar remove
 ```
-curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id/remove_photo -d '{"auth_token":"WtcEvb-uF819dwCsiocg"}'
+curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id/remove_photo -d '{"uuid": "fdsfdsfds", "auth_token":"WtcEvb-uF819dwCsiocg"}'
 ```
 
 Ok, send 200

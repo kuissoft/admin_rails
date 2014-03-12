@@ -8,13 +8,13 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
     device.update token: nil if device
 
     # If I have device registered just return 200
-    if current_user.devices.exists?(token: params[:device][:token])
+    if current_user.devices.exists?(token: params[:device][:token], uuid: params[:device][:token])
       render json: {}, status: 200
       return
     end
 
     # If device is not registered -> register it to my user_id
-    if device = current_user.devices.first.update(device_params)
+    if device = current_user.devices.where(uuid: params[:device][:uuid]).first.update(device_params)
       render json: device
     else
       render json: { error_info: { code: 101, message: device.errors.full_message.join(", ") } }, status: 400
@@ -22,7 +22,7 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
   end
 
   def change_language
-    device = Device.where(phone: params[:phone]).first
+    device = Device.where(phone: params[:phone], uuid: params[:uuid]).first
     if device
       render json: {}, status: 200 if device.update language: params[:language]
     else
@@ -33,7 +33,7 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
   private
 
   def device_params
-    params.require(:device).permit(:token)
+    params.require(:device).permit(:token, :uuid)
   end
 end
 
