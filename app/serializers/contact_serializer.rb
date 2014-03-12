@@ -30,6 +30,6 @@ class ContactSerializer < ActiveModel::Serializer
   end
 
   def photo_url
-    "#{RAILS_HOST}#{object.contact.photo.url.gsub(/_.*/,'')}" if object.contact
+    "#{RAILS_HOST}#{object.contact.photo.url.gsub(/_.*/,'')}" if object.contact and object.contact.photo.present?
   end
 end
