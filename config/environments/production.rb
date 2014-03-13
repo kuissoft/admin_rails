@@ -70,16 +70,25 @@ RemoteAssistant::Application.configure do
   
   config.action_mailer.perform_deliveries = true
   
-  config.action_mailer.default_url_options = {host: "http://dev.admin.remoteassistant.me"}
+  # config.action_mailer.default_url_options = {host: "http://dev.admin.remoteassistant.me"}
+  config.action_mailer.default_url_options = {host: "http://rea-rails-development.herokuapp.com"}
 
   config.action_mailer.smtp_settings = {
-    :address              => "email-smtp.eu-west-1.amazonaws.com",
-    :port                 => 465,
-    :user_name            => "AKIAIVLJ4ODSCGDPPTRQ",
-    :password             => "Ao+rg/94NRUgikPx5DSNT//4T1CKhOa7AVEbvnh3gK5x",
-    :authentication       => "login",
-    :enable_starttls_auto => true
+    :address              => "smtp.postmarkapp.com",
+    :port                 => 25,
+    :user_name            => "5c8ee2be-21e6-44f1-9687-aaca9405eb52",
+    :password             => "5c8ee2be-21e6-44f1-9687-aaca9405eb52",
+    :authentication       => "plain",
+    :enable_starttls_auto => false
   }
+  # config.action_mailer.smtp_settings = {
+  #   :address              => "email-smtp.eu-west-1.amazonaws.com",
+  #   :port                 => 465,
+  #   :user_name            => "AKIAIVLJ4ODSCGDPPTRQ",
+  #   :password             => "Ao+rg/94NRUgikPx5DSNT//4T1CKhOa7AVEbvnh3gK5x",
+  #   :authentication       => "login",
+  #   :enable_starttls_auto => true
+  # }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
@@ -99,8 +108,10 @@ RemoteAssistant::Application.configure do
   API_NAME = "remoteassistant"
   API_PASSWORD = "eR35xZ65"
 
-  NODE_HOST = "http://node.dev.remoteassistant.me"
-  RAILS_HOST = "http://rails.dev.remoteassistant.me"
+  # NODE_HOST = "http://node.dev.remoteassistant.me"
+  # RAILS_HOST = "http://rails.dev.remoteassistant.me"
+  NODE_HOST = "http://rea-node-development.herokuapp.com"
+  RAILS_HOST = "http://rea-rails-development.herokuapp.com"
 
   NODE_ACCESS_NAME = 'remote'
   NODE_ACCESS_PASSWORD = 'asdfasdf'
