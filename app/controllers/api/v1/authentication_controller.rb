@@ -176,7 +176,8 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
           else
             device.update user_id: user.id
           end
-          render json: { user: { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role, auth_token: device.auth_token, last_token: device.last_token, token_updated_at: device.token_updated_at }}, status: 200
+          photo_url = "#{RAILS_HOST}#{user.photo.url.gsub(/_.*/,'')}" if user.photo.present?
+          render json: { user: { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role, auth_token: device.auth_token, last_token: device.last_token, token_updated_at: device.token_updated_at, photo_url: photo_url}}, status: 200
         else
           # Count invalid attempts
           device.update invalid_count: device.invalid_count += 1
