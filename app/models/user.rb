@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
    :url => "/images/photos/users/:id/:basename_:style"
 # http://localhost:3000/users/3/photo/150/2014030912123454.jpg
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
-  validates_attachment_size :photo, :in => 0..1.megabytes
+  validates_attachment_size :photo, :in => 0..5.megabytes
 
 
   attr_accessor :remove
