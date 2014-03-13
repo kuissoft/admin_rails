@@ -37,6 +37,11 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
       end
     end
 
+    logger.error "=============== DEBUG START ================"
+    logger.error "Debug notifuck params: #{params.inspect}"
+    logger.error "Debug notifuck device_ids: #{device_ids.inspect}"
+    logger.error "================ DEBUG END ================="
+
     device_ids.each do |device_id|
       n = Rpush::Apns::Notification.new
       n.app = Rpush::Apns::App.find_by_name("ios_app")
@@ -44,7 +49,11 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
       n.alert = "Request from #{name}"
       n.attributes_for_device = { call_id: key }
       n.sound = "Calling.wav"
-      n.save!
+      result = n.save!
+      logger.error "=============== DEBUG START ================"
+      logger.error "Debug notifuck device_id: #{device_id.inspect}"
+      logger.error "Debug notifuck result: #{result.inspect}"
+      logger.error "================ DEBUG END ================="
     end
 
     Rpush.push
