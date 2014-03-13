@@ -15,7 +15,7 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
 
     # If device is not registered -> register it to my user_id
     if device = current_user.devices.where(uuid: params[:uuid]).first.update(device_params)
-      render json: device
+      render json: {}, status: 200 
     else
       render json: { error_info: { code: 101, message: device.errors.full_message.join(", ") } }, status: 400
     end

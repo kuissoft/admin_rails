@@ -90,9 +90,8 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     end
     ContactNotifications.status_changed(connection, true)
     if allow_send
-
       msg = t('sms.invitation', user: resolve_name(current_user), locale:  set_language_by_area_code(invited_user.phone))
-      unless invited_user.admin?
+      unless invited_user.admin? and get_settings_value(:force_sms) != "1" 
         sms = Sms.new(invited_user.phone, msg).deliver
       else
         Emailer.invitation_email(invited_user, current_user, device).deliver
