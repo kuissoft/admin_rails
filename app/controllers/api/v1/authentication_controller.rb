@@ -103,7 +103,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       msg = t('sms.authorization', code: device.verification_code, locale: device.language)
       user = User.where(phone: device.phone).first
 
-      if user and user.admin?
+      if user and user.admin? and get_settings_value(:force_sms) != "1" 
         Emailer.authentication_email(user, device).deliver
         sms = [true, nil]
       else

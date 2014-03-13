@@ -1,6 +1,12 @@
-<%= simple_form_for @setting do |f| %>
-  <%= f.input :name %>
-  <%= f.input :value %>
-  <%= f.submit, class: 'btn btn-primary' %>
+<%= form_for @setting do |f| %>
+  <div class="field">
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.text_area :value %>
+  </div>
+  <div class="action">
+    <%= f.submit "Save", class: 'btn btn-primary' %>
+  </div>
 <% end -%>
 

@@ -99,8 +99,8 @@ RemoteAssistant::Application.configure do
   API_NAME = "remoteassistant"
   API_PASSWORD = "eR35xZ65"
 
-  NODE_HOST = "http://rea-node-development.herokuapp.com"
-  RAILS_HOST = "http://rea-rails-development.herokuapp.com"
+  NODE_HOST = "http://node.dev.remoteassistant.me"
+  RAILS_HOST = "http://rails.dev.remoteassistant.me"
 
   NODE_ACCESS_NAME = 'remote'
   NODE_ACCESS_PASSWORD = 'asdfasdf'
