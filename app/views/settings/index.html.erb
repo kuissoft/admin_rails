@@ -14,7 +14,6 @@
               <tr>
                 <th>Title</th>
                 <th>Value</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -22,8 +21,8 @@
                 <tr>
                   <td><%= setting.name %></td>
                   <td><p><%= raw setting.value %></p></td>
-                  <td><%= link_to "Edit", edit_setting_path(setting) %></td>
-                  <td><%= link_to 'Destroy', setting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  <td><%= link_to "Edit", edit_setting_path(setting), class: 'btn btn-xs btn-default' %></td>
+                  <td><%= link_to 'Destroy', setting, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
                 </tr>
               <% end -%>
             </tbody>

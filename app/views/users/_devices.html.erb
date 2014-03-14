@@ -1,40 +1,47 @@
 <h1>My Devices</h1>
 
-<table width="100%">
-  <tr>
-    <th>USER ID</th>
-    <th>UUID</th>
-    <th>LANGUAGE</th>
-    <th>VERIFICATION CODE</th>
-    <th>INVALID VERIFICATIONS</th>
-    <th>SMS SENT</th>
-    <th>SMS RESETS</th>
-    <th>RESENT</th>
-    <th>RESENT AT</th>
-    <th>APNS TOKEN</th>
-    <th>AUTH TOKEN</th>
-    <th>LAST AUTH TOKEN</th>
-    <th>AUTH TOKEN UPDATED AT</th>
-    <th></th>
-  </tr>
-<% @devices.each do |device| %>
-  <tr>
-    <td><%= device.user_id%></td>
-    <td><%= device.uuid%></td>
-    <td><%= device.language%></td>
-    <td><%= device.verification_code %></td>
-    <td><%= device.invalid_count %></td>
-    <td><%= device.sms_count %></td>
-    <td><%= device.reset_count %></td>
-    <td><%= device.resent %></td>
-    <td><%= l(device.resent_at, format: "%d.%m.%Y %H:%M") if device.resent_at%></td>
-    <td><%= device.token %></td>
-    <td><%= device.auth_token %></td>
-    <td><%= device.last_token %></td>
-    <td><%= l(device.token_updated_at, format: "%d.%m.%Y %H:%M") if device.token_updated_at%></td>
-    <td>
-      <%= link_to("Reset sms", reset_sms_device_path(id: device, return_back: 'user'), method: :put) %>
-    </td>
-  </tr>
-<% end -%>
-</table>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>USER ID</th>
+        <th>UUID</th>
+        <th>LANGUAGE</th>
+        <th>VERIFICATION CODE</th>
+        <th>INVALID VERIFICATIONS</th>
+        <th>SMS SENT</th>
+        <th>SMS RESETS</th>
+        <th>RESENT</th>
+        <th>RESENT AT</th>
+        <th>APNS TOKEN</th>
+        <th>AUTH TOKEN</th>
+        <th>LAST AUTH TOKEN</th>
+        <th>AUTH TOKEN UPDATED AT</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        <% @devices.each do |device| %>
+          <tr>
+            <td><%= device.user_id%></td>
+            <td><%= device.uuid%></td>
+            <td><%= device.language%></td>
+            <td><%= device.verification_code %></td>
+            <td><%= device.invalid_count %></td>
+            <td><%= device.sms_count %></td>
+            <td><%= device.reset_count %></td>
+            <td><%= device.resent %></td>
+            <td><%= l(device.resent_at, format: "%d.%m.%Y %H:%M") if device.resent_at%></td>
+            <td><%= device.token %></td>
+            <td><%= device.auth_token %></td>
+            <td><%= device.last_token %></td>
+            <td><%= l(device.token_updated_at, format: "%d.%m.%Y %H:%M") if device.token_updated_at%></td>
+            <td>
+              <%= link_to("Reset sms", reset_sms_device_path(id: device, return_back: 'user'), method: :put) %>
+            </td>
+          </tr>
+        <% end -%>
+    </tbody>
+  </table>
+</div>
+

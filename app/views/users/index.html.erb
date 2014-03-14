@@ -32,9 +32,9 @@
                   <td><%= user.phone %></td>
                   <td><%= user.email %></td>
                   <td><%= user.role %></td>
-                  <td><%= link_to 'Show', user, class: 'btn btn-link' %></td>
-                  <td><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-default' %></td>
-                  <td><%= link_to 'Destroy', user, method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' } %></td>
+                  <td><%= link_to 'Show', user, class: 'btn btn-xs btn-link' %></td>
+                  <td><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-xs btn-default' %></td>
+                  <td><%= link_to 'Destroy', user, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
                 </tr>
               <% end %>
             </tbody>
