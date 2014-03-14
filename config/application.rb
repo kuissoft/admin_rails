@@ -27,5 +27,8 @@ module RemoteAssistant
         resource "*", headers: :any, methods: [:get, :delete, :post, :put, :options]
       end
     end
+
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
+    config.assets.precompile += %w( .svg .eot .woff .ttf)
   end
 end
