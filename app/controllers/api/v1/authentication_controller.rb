@@ -191,5 +191,30 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     end
   end
 
+  ###
+  # Device deauthenticate
+  # * Delete APNS and AUTH Tokens from devices table
+  ###
+  def deauthenticate
+    device = Device.where(user_id: params[:user_id], uuid: params[:uuid]).first
+
+    if device
+      if params[:auth_token].present? and (device.auth_token = params[:auth_token] or device.last_token = params[:auth_token])
+        if device.update token: nil, auth_token: nil
+          render json: {},  status: 200
+        else
+          Rails.logger.error '========== DEAUTHENTICATE ERRORS ============'
+          Rails.logger.error "#{device.errors.inspect}"
+          Rails.logger.error '=========== END DEBUG ============='
+          render json: { error_info: { code: 100, title: t('errors.undefined_error', locale: device.language), message: ''} }, status: 401
+        end
+      else
+        render json: { error_info: { code: 102, title: '', message: t('errors.token_not_match', locale: device.language)} }, status: 401
+      end
+    else
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists', locale: device.language) } }, status: 401
+    end
+  end
+
 
 end
