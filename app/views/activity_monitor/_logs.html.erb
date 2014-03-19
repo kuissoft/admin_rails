@@ -1,17 +1,21 @@
-<table width='100%'>
-  <tr>
-    <th>Log level</th>
-    <th>Message</th>
-    <th>Timestamp</th>
-  </tr>
-<% @logs.each do |log| %>
-  <tr>
-    <td><%= log['level']%></td>
-    <td><%= log['message']%></td>
-    <td><%= log['timestamp']%></td>
-  </tr>
-<% end -%>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Log level</th>
+      <th>Message</th>
+      <th>Timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @logs.each do |log| %>
+      <tr>
+        <td><%= log['level']%></td>
+        <td><%= log['message']%></td>
+        <td><%= log['timestamp']%></td>
+      </tr>
+    <% end -%>
+  </tbody>
 </table>
-<br>
-<br>
-<br>
+
+
+

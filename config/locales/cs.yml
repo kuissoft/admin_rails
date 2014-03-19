@@ -30,7 +30,7 @@ cs:
           is_pending: 'Čeká na schválení'
           is_rejected: 'Odmítnutá'
           is_removed: 'Samazaná'
-        device_control:
+        device:
           uuid: 'UUID'
           verification_code: 'Potvrzovací kód'
           resent: 'Přeposláno'
@@ -39,9 +39,10 @@ cs:
           sms_count: 'Počet odeslaných sms'
           resent_at: 'Přeposláno v'
           language: 'Jazyk'
-        device:
           token: 'Token'
           user_id: 'Uživatelské id'
+          online: "Online"
+          connection_type: 'Internetové připojení'
         feedback:
           message: 'Zpráva'
           feedback_type: 'Druh odezvy'
@@ -56,9 +57,6 @@ cs:
           email: 'E-mail'
           role: 'Role'
           password: 'Heslo'
-          auth_token: 'Autentifikační token'
-          is_online: 'Online?'
-          connection_type: 'Internetové připojení'
           photo: 'Profilové foto'
       errors:
         models:

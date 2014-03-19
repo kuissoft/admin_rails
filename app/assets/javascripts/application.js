@@ -17,4 +17,7 @@
 //= require morris
 //= require raphael-2.1.0.min
 //= require mint-admin
+//= require jquery.dataTables
+//= require dataTables.bootstrap
 //= require_tree .
+

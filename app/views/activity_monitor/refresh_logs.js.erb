@@ -1,2 +1,13 @@
 $('#logs').html("<%= escape_javascript(render '/activity_monitor/logs') %>");
-// $("#logs").animate({"scrollTop": $('#logs')[0].scrollHeight}, "slow");
+
+
+$( "#logs" ).bind("mouseover", function(){
+  autoscroll = false;
+});
+$( "#logs" ).bind("mouseout", function(){
+  autoscroll = true;
+});
+
+if(autoscroll){
+  $("#logs").animate({"scrollTop": $('#logs')[0].scrollHeight}, "slow");
+}

@@ -7,12 +7,10 @@
  *= require_tree .
  *= require_self
  *= require mint-admin-rea
+ *= require dataTables.bootstrap
  */
 
-td {
-	border:1px solid lightgray;
-	padding:4px;
-}
+
 
 .green {
   color: green;
@@ -23,9 +21,10 @@ td {
 }
 
 #logs {
-  min-height: 400px;
-  max-height: 400px;
+  min-height: 600px;
+  max-height: 600px;
   color: #ffffff;
   background: #000000;
   overflow: auto;
 }
+

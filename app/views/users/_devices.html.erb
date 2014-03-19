@@ -4,6 +4,7 @@
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
+        <th>ONLINE</th>
         <th>USER ID</th>
         <th>UUID</th>
         <th>LANGUAGE</th>
@@ -17,12 +18,14 @@
         <th>AUTH TOKEN</th>
         <th>LAST AUTH TOKEN</th>
         <th>AUTH TOKEN UPDATED AT</th>
+        <th>CONNECTION</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
         <% @devices.each do |device| %>
           <tr>
+            <td><%= device.online ? raw('<i class="fa fa-circle"></i>') : raw('<i class="fa fa-circle-o"></i>') %></td>
             <td><%= device.user_id%></td>
             <td><%= device.uuid%></td>
             <td><%= device.language%></td>
@@ -36,8 +39,9 @@
             <td><%= device.auth_token %></td>
             <td><%= device.last_token %></td>
             <td><%= l(device.token_updated_at, format: "%d.%m.%Y %H:%M") if device.token_updated_at%></td>
+            <td><%= device.connection_type %></td>
             <td>
-              <%= link_to("Reset sms", reset_sms_device_path(id: device, return_back: 'user'), method: :put) %>
+              <%= link_to("Reset sms", reset_sms_device_path(id: device, return_back: 'user'), method: :put, class: 'btn btn-default') %>
             </td>
           </tr>
         <% end -%>

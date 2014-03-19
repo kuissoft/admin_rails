@@ -3,4 +3,6 @@ jQuery ->
   $('.show_detail_button').click ->
     $(this).parent().parent().children('.connection_detail').slideToggle()
 
-    
+  $('#sorted_table').dataTable()
+
+  
