@@ -1,3 +1,4 @@
+
 class User < ActiveRecord::Base
   DEFAULT_ROLE = 'user'
 
@@ -54,6 +55,21 @@ class User < ActiveRecord::Base
     self.photo.instance_write :file_name, "#{Time.now.to_i.to_s}#{extension}"
   end
 
+  # Check if any of user devices are online and if yes return true
+  def is_online?
+    devices.select{|d| d.online == true }.any?
+  end
+
+  def strongest_connection
+    return "offline" if !is_online?
+    networks = {'edge' => 0, '3G' => 1, 'LTE' => 2, 'wifi' => 3}
+    max = 0
+    devices.each do |d|
+      max = networks[d.connection_type] if d.online and networks[d.connection_type] > max
+      return d.connection_type if max == 3
+    end
+    networks.key(max)
+  end
 
   def email_required?
     false

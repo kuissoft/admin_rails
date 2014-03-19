@@ -21,6 +21,10 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
     end
   end
 
+  def update
+    # update device status if device disconnect
+  end
+
   def change_language
     device = Device.where(phone: params[:phone], uuid: params[:uuid]).first
     if device

@@ -13,20 +13,23 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   def validate
     device = Device.where(user_id: params[:user_id], uuid: params[:uuid]).first
 
-    # TODO - refactor to authentication service
-    if device and params[:token].present? and (device.auth_token == params[:token] or device.last_token == params[:token])
-      # if user.expired_token?
-      #   render json: { error_info: { code: 1, message: "Authentication token expired" } }, status: 401
-      #   user.assign_new_token
-      # else
-      user = device.user
-      user.update is_online: true, connection_type: params[:connection_type]
-      render json: {name: user.name, role: user.role, uuid: device.uuid }, status: 200
-      # end
-    elsif device && device.last_token == params[:token]
-      render json: { error_info: { code: 102, title: t('errors.token_expired'), message: t('errors.token_expired_msg')} }, status: 401
+    if device 
+      if params[:auth_token].present? and (device.auth_token == params[:auth_token] or device.last_token == params[:auth_token])
+        # if user.expired_token?
+        #   render json: { error_info: { code: 1, message: "Authentication token expired" } }, status: 401
+        #   user.assign_new_token
+        # else
+        user = device.user
+        device.update online: true, connection_type: params[:connection_type]
+        render json: {name: user.name, role: user.role, uuid: device.uuid }, status: 200
+        # end
+      elsif device && device.last_token == params[:token]
+        render json: { error_info: { code: 102, title: t('errors.token_expired'), message: t('errors.token_expired_msg')} }, status: 401
+      else
+        render json: { error_info: { code: 103, title: '', message: t('errors.token_not_match')} }, status: 401
+      end
     else
-      render json: { error_info: { code: 103, title: '', message: t('errors.token_not_match')} }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists') } }, status: 401
     end
   end
   # Resister user or send new code to activate new device
@@ -166,16 +169,11 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       if device.verification_code
         # If verification code on db match with recieved code or send error response
         if device.verification_code == params[:verification_code]
-          # Nil verification code
-          device.update verification_code: nil, invalid_count: 0
+
           user = User.where(phone: phone).first
           #create user
-          unless user
-            user = User.create phone: phone, password: SecureRandom.hex
-            device.update user_id: user.id
-          else
-            device.update user_id: user.id
-          end
+          user = User.create phone: phone, password: SecureRandom.hex unless user
+          device.update user_id: user.id, verification_code: nil, invalid_count: 0, online: true
           photo_url = "#{RAILS_HOST}#{user.photo.url.gsub(/_.*/,'')}" if user.photo.present?
           render json: { user: { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role, auth_token: device.auth_token, last_token: device.last_token, token_updated_at: device.token_updated_at, photo_url: photo_url}}, status: 200
         else
@@ -199,8 +197,8 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     device = Device.where(user_id: params[:user_id], uuid: params[:uuid]).first
 
     if device
-      if params[:auth_token].present? and (device.auth_token = params[:auth_token] or device.last_token = params[:auth_token])
-        if device.update token: nil, auth_token: nil
+      if params[:auth_token].present? and (device.auth_token == params[:auth_token] or device.last_token == params[:auth_token])
+        if device.update token: nil, auth_token: nil, online: false
           render json: {},  status: 200
         else
           Rails.logger.error '========== DEAUTHENTICATE ERRORS ============'

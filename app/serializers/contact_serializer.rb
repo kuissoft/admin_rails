@@ -22,11 +22,11 @@ class ContactSerializer < ActiveModel::Serializer
   end
 
   def is_online
-    object.contact.is_online if object.contact
+    object.contact.is_online? if object.contact
   end
 
   def connection_type
-    object.contact.connection_type if object.contact
+    object.contact.strongest_connection if object.contact
   end
 
   def photo_url

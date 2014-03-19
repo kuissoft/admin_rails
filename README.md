@@ -32,7 +32,7 @@ API
 
 Please specify V1 or V2 uri, if not it uses default API
 
-# DEFAULT API: V2
+# DEFAULT API: V1
 
 
 # Authentication
@@ -40,13 +40,13 @@ Please specify V1 or V2 uri, if not it uses default API
 ### Validate
 API Call
 ```
-curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf'
+curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf&connection_type=wifi'
 ```
 Response
 
 Ok, sends 200
 ```
-{"name":"Jiri Kratochvil","role":"admin"}
+{"name":"Jiri Kratochvil","role":"admin", "uuid":"fsdfdsgfgdfgfdg"}
 ```
 Errors:
 ```
@@ -55,8 +55,11 @@ Errors:
 ```
 {"error_info":{"code": 103, title: '', message: 'Validation code not match'}}
 ```
+```
+{"error_info":{"code": 111, title: '', message: 'User not exists'}}
+```
 
-### Device user registration
+### Device user authentification
 
 Resister user or send new code to activate new device
 
