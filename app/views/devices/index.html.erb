@@ -49,7 +49,7 @@
                   <td><%= device.auth_token %></td>
                   <td><%= device.last_token %></td>
                   <td><%= l(device.token_updated_at, format: "%d.%m.%Y %H:%M") if device.token_updated_at%></td>
-                  <td><%= device.connection_type %></td>
+                  <td><%#= device.connection_type %></td>
                   <td>
                     <%= link_to "Reset sms", reset_sms_device_path(device), method: :put, class: 'btn btn-default' %>
                   </td>
