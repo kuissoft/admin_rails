@@ -64,10 +64,12 @@ class User < ActiveRecord::Base
     return "offline" if !is_online?
     networks = {'edge' => 0, '3G' => 1, 'LTE' => 2, 'wifi' => 3}
     max = 0
-    devices.each do |d|
-      max = networks[d.connection_type] if d.online and networks[d.connection_type] > max
-      return d.connection_type if max == 3
-    end
+      devices.each do |d|
+        if d.connection_type
+          max = networks[d.connection_type] if d.online and networks[d.connection_type] > max
+          return d.connection_type if max == 3
+        end
+      end
     networks.key(max)
   end
 
