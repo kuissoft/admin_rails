@@ -62,11 +62,11 @@ class User < ActiveRecord::Base
 
   def strongest_connection
     return "offline" if !is_online?
-    networks = {'edge' => 0, '3G' => 1, 'LTE' => 2, 'wifi' => 3}
+    networks = {'Edge' => 0, '3G' => 1, 'LTE' => 2, 'Wi-Fi' => 3}
     max = 0
       devices.each do |d|
         if d.connection_type.present?
-          max = networks[d.connection_type] if d.online and networks[d.connection_type] > max
+          max = networks[d.connection_type] if d.online and !networks[d.connection_type].nil? and networks[d.connection_type] > max
           return d.connection_type if max == 3
         end
       end

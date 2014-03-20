@@ -71,16 +71,16 @@ RemoteAssistant::Application.configure do
   config.action_mailer.perform_deliveries = true
   
   # config.action_mailer.default_url_options = {host: "http://dev.admin.remoteassistant.me"}
-  config.action_mailer.default_url_options = {host: "http://rea-rails-development.herokuapp.com"}
+  config.action_mailer.default_url_options = {host: "http://dev.rails.remoteassistant.me"}
 
-  config.action_mailer.smtp_settings = {
-    :address              => "smtp.postmarkapp.com",
-    :port                 => 25,
-    :user_name            => "5c8ee2be-21e6-44f1-9687-aaca9405eb52",
-    :password             => "5c8ee2be-21e6-44f1-9687-aaca9405eb52",
-    :authentication       => "plain",
-    :enable_starttls_auto => false
-  }
+  # config.action_mailer.smtp_settings = {
+  #   :address              => "smtp.postmarkapp.com",
+  #   :port                 => 25,
+  #   :user_name            => "5c8ee2be-21e6-44f1-9687-aaca9405eb52",
+  #   :password             => "5c8ee2be-21e6-44f1-9687-aaca9405eb52",
+  #   :authentication       => "plain",
+  #   :enable_starttls_auto => false
+  # }
   # config.action_mailer.smtp_settings = {
   #   :address              => "email-smtp.eu-west-1.amazonaws.com",
   #   :port                 => 465,
@@ -89,6 +89,15 @@ RemoteAssistant::Application.configure do
   #   :authentication       => "login",
   #   :enable_starttls_auto => true
   # }
+
+  config.action_mailer.smtp_settings = {
+   :authentication       => "login",
+   :enable_starttls_auto => true,
+   :user_name            => "AKIAICTBP5YCKI5VLVFQ",
+   :password             => "ArZKRWtsSFnqkpYYqXFmhtBz+jot/WBaWjF5le5NMHYC",
+   :address              => "email-smtp.eu-west-1.amazonaws.com",
+   :port                 => 25
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
@@ -110,8 +119,8 @@ RemoteAssistant::Application.configure do
 
   # NODE_HOST = "http://node.dev.remoteassistant.me"
   # RAILS_HOST = "http://rails.dev.remoteassistant.me"
-  NODE_HOST = "http://rea-node-development.herokuapp.com"
-  RAILS_HOST = "http://rea-rails-development.herokuapp.com"
+  NODE_HOST = "http://dev.node.remoteassistant.me"
+  RAILS_HOST = "http://dev.rails.remoteassistant.me"
 
   NODE_ACCESS_NAME = 'remote'
   NODE_ACCESS_PASSWORD = 'asdfasdf'
