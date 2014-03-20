@@ -40,7 +40,7 @@ Please specify V1 or V2 uri, if not it uses default API
 ### Validate
 API Call
 ```
-curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf&connection_type=wifi'
+curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&auth_token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf&connection_type=wifi'
 ```
 Response
 
