@@ -65,7 +65,7 @@ class User < ActiveRecord::Base
     networks = {'edge' => 0, '3G' => 1, 'LTE' => 2, 'wifi' => 3}
     max = 0
       devices.each do |d|
-        if d.connection_type
+        if d.connection_type.present?
           max = networks[d.connection_type] if d.online and networks[d.connection_type] > max
           return d.connection_type if max == 3
         end
