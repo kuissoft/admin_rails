@@ -84,6 +84,31 @@ Errors:
 { error_info: { code: 100, title: 'UNDEFINED ERROR', message: '' } }
 ```
 
+### Device user deauthentification
+
+Deauthentificate user's device
+
+```
+curl http://rea-rails-development.herokuapp.com/api/authentication/deauthenticate -d 'user_id=1&uuid=3s2d4fd2f4fd2&auth_token=xxxXXX'
+```
+
+Ok, send 200
+```
+{}
+```
+Errors:
+```
+{"error_info":{"code": 102, title: 'Token expired', message: 'Authentication token expired'}}
+```
+
+```
+{"error_info":{"code": 111, title: '', message: 'User not exists'}}
+```
+
+```
+{ error_info: { code: 100, title: 'UNDEFINED ERROR', message: '' } }
+```
+
 ### Device code validation
 Validate recieved validation code
 
