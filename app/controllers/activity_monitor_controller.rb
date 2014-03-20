@@ -5,7 +5,7 @@ class ActivityMonitorController < AuthenticatedController
     begin
       open("#{NODE_HOST}/development.log", :http_basic_authentication=>[NODE_ACCESS_NAME, NODE_ACCESS_PASSWORD]).each_line{|line| @logs <<  ActiveSupport::JSON.decode(line) rescue ""}
     rescue
-      @logs << {'level' => "info", 'message' => 'NODE SERVER IS OFFLINE', 'timestamp' => Time.now}
+      @logs << {'timestamp' => Time.now, 'level' => "info", 'message' => 'NODE SERVER IS OFFLINE', }
     end
   end
 
@@ -14,7 +14,7 @@ class ActivityMonitorController < AuthenticatedController
     begin
       open("#{NODE_HOST}/development.log", :http_basic_authentication=>[NODE_ACCESS_NAME, NODE_ACCESS_PASSWORD]).each_line{|line| @logs <<  ActiveSupport::JSON.decode(line) rescue ""}
     rescue
-      @logs << {'level' => "info", 'message' => 'NODE SERVER IS OFFLINE', 'timestamp' => Time.now}
+      @logs << {'timestamp' => Time.now, 'level' => "info", 'message' => 'NODE SERVER IS OFFLINE'}
     end
     respond_to do |format|
       format.js
