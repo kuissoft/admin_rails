@@ -1,12 +1,12 @@
 $('#logs').html("<%= escape_javascript(render '/activity_monitor/logs') %>");
 
+var elem = $("#logs table tr:last");
 
-$( "#logs" ).bind("mouseover", function(){
-  autoscroll = false;
-});
-$( "#logs" ).bind("mouseout", function(){
+if(isScrolledIntoView(elem)){
   autoscroll = true;
-});
+}else{
+  autoscroll = false;
+}
 
 if(autoscroll){
   $("#logs").animate({"scrollTop": $('#logs')[0].scrollHeight}, "slow");
