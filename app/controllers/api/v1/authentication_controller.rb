@@ -23,7 +23,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         device.update online: true, connection_type: params[:connection_type]
         render json: {name: user.name, role: user.role, uuid: device.uuid }, status: 200
         # end
-      elsif device && device.last_token == params[:token]
+      elsif device && device.last_token == params[:auth_token]
         render json: { error_info: { code: 102, title: t('errors.token_expired'), message: t('errors.token_expired_msg')} }, status: 401
       else
         render json: { error_info: { code: 103, title: '', message: t('errors.token_not_match')} }, status: 401
