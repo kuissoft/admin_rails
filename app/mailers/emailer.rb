@@ -1,5 +1,5 @@
 class Emailer < ActionMailer::Base
-  default from: "admin@remoteassistant.me"
+  default from: "noreplay@remoteassistant.me"
 
   def feedback_email feedback 
     @feedback = feedback
@@ -29,6 +29,5 @@ class Emailer < ActionMailer::Base
 
     mail to: @user.email, subject: "Reset user password"
   end
-
 
 end
