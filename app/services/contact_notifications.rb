@@ -12,10 +12,12 @@ class ContactNotifications
   def self.status_changed(connnection, invite = false)
     if invite
       notification_cnt = get_notifications_count(connnection.contact_id)
+      notification_id = connnection.contact_id
     else
       notification_cnt = get_notifications_count(connnection.user_id)
+      notification_id = connnection.user_id
     end
-    Realtime.new.notify(connnection.user_id, "contacts:update", {notifications_count: notification_cnt})
+    Realtime.new.notify(notification_id, "contacts:update", {notifications_count: notification_cnt})
   end
 
   # def self.notifications_updated(connnection, invite = false)
