@@ -6,9 +6,21 @@
   var socket = io.connect(base_url);
   var autoscroll = true;
   $(document).ready(function () {
+
     
-    setInterval(refreshPartial, 3000);
+    
+    setInterval(refreshPartial, 1000);
   });
+
+  function isScrolledIntoView(elem){
+      var docViewTop = $(window).scrollTop();
+      var docViewBottom = docViewTop + $(window).height() + 600;
+
+      var elemTop = $(elem).offset().top;
+      var elemBottom = elemTop + $(elem).height();
+
+      return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+  }
 
   socket.emit('request:log:connection', { log: true });
 
@@ -125,14 +137,13 @@
     <div class="panel panel-default">
       <div class="panel-heading">Log</div>
       <div class="panel-body">
-        <div class="table-responsive" id="logs">
+        <div  id="logs">
           <%= render 'logs' %>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 
 
 
