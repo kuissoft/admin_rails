@@ -15,6 +15,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   def update
     connection = current_user.connections.where(contact_id: params[:id]).first
     contact = User.where(id: params[:id]).first
+
     if connection and contact
       if connection.update_attributes(contact_params)
         ContactNotifications.updated(connection)

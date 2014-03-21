@@ -9,7 +9,7 @@
   <tbody>
     <% @logs.each do |log| %>
       <tr>
-        <td width="12%"><%= log['timestamp']%></td>
+        <td width="12%"><%= log['timestamp'].to_datetime.to_s(:datetime) %></td>
         <td width="1%"><%= log['level']%></td>
         <td width="86%"><%= log['message']%></td>
       </tr>
