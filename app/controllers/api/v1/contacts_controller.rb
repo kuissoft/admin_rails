@@ -59,7 +59,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
       if connection.save
         send_sms_or_email(connection, current_user, invited_user, device)
-        ContactNotifications.status_changed(connection, true)
+        ContactNotifications.status_changed(connection)
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => connection.nickname}}, status: 200
       else
         render json: { error_info: { code: 101, title: '', message: connection.errors.full_messages.join(", ") } }, status: 400
@@ -68,7 +68,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       # If connection exists and it's pending send invitation msg agaim
       if conn.is_pending
         send_sms_or_email(conn, current_user, invited_user, device)
-        ContactNotifications.status_changed(connection, true)
+        ContactNotifications.status_changed(connection)
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
       else
         render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists') }  }, status: 400
