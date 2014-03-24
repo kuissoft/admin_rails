@@ -94,7 +94,13 @@ class User < ActiveRecord::Base
   def reset_password
     new_password = SecureRandom.urlsafe_base64
     self.password = new_password
-    Emailer.reset_password_email(self, new_password).deliver
+    begin
+      Emailer.reset_password_email(self, new_password).deliver
+    rescue => e
+      Rails.logger.debug '==========START DEBUG============'
+      Rails.logger.debug "#E-mail not send{r.inspect}"
+      Rails.logger.debug '===========END DEBUG============='
+    end
   end
 
   def follows_me? user_id
