@@ -1,5 +1,5 @@
 class Emailer < ActionMailer::Base
-  default from: "noreplay@remoteassistant.me"
+  default from: "noreply@remoteassistant.me"
 
   def feedback_email feedback 
     @feedback = feedback

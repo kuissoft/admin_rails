@@ -60,6 +60,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       if connection.save
         send_sms_or_email(connection, current_user, invited_user, device)
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => connection.nickname}}, status: 200
+        ContactNotifications.status_changed(connection, true)
       else
         render json: { error_info: { code: 101, title: '', message: connection.errors.full_messages.join(", ") } }, status: 400
       end
@@ -69,6 +70,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         send_sms_or_email(conn, current_user, invited_user, device)
 
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
+        ContactNotifications.status_changed(connection, true)
       else
         render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists') }  }, status: 400
       end
@@ -90,7 +92,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     else
       allow_send = false
     end
-    ContactNotifications.status_changed(connection, true)
+
     if allow_send
       msg = t('sms.invitation', user: resolve_name(current_user), locale:  set_language_by_area_code(invited_user.phone))
       unless invited_user.admin? and get_settings_value(:force_sms) != "1" 
