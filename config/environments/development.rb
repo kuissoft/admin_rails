@@ -40,7 +40,7 @@ RemoteAssistant::Application.configure do
   API_PASSWORD = "eR35xZ65"
 
   NODE_HOST = "http://localhost:4000"
-  RAILS_HOST = "http://localhost:3000"
+  RAILS_HOST = "http://localhost:3000/api"
 
   NODE_ACCESS_NAME = 'remote'
   NODE_ACCESS_PASSWORD = 'asdfasdf'
