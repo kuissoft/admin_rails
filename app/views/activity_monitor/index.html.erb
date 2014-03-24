@@ -9,7 +9,7 @@
 
     
     
-    setInterval(refreshPartial, 3000);
+    // setInterval(refreshPartial, 3000);
   });
 
   function isScrolledIntoView(elem){
@@ -67,7 +67,7 @@
 
   function usersShowTmpl(value){
     if(value){
-      return '<tr><td>' + value.user.id + '</td>' + '<td>' + value.user.name + '</td>' + '<td>' + value.user.connection.type + '</td>' + '<td>' + value.user.state + '</td>' + '<td>' + value.user.log_since + '</td></tr>';
+      return '<tr><td>' + value.user.id + '</td>' + '<td>' + value.user.name + '</td>' + '<td>' + value.user.connection.type + '</td>' + '<td>' + value.user.state + '</td>' + '<td>' + value.user.log_since.format("dd.mm.yy h:MM:ss TT"); + '</td></tr>';
     }
   }
 
