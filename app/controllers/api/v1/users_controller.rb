@@ -4,6 +4,8 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   def update
     device = Device.where(user_id: params[:id], uuid: params[:uuid]).first
     if device and params[:user][:auth_token].present? and (device.auth_token == params[:user][:auth_token] or device.last_token == params[:user][:auth_token])
+      
+      device.update! online: params[:is_online] 
       user = device.user
       if user.update(user_params_change)
         photo_url = "#{IMAGES_HOST}#{user.photo.url.gsub(/_.*/,'')}" if user.photo.present?
@@ -36,7 +38,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def user_params_change
-    params.require(:user).permit(:name, :email, :last_sign_in_at, :is_online, :connection_type, :photo)
+    params.require(:user).permit(:name, :email, :last_sign_in_at, :photo)
   end
 end
 

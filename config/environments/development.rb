@@ -41,6 +41,7 @@ RemoteAssistant::Application.configure do
 
   NODE_HOST = "http://localhost:4000"
   RAILS_HOST = "http://localhost:3000/api"
+  IMAGES_HOST = "http://localhost:3000"
 
   NODE_ACCESS_NAME = 'remote'
   NODE_ACCESS_PASSWORD = 'asdfasdf'
