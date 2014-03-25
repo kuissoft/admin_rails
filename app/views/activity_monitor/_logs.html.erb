@@ -1,21 +1,24 @@
 <table class="table">
   <thead>
     <tr>
+      <th>Timestamp</th>
       <th>Log level</th>
       <th>Message</th>
-      <th>Timestamp</th>
     </tr>
   </thead>
   <tbody>
     <% @logs.each do |log| %>
       <tr>
-        <td><%= log['level']%></td>
-        <td><%= log['message']%></td>
-        <td><%= log['timestamp']%></td>
+        <td width="12%"><%= log['timestamp'].to_datetime.to_s(:datetime) %></td>
+        <td width="1%"><%= log['level']%></td>
+        <td width="86%"><%= log['message']%></td>
       </tr>
     <% end -%>
   </tbody>
 </table>
+
+
+
 
 
 

@@ -23,7 +23,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         device.update online: true, connection_type: params[:connection_type]
         render json: {name: user.name, role: user.role, uuid: device.uuid }, status: 200
         # end
-      elsif device && device.last_token == params[:token]
+      elsif device && device.last_token == params[:auth_token]
         render json: { error_info: { code: 102, title: t('errors.token_expired'), message: t('errors.token_expired_msg')} }, status: 401
       else
         render json: { error_info: { code: 103, title: '', message: t('errors.token_not_match')} }, status: 401
@@ -174,7 +174,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
           #create user
           user = User.create phone: phone, password: SecureRandom.hex unless user
           device.update user_id: user.id, verification_code: nil, invalid_count: 0, online: true
-          photo_url = "#{RAILS_HOST}#{user.photo.url.gsub(/_.*/,'')}" if user.photo.present?
+          photo_url = "#{IMAGES_HOST}#{user.photo.url.gsub(/_.*/,'')}" if user.photo.present?
           render json: { user: { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role, auth_token: device.auth_token, last_token: device.last_token, token_updated_at: device.token_updated_at, photo_url: photo_url}}, status: 200
         else
           # Count invalid attempts

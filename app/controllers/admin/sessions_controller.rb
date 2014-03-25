@@ -1,5 +1,6 @@
 class Admin::SessionsController < ApplicationController
   def new
+    render :new, :layout => false
   end
 
   def create
@@ -9,7 +10,7 @@ class Admin::SessionsController < ApplicationController
       redirect_to root_path, notice: "You were signed in"
     else
       flash.now[:error] = "Invalid credentials"
-      render :new
+      render :new, :layout => false
     end
   end
 

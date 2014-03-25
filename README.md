@@ -40,7 +40,7 @@ Please specify V1 or V2 uri, if not it uses default API
 ### Validate
 API Call
 ```
-curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf&connection_type=wifi'
+curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&auth_token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf&connection_type=wifi'
 ```
 Response
 
@@ -78,6 +78,31 @@ Errors:
 
 ```
 { error_info: { code: 106, message: "Cannot send verification SMS. Please try again later." } }
+```
+
+```
+{ error_info: { code: 100, title: 'UNDEFINED ERROR', message: '' } }
+```
+
+### Device user deauthentification
+
+Deauthentificate user's device
+
+```
+curl http://rea-rails-development.herokuapp.com/api/authentication/deauthenticate -d 'user_id=1&uuid=3s2d4fd2f4fd2&auth_token=xxxXXX'
+```
+
+Ok, send 200
+```
+{}
+```
+Errors:
+```
+{"error_info":{"code": 102, title: 'Token expired', message: 'Authentication token expired'}}
+```
+
+```
+{"error_info":{"code": 111, title: '', message: 'User not exists'}}
 ```
 
 ```

@@ -34,7 +34,7 @@
             <tbody>
               <% @devices.each do |device| %>
                 <tr>
-                  <td><%#= device.online ? raw('<i class="fa fa-circle"></i>') : raw('<i class="fa fa-circle-o"></i>') %></td>
+                  <td><%= device.online ? raw('<i class="fa fa-circle"></i>') : raw('<i class="fa fa-circle-o"></i>') %></td>
                   <td><%= device.uuid%></td>
                   <td><%= device.user_id %></td>
                   <td><%= link_to device.phone, device.user %></td>
@@ -44,12 +44,12 @@
                   <td><%= device.sms_count %></td>
                   <td><%= device.reset_count %></td>
                   <td><%= device.resent %></td>
-                  <td><%= l(device.resent_at, format: "%d.%m.%Y %H:%M") if device.resent_at%></td>
+                  <td><%= device.resent_at.to_s(:datetime) if device.resent_at%></td>
                   <td><%= device.token %></td>
                   <td><%= device.auth_token %></td>
                   <td><%= device.last_token %></td>
-                  <td><%= l(device.token_updated_at, format: "%d.%m.%Y %H:%M") if device.token_updated_at%></td>
-                  <td><%#= device.connection_type %></td>
+                  <td><%= device.token_updated_at.to_s(:datetime) if device.token_updated_at%></td>
+                  <td><%= device.connection_type %></td>
                   <td>
                     <%= link_to "Reset sms", reset_sms_device_path(device), method: :put, class: 'btn btn-default' %>
                   </td>

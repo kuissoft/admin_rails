@@ -62,12 +62,14 @@ class User < ActiveRecord::Base
 
   def strongest_connection
     return "offline" if !is_online?
-    networks = {'edge' => 0, '3G' => 1, 'LTE' => 2, 'wifi' => 3}
+    networks = {'Edge' => 0, '3G' => 1, 'LTE' => 2, 'Wi-Fi' => 3}
     max = 0
-    devices.each do |d|
-      max = networks[d.connection_type] if d.online and networks[d.connection_type] > max
-      return d.connection_type if max == 3
-    end
+      devices.each do |d|
+        if d.connection_type.present?
+          max = networks[d.connection_type] if d.online and !networks[d.connection_type].nil? and networks[d.connection_type] > max
+          return d.connection_type if max == 3
+        end
+      end
     networks.key(max)
   end
 
@@ -92,7 +94,13 @@ class User < ActiveRecord::Base
   def reset_password
     new_password = SecureRandom.urlsafe_base64
     self.password = new_password
-    Emailer.reset_password_email(self, new_password).deliver
+    begin
+      Emailer.reset_password_email(self, new_password).deliver
+    rescue => e
+      Rails.logger.debug '==========START DEBUG============'
+      Rails.logger.debug "#E-mail not send{r.inspect}"
+      Rails.logger.debug '===========END DEBUG============='
+    end
   end
 
   def follows_me? user_id
