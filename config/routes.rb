@@ -36,6 +36,7 @@ RemoteAssistant::Application.routes.draw do
     api_version(:module => "V1", :path => {:value => "v1"}, :default => true) do
       resources :devices, only: [:create] do 
         put :change_language, on: :collection
+        put :set_offline, on: :collection
       end
       resources :calls
       resources :notifications
