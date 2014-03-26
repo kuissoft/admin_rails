@@ -43,7 +43,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     unless device
       device = Device.create!(phone: phone, uuid: params[:uuid], language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id, verification_code: 100000 + SecureRandom.random_number(900000))
     else
-      device.update  uuid: params[:uuid], verification_code: 100000 + SecureRandom.random_number(900000), user_id: invited_user.id, language: set_language_by_area_code(invited_user.phone)
+      device.update  uuid: params[:uuid], verification_code: 100000 + SecureRandom.random_number(900000), user_id: device.language
     end
 
 
@@ -94,7 +94,10 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     end
 
     if allow_send
-      msg = t('sms.invitation', user: resolve_name(current_user), locale:  set_language_by_area_code(invited_user.phone))
+      invited_user_device = Device.where(phone: invited_user.phone).first
+      lang = set_language_by_area_code(invited_user.phone)
+      lang = invited_user_device.language if invited_user_device
+      msg = t('sms.invitation', user: resolve_name(current_user), locale: lang )
       unless invited_user.admin? and get_settings_value(:force_sms) != "1" 
         sms = Sms.new(invited_user.phone, msg).deliver
       else
