@@ -32,6 +32,10 @@
     parseOnlineUsers(data);
   });
 
+  socket.on('log:online:devices', function (data) {
+    parseOnlineDevices(data);
+  });
+
   socket.on('log:active:calls', function (data) {
     console.log("Active calls: ", data);
     parseActiveCalls(data);
@@ -40,12 +44,23 @@
   function parseOnlineUsers(data){
     users = JSON.parse(data);
 
-    online_users_html = '<table class="table table-striped table-bordered table-hover"><thead><tr><th>ID</th><th>User name</th><th>Network</th><th>App state</th><th>Logged since</th></tr></thead><tbody>';
+    online_users_html = '<table class="table table-striped table-bordered table-hover"><thead><tr><th>ID</th><th>User name</th><th>Connected at</th></tr></thead><tbody>';
     users.forEach(function(value, index){
       online_users_html += usersShowTmpl(value);
     });
     online_users_html += '</tbody></table>';
     $('#online_users').html(online_users_html);
+  }
+
+  function parseOnlineDevices(data){
+    devices = JSON.parse(data);
+
+    online_devices_html = '<table class="table table-striped table-bordered table-hover"><thead><tr><th>UUID</th><th>User ID</th><th>Is background</th><th>Network</th><th>Connected at</th></tr></thead><tbody>';
+    devices.forEach(function(value, index){
+      online_devices_html += devicesShowTmpl(value);
+    });
+    online_devices_html += '</tbody></table>';
+    $('#online_devices').html(online_devices_html);
   }
 
   function parseActiveCalls(data){
@@ -67,7 +82,13 @@
 
   function usersShowTmpl(value){
     if(value){
-      return '<tr><td>' + value.user.id + '</td>' + '<td>' + value.user.name + '</td>' + '<td>' + value.user.connection.type + '</td>' + '<td>' + value.user.state + '</td>' + '<td>' + value.user.log_since.format("dd.mm.yy h:MM:ss TT"); + '</td></tr>';
+      return '<tr><td>' + value.id + '</td>' + '<td>' + value.name + '</td>' /*+ '<td>' + value.user.connection.type+ '</td>' +  '<td>' /*+ value.user.state + '</td>'*/ + '<td>' + value.connected_at + '</td></tr>';
+    }
+  }
+
+  function devicesShowTmpl(value){
+    if(value){
+      return '<tr><td>' + value.uuid + '</td>' + '<td>' + value.user_id + '</td>' + '<td>' + value.is_background+ '</td>' +  '<td>' + value.connection_type + '</td>' + '<td>' + value.connected_at + '</td></tr>';
     }
   }
 
@@ -99,6 +120,18 @@
       <div class="panel-heading">Online users</div>
       <div class="panel-body">
         <div class="table-responsive" id="online_users">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='row'>
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">Online devices</div>
+      <div class="panel-body">
+        <div class="table-responsive" id="online_devices">
         </div>
       </div>
     </div>

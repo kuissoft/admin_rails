@@ -21,7 +21,20 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
     end
   end
 
-  def update
+  def set_offline
+    device = current_user.devices.where(uuid: params[:uuid]).first
+
+    if device
+      if device.update online: params[:is_online], last_online_at: params[:last_online_at]
+        render json: {}, status: 200 
+      else
+        Rails.logger.error '==========START DEBUG============'
+        Rails.logger.error "Device update error: #{device.errors.inspect}"
+        Rails.logger.error '===========END DEBUG============='
+      end
+    else
+      render json: { error_info: { code: 115, message: t('errors.device_not_exists') } }, status: 400
+    end
     # update device status if device disconnect
   end
 

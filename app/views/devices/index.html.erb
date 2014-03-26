@@ -28,6 +28,7 @@
                 <th>LAST AUTH TOKEN</th>
                 <th>AUTH TOKEN UPDATED AT</th>
                 <th>CONNECTION</th>
+                <th>LAST ONLINE AT</th>
                 <th></th>
               </tr>
             </thead>
@@ -50,6 +51,7 @@
                   <td><%= device.last_token %></td>
                   <td><%= device.token_updated_at.to_s(:datetime) if device.token_updated_at%></td>
                   <td><%= device.connection_type %></td>
+                  <td><%= device.last_online_at.to_s(:datetime) if device.last_online_at%></td>
                   <td>
                     <%= link_to "Reset sms", reset_sms_device_path(device), method: :put, class: 'btn btn-default' %>
                   </td>
