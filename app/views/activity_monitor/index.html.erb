@@ -9,7 +9,7 @@
 
     
     
-    setInterval(refreshPartial, 3000);
+    // setInterval(refreshPartial, 3000);
   });
 
   function isScrolledIntoView(elem){
@@ -36,9 +36,31 @@
     parseOnlineDevices(data);
   });
 
-  socket.on('log:active:calls', function (data) {
-    console.log("Active calls: ", data);
+  socket.on('log:pending:calls', function (data) {
     parseActiveCalls(data);
+  });
+
+  socket.on('log:active:calls', function (data) {
+    parseActiveCalls(data);
+  });
+
+  socket.on('log:feed', function (data) {
+    log = JSON.parse(data);
+    console.log("log:feed", data);
+    row = '<tr class="' + log.level + '"><td>'+ log.timestamp + '</td><td>'+ log.level + '</td><td>'+ log.msg + '</td></tr>';
+
+    $('#logs').append(row);
+    var elem = $(".table-logs tr:last");
+
+    if(isScrolledIntoView(elem)){
+      autoscroll = true;
+    }else{
+      autoscroll = false;
+    }
+ 
+    if(autoscroll){
+      $("#log-wrapper").animate({"scrollTop": $('#logs')[0].scrollHeight}, "slow");
+    }
   });
 
   function parseOnlineUsers(data){
@@ -170,8 +192,20 @@
     <div class="panel panel-default">
       <div class="panel-heading">Log</div>
       <div class="panel-body">
-        <div  id="logs">
-          <%= render 'logs' %>
+        <div id='log-wrapper'>
+          <table class="table table-logs table-bordered ">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Level</th>
+                <th>Msg</th>
+              </tr>
+            </thead>
+            <tbody id ='logs'>
+              
+            </tbody>
+          </table>
+          <%#= render 'logs' %>
         </div>
       </div>
     </div>

@@ -1,13 +1,3 @@
 $('#logs').html("<%= escape_javascript(render '/activity_monitor/logs') %>");
 
-var elem = $("#logs table tr:last");
 
-if(isScrolledIntoView(elem)){
-  autoscroll = true;
-}else{
-  autoscroll = false;
-}
-
-if(autoscroll){
-  $("#logs").animate({"scrollTop": $('#logs')[0].scrollHeight}, "slow");
-}
