@@ -19,13 +19,26 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     if connection and contact
       if connection.update_attributes(contact_params)
         ContactNotifications.updated(connection)
-        render json: {contact: {id: connection.contact_id, name: contact.name, email: contact.email, phone: contact.phone, is_pending: connection.is_pending, is_rejected: connection.is_rejected, is_removed: connection.is_removed, nickname: connection.nickname}}, status: 200
+        render json: {contact: {id: connection.contact_id, name: contact.name, email: contact.email, state: state(contact, connection.is_pending), phone: contact.phone, is_pending: connection.is_pending, is_rejected: connection.is_rejected, is_removed: connection.is_removed, nickname: connection.nickname}}, status: 200
       else
         render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
       end
     else
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist') } }, status: 401
     end
+  end
+
+  def state user, is_pending
+    contact_state = 'offline'
+    if user
+      if user.is_online? 
+        contact_state = 'online'
+      else
+        contact_state = 'offline'
+      end
+    end
+    contact_state = 'pending' if is_pending
+    contact_state
   end
 
   # User unvites registered or not registered users
@@ -59,7 +72,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
       if connection.save
         send_sms_or_email(connection, current_user, invited_user, device)
-        render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => connection.nickname}}, status: 200
+        render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'pending', "nickname" => connection.nickname}}, status: 200
         ContactNotifications.status_changed(connection, true)
       else
         render json: { error_info: { code: 101, title: '', message: connection.errors.full_messages.join(", ") } }, status: 400
@@ -69,7 +82,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       if conn.is_pending
         send_sms_or_email(conn, current_user, invited_user, device)
 
-        render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
+        render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name, "state" => 'pending' , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
         ContactNotifications.status_changed(connection, true)
       else
         render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists') }  }, status: 400
