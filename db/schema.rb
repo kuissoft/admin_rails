@@ -69,15 +69,6 @@ ActiveRecord::Schema.define(version: 20140325183315) do
 
   add_index "locations", ["session_id"], name: "index_locations_on_session_id", using: :btree
 
-  create_table "notifications", force: true do |t|
-    t.string   "notification_type"
-    t.integer  "user_id"
-    t.string   "user_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "from_user_id"
-  end
-
   create_table "rpush_apps", force: true do |t|
     t.string   "name",                                null: false
     t.string   "environment"

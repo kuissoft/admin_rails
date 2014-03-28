@@ -3,6 +3,16 @@
     <h3 >Users</h3>
   </div>
 </div>
+Today:
+  <%= @client.account.usage.records.today.list({:category => "sms"}).first.usage %> SMS
+  <%= @client.account.usage.records.today.list({:category => "totalprice"}).first.usage %>$
+This week:
+  <%= @client.account.usage.records.this_month.list({:category => "sms", :start_date => (Date.today-7.days).to_s(:db), :end_date => Date.today.to_s(:db)}).first.usage %> SMS
+  <%= @client.account.usage.records.this_month.list({:category => "totalprice", :start_date => (Date.today-7.days).to_s(:db), :end_date => Date.today.to_s(:db)}).first.usage %>$
+This month:
+  <%= @client.account.usage.records.this_month.list({:category => "sms"}).first.usage %> SMS
+  <%= @client.account.usage.records.this_month.list({:category => "totalprice"}).first.usage %>$
+
 <div class='row'>
   <div class="col-lg-12">
     <div class="panel panel-default">
