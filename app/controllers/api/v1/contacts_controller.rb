@@ -24,7 +24,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
       end
     else
-      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists') } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist') } }, status: 401
     end
   end
 

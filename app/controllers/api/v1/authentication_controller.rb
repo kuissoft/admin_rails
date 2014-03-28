@@ -24,12 +24,12 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         render json: {name: user.name, role: user.role, uuid: device.uuid }, status: 200
         # end
       elsif device && device.last_token == params[:auth_token]
-        render json: { error_info: { code: 102, title: t('errors.token_expired'), message: t('errors.token_expired_msg')} }, status: 401
+        render json: { error_info: { code: 102, title: '', message: t('errors.token_expired')} }, status: 401
       else
         render json: { error_info: { code: 103, title: '', message: t('errors.token_not_match')} }, status: 401
       end
     else
-      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists') } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist') } }, status: 401
     end
   end
   # Resister user or send new code to activate new device
@@ -84,9 +84,9 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
       end
     else
       if err == 101
-        render json: { error_info: { code: 101, title: '', message: t('errors.wrong_format', locale: set_language_by_area_code(phone)) } }, status: 401
+        render json: { error_info: { code: 101, title: '', message: t('errors.phone_wrong_format', locale: set_language_by_area_code(phone)) } }, status: 401
       else
-        render json: { error_info: { code: 100, title: t('errors.undefined_error', locale: set_language_by_area_code(phone)), message: ''} }, status: 401
+        render json: { error_info: { code: 100, title: t('errors.undefined_error_title', locale: set_language_by_area_code(phone)), message: ''} }, status: 401
       end
     end
 
@@ -103,7 +103,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     end
 
     if allow_send
-      msg = t('sms.authorization', code: device.verification_code, locale: device.language)
+      msg = t('sms.verification', code: device.verification_code, locale: device.language)
       user = User.where(phone: device.phone).first
 
       if user and user.admin? and get_settings_value(:force_sms) != "1" 
@@ -147,7 +147,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         end
       end
     else
-      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists', locale: set_language_by_area_code(phone)) } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist', locale: set_language_by_area_code(phone)) } }, status: 401
     end
   end
 
@@ -185,7 +185,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         render json: { error_info: { code: 110, title: '', message: t('errors.no_verification_code', locale: device.language) } }, status: 401
       end
     else
-      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists', locale: set_language_by_area_code(phone)) } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist', locale: set_language_by_area_code(phone)) } }, status: 401
     end
   end
 
@@ -204,13 +204,13 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
           Rails.logger.error '========== DEAUTHENTICATE ERRORS ============'
           Rails.logger.error "#{device.errors.inspect}"
           Rails.logger.error '=========== END DEBUG ============='
-          render json: { error_info: { code: 100, title: t('errors.undefined_error', locale: device.language), message: ''} }, status: 401
+          render json: { error_info: { code: 100, title: t('errors.undefined_error_title', locale: device.language), message: ''} }, status: 401
         end
       else
         render json: { error_info: { code: 102, title: '', message: t('errors.token_not_match', locale: device.language)} }, status: 401
       end
     else
-      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exists', locale: device.language) } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist', locale: device.language) } }, status: 401
     end
   end
 

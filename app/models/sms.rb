@@ -20,7 +20,7 @@ class Sms
 
     begin
       if (@send_to.length < 7 and @send_to.length > 15) and /\A(\+)?[0-9 ]+\z/.match(@send_to)
-        return [false, ::I18n.t('errors.number_not_valid')]
+        return [false, ::I18n.t('errors.phone_not_valid')]
       else
         @client.account.messages.create(
         :from => @send_from,
@@ -33,7 +33,7 @@ class Sms
       Rails.logger.info "=============== DEBUG TWILIO START ================"
       Rails.logger.error "Twilio REST Error:  #{e.message}"
       Rails.logger.info "================ DEBUG TWILIO END ================="
-      return [false, ::I18n.t('errors.cannot_send')]
+      return [false, ::I18n.t('errors.sms_cannot_send')]
     end
   end
 

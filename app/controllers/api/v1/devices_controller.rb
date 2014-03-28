@@ -33,7 +33,7 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
         Rails.logger.error '===========END DEBUG============='
       end
     else
-      render json: { error_info: { code: 115, message: t('errors.device_not_exists') } }, status: 400
+      render json: { error_info: { code: 115, message: t('errors.device_not_exist') } }, status: 400
     end
     # update device status if device disconnect
   end
@@ -43,7 +43,7 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
     if device
       render json: {}, status: 200 if device.update language: params[:language]
     else
-      render json: { error_info: { code: 115, message: t('errors.device_not_exists') } }, status: 400
+      render json: { error_info: { code: 115, message: t('errors.device_not_exist') } }, status: 400
     end
   end
 
