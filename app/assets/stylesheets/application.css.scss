@@ -19,12 +19,34 @@
 .red {
   color: red;
 }
-
-#logs {
-  min-height: 600px;
-  max-height: 600px;
+#log-wrapper {
+   min-height: 600px;
+   max-height: 600px;
+   overflow: auto;
+   background: #000000;
+}
+.table-logs {
+ 
   color: #ffffff;
   background: #000000;
-  overflow: auto;
+  
+}
+.table-logs tr {
+  background: #000000;
+}
+
+.table-logs td {
+  background: #000000;
+}
+.info {
+  color: white;
+}
+
+.error {
+  color: red;
+}
+
+.warning {
+  color: yellow;
 }
 
