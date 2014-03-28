@@ -43,7 +43,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     unless device
       device = Device.create!(phone: phone, uuid: params[:uuid], language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id, verification_code: 100000 + SecureRandom.random_number(900000))
     else
-      device.update  uuid: params[:uuid], verification_code: 100000 + SecureRandom.random_number(900000), user_id: device.language
+      device.update  uuid: params[:uuid], user_id: invited_user.id, language: device.language
     end
 
 

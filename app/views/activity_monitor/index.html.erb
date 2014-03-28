@@ -37,7 +37,7 @@
   });
 
   socket.on('log:pending:calls', function (data) {
-    parseActiveCalls(data);
+    parsePendingCalls(data);
   });
 
   socket.on('log:active:calls', function (data) {
@@ -46,7 +46,7 @@
 
   socket.on('log:feed', function (data) {
     log = JSON.parse(data);
-    console.log("log:feed", data);
+    
     row = '<tr class="' + log.level + '"><td>'+ log.timestamp + '</td><td>'+ log.level + '</td><td>'+ log.msg + '</td></tr>';
 
     $('#logs').append(row);
@@ -85,19 +85,27 @@
     $('#online_devices').html(online_devices_html);
   }
 
+  function parsePendingCalls(data){
+    calls = JSON.parse(data);
+
+    pending_calls_html = '<table class="table table-striped table-bordered table-hover"></thead><tr><th>Caller</th><th>Assistant</th><th>Pending since</th></tr></thead><tbody>';
+    calls.forEach(function(value, index){
+     pending_calls_html += callsShowTmpl(value);
+    });
+    pending_calls_html+= '</tbody></table>';
+    $('#pending_calls').html(pending_calls_html);
+  }
+
   function parseActiveCalls(data){
     calls = JSON.parse(data);
 
-    active_calls_html = '<table class="table table-striped table-bordered table-hover"><thead><tr><th>Caller</th><th>Assistant</th><th>Call since</th></tr></thead><tbody>';
-    pending_calls_html = '<table class="table table-striped table-bordered table-hover"></thead><tr><th>Caller</th><th>Assistant</th><th>Call since</th></tr></thead><tbody>';
+    active_calls_html = '<table class="table table-striped table-bordered table-hover"><thead><tr><th>Caller</th><th>Assistant</th><th>Call started at</th></tr></thead><tbody>';
+
     calls.forEach(function(value, index){
-     if(value.call.created_at != "") { active_calls_html += callsShowTmpl(value);}
-     else { pending_calls_html += callsShowTmpl(value); }
+     active_calls_html += callsShowTmpl(value);
     });
     active_calls_html+= '</tbody></table>';
-    pending_calls_html+= '</tbody></table>';
     $('#active_calls').html(active_calls_html);
-    $('#pending_calls').html(pending_calls_html);
   }
 
   // Templates
@@ -116,9 +124,16 @@
 
   function callsShowTmpl(value){
     if(value){
-      return '<tr><td>' + value.call.caller_name + ' (' + value.call.caller_id + ')</td>' + '<td>' + value.call.assistant_name + ' (' + value.call.assistant_id + ')</td>' + '<td>' + value.call.created_at + '</td></tr>';
+      if(value.call_started_at != ""){
+        var call_start = value.call_started_at;
+      }else{
+        var call_start = value.pending_started_at;
+      }
+
+      return '<tr><td>' + value.caller_name + ' (' + value.caller_id + ')</td>' + '<td>' + value.assistant_name + ' (' + value.assistant_id + ')</td>' + '<td>' + call_start + '</td></tr>';
     }
   }
+  
 
   // calls action refreshing the partial
   function refreshPartial() {
