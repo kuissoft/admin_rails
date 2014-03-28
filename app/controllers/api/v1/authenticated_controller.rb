@@ -23,7 +23,7 @@ class Api::V1::AuthenticatedController < Api::V1::ApplicationController
         render json: { error_info: { code: 102, title: '', message: t('errors.token_not_match')} }, status: 401
       end
     else
-      render json: { error_info: { code: 104, title: '', message: t('errors.user_not_authenticated')} }, status: 401
+      render json: { error_info: { code: 104, title: '', message: t('errors.not_authenticated')} }, status: 401
     end
   end
 end

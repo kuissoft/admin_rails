@@ -1,25 +1,23 @@
 en:
   sms:
-    authorization: "PIN: %{code}. Thank you for using Remote Assistant."
+    verification: "PIN: %{code}. Thank you for using Remote Assistant."
     invitation: "Hi! %{user} invites you to connect with him via Remote Assistant."
   errors:
-    token_expired: 'Token expired'
-    token_expired_msg: 'Authentication token expired.'
+    token_expired: 'Authentication token has expired.'
     token_not_match: 'Authentication token does not match.'
     token_invalid: 'Invalid authentication token.'
-    wrong_format: 'Wrong format or blank phone number.'
-    number_not_valid: 'Phone number is not valid.'
-    cannot_send: 'Cannot send verification SMS. Please try again later.'
-    sms_limit: 'You reached maximum authentication limit (10 SMS for 30 days).'
-    resend_limit: 'Resend Verification code limit reached.'
-    undefined_error: 'Undefined error.'
-    user_not_exists: 'User does not exists.'
+    not_authenticated: 'User not authenticated.'
+    phone_wrong_format: 'Phone number in wrong format.'
+    phone_not_valid: 'Phone number is not valid.'
+    sms_cannot_send: 'Cannot send verification SMS. Please try again later.'
+    sms_limit: 'You have reached the maximum authentication SMS count (10 SMS for 30 days).'
+    resend_limit: 'Resend verification code limit has been reached.'
+    user_not_exist: 'User does not exist.'
     verification_not_match: 'Verification code does not match.'
     no_verification_code: 'No verification code.'
-    connection_exists: 'Connection already exists.'
-    url_or_record_not_found: 'URL or Record does not found.'
-    invalid_call_id: 'Invalid call id.'
-    device_not_exists: 'Device does not exists.'
-    user_not_authenticated: 'User not authenticated.'
-  
-
+    connection_exists: 'This person is already in your contacts.'
+    url_or_record_not_found: 'URL or record not found.'
+    invalid_call_id: 'Call ID is invalid.'
+    device_not_exist: 'Device does not exist.'
+    undefined_error_title: 'Undefined error'
+    undefined_error: 'Undefined error has occured.'
