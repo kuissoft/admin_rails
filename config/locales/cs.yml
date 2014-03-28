@@ -20,7 +20,7 @@ cs:
     invalid_call_id: 'ID hovoru je neplatné.'
     device_not_exist: 'Zařízení neexistuje.'
     undefined_error_title: 'Neznámá chyba'
-	undefined_error: 'Nastala neznámá chyba.'
+    undefined_error: 'Nastala neznámá chyba.'
     activerecord:
       attributes:
         connection:

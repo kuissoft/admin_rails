@@ -4,11 +4,11 @@ module UsersHelper
     if conn
       names(conn, reverse) +
       " " +
-      content_tag(:span, t('pending'), class: conn.is_pending ? "green" : "red") +
+      content_tag(:span, t('is_pending', scope: 'activerecord.attributes.connection'), class: conn.is_pending ? "green" : "red") +
       " | " +
-      content_tag(:span, t('rejected'), class: conn.is_rejected ? "green" : "red") +
+      content_tag(:span, t('is_rejected', scope: 'activerecord.attributes.connection'), class: conn.is_rejected ? "green" : "red") +
       " | " +
-      content_tag(:span, t('removed'), class: conn.is_removed ? "green" : "red") +
+      content_tag(:span, t('is_removed', scope: 'activerecord.attributes.connection'), class: conn.is_removed ? "green" : "red") +
       " | " +
       link_to(image_tag('edit.png'), edit_connection_path(id: conn.id, user: (reverse ? conn.contact.id : conn.user.id))) +
       " | " +

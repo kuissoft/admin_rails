@@ -1,5 +1,5 @@
 class ContactSerializer < ActiveModel::Serializer
-  attributes :id, :name, :email, :phone, :is_pending, :is_rejected, :is_removed, :nickname, :last_online, :is_online, :connection_type, :photo_url
+  attributes :id, :name, :email, :phone, :is_pending, :state, :is_rejected, :is_removed, :nickname, :last_online, :is_online, :connection_type, :photo_url
 
   def id
     object.contact.id if object.contact
@@ -27,6 +27,19 @@ class ContactSerializer < ActiveModel::Serializer
 
   def is_online
     object.contact.is_online? if object.contact
+  end
+
+  def state
+    contact_state = 'offline'
+    if object.contact
+      if object.contact.is_online? 
+        contact_state = 'online'
+      else
+        contact_state = 'offline'
+      end
+    end
+    contact_state = 'pending' if object.is_pending
+    contact_state
   end
 
   def connection_type

@@ -20,4 +20,4 @@ en:
     invalid_call_id: 'Call ID is invalid.'
     device_not_exist: 'Device does not exist.'
     undefined_error_title: 'Undefined error'
-	undefined_error: 'Undefined error has occured.'
+    undefined_error: 'Undefined error has occured.'

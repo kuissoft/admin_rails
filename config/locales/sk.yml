@@ -19,8 +19,8 @@ sk:
     url_or_record_not_found: 'Adresa alebo záznam nenájdený.'
     invalid_call_id: 'ID hovoru je neplatné.'
     device_not_exist: 'Zariadenie neexistuje.'
-	undefined_error_title: 'Neznáma chyba'
-	undefined_error: 'Nastala neznáma chyba.'
+    undefined_error_title: 'Neznáma chyba'
+    undefined_error: 'Nastala neznáma chyba.'
     activerecord:
       attributes:
         connection:
