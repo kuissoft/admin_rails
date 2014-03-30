@@ -1,5 +1,5 @@
 class Api::V1::DevicesController < Api::V1::AuthenticatedController
-  skip_before_action :authenticate_user_from_token!, only: :change_language
+  skip_before_action :authenticate_user_from_token!, only: [:change_language, :set_all_offline]
   def create
     # Find if device token exists for another user
     device = Device.where("token = ? and user_id != ?", params[:device][:token], current_user.id).first
@@ -15,7 +15,7 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
 
     # If device is not registered -> register it to my user_id
     if device = current_user.devices.where(uuid: params[:uuid]).first.update(device_params)
-      render json: {}, status: 200 
+      render json: {}, status: 200
     else
       render json: { error_info: { code: 101, message: device.errors.full_message.join(", ") } }, status: 400
     end
@@ -26,7 +26,7 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
 
     if device
       if device.update online: params[:is_online], last_online_at: params[:last_online_at]
-        render json: {}, status: 200 
+        render json: {}, status: 200
       else
         Rails.logger.error '==========START DEBUG============'
         Rails.logger.error "Device update error: #{device.errors.inspect}"
@@ -36,6 +36,24 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
       render json: { error_info: { code: 115, message: t('errors.device_not_exist') } }, status: 400
     end
     # update device status if device disconnect
+  end
+
+  def set_all_offline
+    devices = Device.all
+    error = false
+    devices.each do |device|
+      unless device.update online: false, last_online_at: Time.now
+        Rails.logger.error '==========START DEBUG============'
+        Rails.logger.error "All devices set to offline error: #{device.errors.inspect}"
+        Rails.logger.error '===========END DEBUG============='
+        error = true
+      end
+    end
+    unless error
+      render json: {}, status: 200
+    else
+      render json: { error_info: { code: 100, title: t('errors.undefined_error_title'), message: ''} }, status: 401
+    end
   end
 
   def change_language
@@ -53,4 +71,3 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
     params.require(:device).permit(:token, :uuid)
   end
 end
-

@@ -37,6 +37,7 @@ RemoteAssistant::Application.routes.draw do
       resources :devices, only: [:create] do 
         put :change_language, on: :collection
         put :set_offline, on: :collection
+        put :set_all_offline, on: :collection
       end
       resources :calls
       resources :notifications

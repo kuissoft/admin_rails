@@ -30,6 +30,8 @@
                 <th>CONNECTION</th>
                 <th>LAST ONLINE AT</th>
                 <th></th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -52,6 +54,8 @@
                   <td><%= device.token_updated_at.to_s(:datetime) if device.token_updated_at%></td>
                   <td><%= device.connection_type %></td>
                   <td><%= device.last_online_at.to_s(:datetime) if device.last_online_at%></td>
+                  <td><%= link_to "Edit", edit_device_path(device), class: 'btn btn-xs btn-default' %></td>
+                  <td><%= link_to 'Destroy', device, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
                   <td>
                     <%= link_to "Reset sms", reset_sms_device_path(device), method: :put, class: 'btn btn-default' %>
                   </td>
@@ -60,6 +64,7 @@
             </tbody>
           </table>
         </div>
+          <%= link_to "Create new device", new_device_path, class: 'btn btn-default' %>
       </div>
     </div>
   </div>
