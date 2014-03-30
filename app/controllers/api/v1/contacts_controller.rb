@@ -114,7 +114,13 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       unless invited_user.admin? and get_settings_value(:force_sms) != "1" 
         sms = Sms.new(invited_user.phone, msg).deliver
       else
-        Emailer.invitation_email(invited_user, current_user, device).deliver
+        begin
+          Emailer.invitation_email(invited_user, current_user, device).deliver
+        rescue => e
+          logger.error "=============== DEBUG START ================"
+          logger.error "Invitation e-mail error: #{e.inspect}"
+          logger.error "================ DEBUG END ================="
+        end
       end
     end
   end
