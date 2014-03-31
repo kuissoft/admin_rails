@@ -58,6 +58,6 @@ class DevicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def device_params
-    params.require(:device).permit(:online, :user_id, :phone, :language, :verification_code, :invalid_count, :sms_count, :reset_count, :resent, :resent_at, :token, :auth_token, :last_token, :token_updated_at, :connection_type, :last_online_at )
+    params.require(:device).permit(:online, :uuid, :user_id, :phone, :language, :verification_code, :invalid_count, :sms_count, :reset_count, :resent, :resent_at, :token, :auth_token, :last_token, :token_updated_at, :connection_type, :last_online_at )
   end
 end
