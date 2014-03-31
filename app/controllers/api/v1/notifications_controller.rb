@@ -47,9 +47,10 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
       result = n.save!
     end
 
-    result = Rpush.push
+    Rpush.push
     Rails.logger.error '==========START DEBUG============'
     Rails.logger.error "Rpush result: #{result.inspect}"
+    Rails.logger.debug "Rpush result 1: #{result.inspect}"
     Rails.logger.error '===========END DEBUG============='
 
     render json: {}, status: 200
