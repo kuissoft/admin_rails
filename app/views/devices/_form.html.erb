@@ -1,0 +1,83 @@
+<%= form_for @device, role: "form" do |f| %>
+  <div class="form-group">
+    <%= f.label :uuid %>
+    <%= f.text_field :uuid, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :user_id %>
+    <%= f.text_field :user_id, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :phone %>
+    <%= f.text_field :phone, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :language %>
+    <%= f.select :language, options_for_select(['cs', 'en', 'sk'], @device.language), class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :verification_code %>
+    <%= f.text_field :verification_code, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :invalid_count %>
+    <%= f.text_field :invalid_count, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :sms_count %>
+    <%= f.text_field :sms_count, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :reset_count %>
+    <%= f.text_field :reset_count, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :resent %>
+    <%= f.check_box :resent, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :token %>
+    <%= f.text_field :token, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :auth_token %>
+    <%= f.text_field :auth_token, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :last_token %>
+    <%= f.text_field :last_token, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :token_updated_at %>
+    <%= f.datetime_select :token_updated_at, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :connection_type %>
+    <%= f.text_field :connection_type, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :last_online_at %>
+    <%= f.datetime_select :last_online_at, class: "form-control" %>
+  </div>
+
+
+  <div class="form-group">
+    <%= f.submit "Save", class: 'btn btn-primary' %>
+    <%= link_to "Back", :back, class: 'btn btn-default' %>
+  </div>
+<% end -%>
+

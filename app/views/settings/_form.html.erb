@@ -1,12 +1,15 @@
-<%= form_for @setting do |f| %>
-  <div class="field">
-    <%= f.text_field :name %>
+<%= form_for @setting, role: "form" do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.text_area :value %>
+  <div class="form-group">
+    <%= f.label :value %>
+    <%= f.text_area :value, class: "form-control", rows: '3' %>
   </div>
-  <div class="action">
+  <div class="form-group">
     <%= f.submit "Save", class: 'btn btn-primary' %>
+    <%= link_to "Back", :back, class: 'btn btn-default' %>
   </div>
 <% end -%>
 
