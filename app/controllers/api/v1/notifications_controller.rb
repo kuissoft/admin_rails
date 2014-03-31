@@ -38,13 +38,15 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
     end
 
     device_ids.each do |device_id|
-      n = Rpush::Apns::Notification.new
-      n.app = Rpush::Apns::App.find_by_name("ios_app")
-      n.device_token = device_id
-      n.alert = "Request from #{name}"
-      n.attributes_for_device = { call_id: key }
-      n.sound = "Calling.wav"
-      result = n.save!
+      unless device_id.blank?
+        n = Rpush::Apns::Notification.new
+        n.app = Rpush::Apns::App.find_by_name("ios_app")
+        n.device_token = device_id
+        n.alert = "Request from #{name}"
+        n.attributes_for_device = { call_id: key }
+        n.sound = "Calling.wav"
+        result = n.save!
+      end
     end
 
     Rpush.push
@@ -68,4 +70,3 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
     notifications
   end
 end
-
