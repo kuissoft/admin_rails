@@ -103,7 +103,10 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     end
 
     if allow_send
-      msg = t('sms.verification', code: device.verification_code, locale: device.language)
+      lang = device.language
+      lang = 'en' unless device.language == 'cs' or device.language == 'sk'
+
+      msg = t('sms.verification', code: device.verification_code, locale: lang)
       user = User.where(phone: device.phone).first
 
       if user and user.admin? and get_settings_value(:force_sms) != "1" 
@@ -128,7 +131,9 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
     if device
       # If device request verification 1 times send device that he reached limit
       if device.resent and Time.new < device.resent_at + 1.day
-        render json: { error_info: { code: 114, title:'', message: t('errors.resend_limit', locale: device.language) } }, status: 401
+        lang = device.language
+        lang = 'en' unless device.language == 'cs' or device.language == 'sk'
+        render json: { error_info: { code: 114, title:'', message: t('errors.resend_limit', locale: lang) } }, status: 401
       else
         # Reset resent if it is older than 24 hours
         device.update(resent: false, resent_at: nil) if device.resent_at and Time.new > (device.resent_at + 1.day)
@@ -179,10 +184,14 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         else
           # Count invalid attempts
           device.update invalid_count: device.invalid_count += 1
-          render json: { error_info: { code: 109, title: '', message: t('errors.verification_not_match', locale: device.language)} }, status: 401
+          lang = device.language
+          lang = 'en' unless device.language == 'cs' or device.language == 'sk'
+          render json: { error_info: { code: 109, title: '', message: t('errors.verification_not_match', locale: lang)} }, status: 401
         end
       else
-        render json: { error_info: { code: 110, title: '', message: t('errors.no_verification_code', locale: device.language) } }, status: 401
+        lang = device.language
+        lang = 'en' unless device.language == 'cs' or device.language == 'sk'
+        render json: { error_info: { code: 110, title: '', message: t('errors.no_verification_code', locale: lang) } }, status: 401
       end
     else
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist', locale: set_language_by_area_code(phone)) } }, status: 401
@@ -204,13 +213,17 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
           Rails.logger.error '========== DEAUTHENTICATE ERRORS ============'
           Rails.logger.error "#{device.errors.inspect}"
           Rails.logger.error '=========== END DEBUG ============='
-          render json: { error_info: { code: 100, title: t('errors.undefined_error_title', locale: device.language), message: ''} }, status: 401
+          lang = device.language
+          lang = 'en' unless device.language == 'cs' or device.language == 'sk'
+          render json: { error_info: { code: 100, title: t('errors.undefined_error_title', locale: lang), message: ''} }, status: 401
         end
       else
-        render json: { error_info: { code: 102, title: '', message: t('errors.token_not_match', locale: device.language)} }, status: 401
+        lang = device.language
+        lang = 'en' unless device.language == 'cs' or device.language == 'sk'
+        render json: { error_info: { code: 102, title: '', message: t('errors.token_not_match', locale: lang)} }, status: 401
       end
     else
-      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist', locale: device.language) } }, status: 401
+      render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist') } }, status: 401
     end
   end
 

@@ -109,7 +109,15 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     if allow_send
       invited_user_device = Device.where(phone: invited_user.phone).first
       lang = set_language_by_area_code(invited_user.phone)
-      lang = invited_user_device.language if invited_user_device
+      if invited_user_device
+        if invited_user_device.language == 'cs'
+          lang = 'cs'
+        elsif invited_user_device.language == 'sk'
+          lang = 'sk'
+        else
+          lang = 'en'
+        end
+      end
       msg = t('sms.invitation', user: resolve_name(current_user), locale: lang )
       unless invited_user.admin? and get_settings_value(:force_sms) != "1" 
         sms = Sms.new(invited_user.phone, msg).deliver
