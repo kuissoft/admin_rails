@@ -8,7 +8,7 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
     device.update token: nil if device
 
     # Check if exists zombie devices and if yes kill them all
-    zombie_devices = Device.where("token = ? AND user_id = ? AND uuid != ")
+    zombie_devices = Device.where("token = ? AND user_id = ? AND uuid != ", params[:device][:token], current_user.id, params[:uuid] )
     zombie_devices.destroy_all
 
     # If I have device registered just return 200
