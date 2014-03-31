@@ -83,7 +83,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         send_sms_or_email(conn, current_user, invited_user, device)
 
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name, "state" => 'pending' , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
-        ContactNotifications.status_changed(connection, true)
+        ContactNotifications.status_changed(conn, true)
       else
         render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists') }  }, status: 400
       end
@@ -144,7 +144,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
 
     ContactNotifications.status_changed(connection)
-    connection.update_attributes!(is_pending: false)
+    connection.update_attributes!(is_pending: false, is_rejected: false, is_removed: false)
     begin
       current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
 
@@ -157,7 +157,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   def decline
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
 
-    connection.update_attributes!(is_pending: false, is_rejected: true)
+    connection.update_attributes!(is_pending: false, is_rejected: true, is_removed: false)
 
     ContactNotifications.status_changed(connection)
 
@@ -167,7 +167,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
   def remove
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
     begin
-      connection.update_attributes!(is_removed: true) if connection
+      connection.update_attributes!(is_removed: true, is_rejected: false, is_pending: false) if connection
       Connection.where(user_id: current_user.id, contact_id: params[:contact_id]).first.destroy
 
       ContactNotifications.status_changed(connection) if connection
