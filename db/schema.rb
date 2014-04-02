@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140325183315) do
+ActiveRecord::Schema.define(version: 20140402090844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,15 @@ ActiveRecord::Schema.define(version: 20140325183315) do
   end
 
   add_index "locations", ["session_id"], name: "index_locations_on_session_id", using: :btree
+
+  create_table "notifications", force: true do |t|
+    t.string   "notification_type"
+    t.integer  "user_id"
+    t.string   "user_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "from_user_id"
+  end
 
   create_table "rpush_apps", force: true do |t|
     t.string   "name",                                null: false
@@ -153,7 +162,6 @@ ActiveRecord::Schema.define(version: 20140325183315) do
     t.datetime "photo_updated_at"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

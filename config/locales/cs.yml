@@ -21,6 +21,7 @@ cs:
     device_not_exist: 'Zařízení neexistuje.'
     undefined_error_title: 'Neznámá chyba'
     undefined_error: 'Nastala neznámá chyba.'
+    cant_add_yourself: 'Nelze přidat sám sebe jako kontakt'
     activerecord:
       attributes:
         connection:

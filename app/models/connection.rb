@@ -9,7 +9,7 @@ class Connection < ActiveRecord::Base
 
   def self_reference
     if user_id == contact_id
-      errors.add(:contact_id, "can't add yourself as a contact")
+      errors.add(:contact_id, ::I18n.t('errors.cant_add_yourself'))
     end
   end
 end

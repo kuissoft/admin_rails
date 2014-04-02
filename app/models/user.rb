@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :recoverable, :rememberable, :trackable #, :validatable
 
   has_many :connections, dependent: :delete_all
   has_many :contact_connections, class_name: 'Connection', foreign_key: :contact_id, dependent: :delete_all
@@ -44,6 +44,11 @@ class User < ActiveRecord::Base
   before_post_process :rename_photo
   before_save :delete_photo, if: ->{ remove == '1' && !photo_updated_at_changed? }
   before_save :reset_password, if: -> { role == 'admin' && role_changed?}
+  before_validation :set_password, on: :create
+
+  def set_password
+    self.password = SecureRandom.urlsafe_base64
+  end
 
   def delete_photo
     self.photo = nil

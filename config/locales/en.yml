@@ -21,3 +21,4 @@ en:
     device_not_exist: 'Device does not exist.'
     undefined_error_title: 'Undefined error'
     undefined_error: 'Undefined error has occured.'
+    cant_add_yourself: "Can't add yourself as a conntact" 
