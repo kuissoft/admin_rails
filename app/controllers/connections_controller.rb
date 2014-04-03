@@ -74,6 +74,6 @@ class ConnectionsController < AuthenticatedController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def connection_params
-      params.require(:connection).permit(:user_id, :contact_id, :is_pending, :id_user, :is_rejected, :is_removed)
+      params.require(:connection).permit(:user_id, :contact_id, :is_pending, :id_user, :is_rejected, :is_removed, :nickname)
     end
 end
