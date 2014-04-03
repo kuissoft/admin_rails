@@ -16,3 +16,8 @@
 /tmp
 
 /public/system
+
+/.vagrant/*
+Vagrantfile
+dump.rdb
+/vendor/bundle/*
