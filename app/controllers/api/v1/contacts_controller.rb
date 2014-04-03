@@ -54,7 +54,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     # If invited user not exits than create new one
     invited_user = User.create!(phone: phone, password: 'asdfasdf') unless invited_user
     unless device
-      device = Device.create!(phone: phone, uuid: params[:uuid], language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id, verification_code: 100000 + SecureRandom.random_number(900000))
+      device = Device.create!(phone: phone, uuid: params[:uuid], language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id)
     else
       device.update  uuid: params[:uuid], user_id: invited_user.id, language: device.language
     end
@@ -67,13 +67,39 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
     unless conn
       # Build new connection with invited user id
       connection = current_user.connections.build(contact_params)
-      # Sending notification to cantact_id
       connection.contact_id = invited_user.id
 
+      # check if exist pending invitation from other side
+      other_connection = Connection.where(user_id: invited_user, contact_id: current_user).first
+
+      both_invited = false
+      # if exists
+      if other_connection
+        # and is pending or is rejected is automaticaly accept invitation
+        if other_connection.is_pending or other_connection.is_rejected
+          other_connection.update is_pending: false, is_rejected: false, is_removed: false
+          connection.is_pending = false
+          connection.is_rejected = false
+          connection.is_removed = false
+          both_invited = true
+        elsif other_connection.is_removed
+          other_connection.destroy
+          connection.is_pending = true
+          connection.is_rejected = false
+          connection.is_removed = false
+        end
+      end
+
       if connection.save
-        send_sms_or_email(connection, current_user, invited_user, device)
-        render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'pending', "nickname" => connection.nickname}}, status: 200
-        ContactNotifications.status_changed(connection, true)
+        unless both_invited
+          send_sms_or_email(connection, current_user, invited_user, device)
+          ContactNotifications.status_changed(connection, true)
+          render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'pending', "nickname" => connection.nickname}}, status: 200   
+        else
+          ContactNotifications.status_changed(connection)
+          ContactNotifications.status_changed(other_connection)
+          render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'online', "nickname" => connection.nickname}}, status: 200  
+        end
       else
         render json: { error_info: { code: 101, title: '', message: connection.errors.full_messages.join(", ") } }, status: 400
       end
@@ -82,6 +108,11 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       if conn.is_pending
         send_sms_or_email(conn, current_user, invited_user, device)
 
+        render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name, "state" => 'pending' , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
+        ContactNotifications.status_changed(conn, true)
+      elsif conn.is_rejected or conn.is_removed
+        # and if is rejected set connection to pending again 
+        conn.update is_pending: true, is_rejected: false, is_removed: false
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name, "state" => 'pending' , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
         ContactNotifications.status_changed(conn, true)
       else
