@@ -40,7 +40,7 @@ class ContactSerializer < ActiveModel::Serializer
     end
     contact_state = 'pending' if object.is_pending
     Rails.logger.error '========== START DEBUG STATE ============'
-    Rails.logger.error "#{con_type.inspect}"
+    Rails.logger.error "#{contact_state.inspect}"
     Rails.logger.error '=========== END DEBUG STATE ============='
     contact_state
   end
