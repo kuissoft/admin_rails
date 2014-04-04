@@ -38,6 +38,9 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       end
     end
     contact_state = 'pending' if is_pending
+    Rails.logger.error '========== START DEBUG STATE API CONTACT ============'
+    Rails.logger.error "#{contact_state.inspect}"
+    Rails.logger.error '=========== END DEBUG STATE ============='
     contact_state
   end
 
