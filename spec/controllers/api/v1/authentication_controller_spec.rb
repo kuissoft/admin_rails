@@ -175,4 +175,42 @@ describe Api::V1::AuthenticationController, type: :controller do
 			JSON.parse(response.body).should have_content('"code"=>111')
 		end
 	end
+
+	describe "POST :deauthenticate" do
+		it "returns response 200" do
+			post :authenticate, phone: "420773646660", uuid: "3s2d4fd2f4fd2", language: "en"
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :verify_code, phone: "420773646660", uuid: "3s2d4fd2f4fd2", verification_code: device.verification_code
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :deauthenticate, user_id: device.user_id, auth_token: device.auth_token, uuid: "3s2d4fd2f4fd2"
+			expect(response).to be_success
+		end
+
+		it "returns blank JSON object" do
+			post :authenticate, phone: "420773646660", uuid: "3s2d4fd2f4fd2", language: "en"
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :verify_code, phone: "420773646660", uuid: "3s2d4fd2f4fd2", verification_code: device.verification_code
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :deauthenticate, user_id: device.user_id, auth_token: device.auth_token, uuid: "3s2d4fd2f4fd2"
+			JSON.parse(response.body).should == {}
+		end
+
+		it "returns error 102 (old token)" do
+			post :authenticate, phone: "420773646660", uuid: "3s2d4fd2f4fd2", language: "en"
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :verify_code, phone: "420773646660", uuid: "3s2d4fd2f4fd2", verification_code: device.verification_code
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :deauthenticate, user_id: device.user_id, auth_token: device.last_token, uuid: "3s2d4fd2f4fd2"
+			JSON.parse(response.body).should have_content('"code"=>102')
+		end
+
+		it "returns error 111 (bad user id)" do
+			post :authenticate, phone: "420773646660", uuid: "3s2d4fd2f4fd2", language: "en"
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :verify_code, phone: "420773646660", uuid: "3s2d4fd2f4fd2", verification_code: device.verification_code
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :deauthenticate, user_id: "0", auth_token: device.auth_token, uuid: "3s2d4fd2f4fd2"
+			JSON.parse(response.body).should have_content('"code"=>111')
+		end
+	end
 end
