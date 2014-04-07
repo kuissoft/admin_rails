@@ -5,6 +5,6 @@ FactoryGirl.define do
   	phone "+420123456789"
     email "test@remoteassistant.me"
     password "test123"
-    role "user"
+    role "admin"
   end
 end
