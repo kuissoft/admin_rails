@@ -27,7 +27,7 @@
               <% @connections.each do |connection| %>
                 <tr>
                   <td><%= "#{connection.user.name} (#{connection.user.phone})" if connection.user%> (id: <%= connection.user_id %>)</td>
-                  <td><%= "#{connection.contact.name} (connection.contact.phone)" if connection.contact %> (id: <%= connection.contact_id %>)</td>
+                  <td><%= "#{connection.contact.name} (#{connection.contact.phone})" if connection.contact %> (id: <%= connection.contact_id %>)</td>
                   <td><%= connection.nickname  %></td>
                   <td><%= connection.is_pending %></td>
                   <td><%= connection.is_rejected %></td>

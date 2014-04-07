@@ -12,8 +12,6 @@ User.create!(name:'Jiří Urbášek', phone:'+420604156985', email:'jirka@remote
 User.create!(name:'Jiří Urbášek 2', phone:'+420723385838', email:'jiri.urbasek@gmail.com', password:'admin', role:'admin')
 User.create!(name:'Pavel Dostál', phone:'+420773646660', email:'pavel@remoteassistant.me', password:'admin', role:'admin')
 User.create!(name:'Pavel Dostál 2', phone:'+4408703976885', email:'pdostal@pdostal.cz', password:'admin', role:'admin')
-User.create!(name:'Jozef Matúš', phone:'+420728408356', email:'jozef@remoteassistant.me', password:'admin', role:'admin')
-User.create!(name:'Jozef Matúš 2', phone:'+421911912352', email:'jojo@matus.sk', password:'admin', role:'admin')
 
 
 # SETTINGS SEED
