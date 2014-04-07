@@ -2,7 +2,10 @@
 
 FactoryGirl.define do
   factory :device do
-    token "123-456"
+    auth_token "123-456"
+    phone "+420123456789"
+    uuid "3s2d4fd2f4fd2"
+    language "en"
     association :user
   end
 end
