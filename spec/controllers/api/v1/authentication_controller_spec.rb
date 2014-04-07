@@ -31,7 +31,6 @@ describe Api::V1::AuthenticationController, type: :controller do
 			post :authenticate, phone: "4207736466601112", uuid: "3s2d4fd2f4fd2", language: "en"
 			JSON.parse(response.body).should have_content('"code"=>106')
 		end
-
 	end
 
 	describe "POST :verify_code" do
@@ -83,7 +82,6 @@ describe Api::V1::AuthenticationController, type: :controller do
 			post :authenticate, phone: "420773646660", uuid: "3s2d4fd2f4fd2"
 			JSON.parse(response.body).should have_content('"code"=>106')
 		end
-
 	end
 
 	describe "POST :resend_verification_code" do
@@ -129,7 +127,52 @@ describe Api::V1::AuthenticationController, type: :controller do
 			post :resend_verification_code, phone: "420773646660", uuid: "3333333333333"
 			JSON.parse(response.body).should have_content('"code"=>111')
 		end
-
 	end
 
+	describe "POST :validate" do
+		it "returns response 200" do
+			post :authenticate, phone: "420773646660", uuid: "3s2d4fd2f4fd2", language: "en"
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :verify_code, phone: "420773646660", uuid: "3s2d4fd2f4fd2", verification_code: device.verification_code
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :validate, user_id: device.user_id, auth_token: device.auth_token, uuid: "3s2d4fd2f4fd2", connection_type: "wifi"
+			expect(response).to be_success
+		end
+
+		it "returns object with the same uuid" do
+			post :authenticate, phone: "420773646660", uuid: "3s2d4fd2f4fd2", language: "en"
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :verify_code, phone: "420773646660", uuid: "3s2d4fd2f4fd2", verification_code: device.verification_code
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :validate, user_id: device.user_id, auth_token: device.auth_token, uuid: "3s2d4fd2f4fd2", connection_type: "wifi"
+			JSON.parse(response.body).should have_content('"uuid"=>"3s2d4fd2f4fd2"')
+		end
+
+		it "returns error 103 (bad token)" do
+			post :authenticate, phone: "420773646660", uuid: "3s2d4fd2f4fd2", language: "en"
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :verify_code, phone: "420773646660", uuid: "3s2d4fd2f4fd2", verification_code: device.verification_code
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :validate, user_id: device.user_id, auth_token: "x1xxxx11xxxxx1xxx_x", uuid: "3s2d4fd2f4fd2", connection_type: "wifi"
+			JSON.parse(response.body).should have_content('"code"=>103')
+		end
+
+		it "returns error 102 (old token)" do
+			post :authenticate, phone: "420773646660", uuid: "3s2d4fd2f4fd2", language: "en"
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :verify_code, phone: "420773646660", uuid: "3s2d4fd2f4fd2", verification_code: device.verification_code
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :validate, user_id: device.user_id, auth_token: device.last_token, uuid: "3s2d4fd2f4fd2", connection_type: "wifi"
+			JSON.parse(response.body).should have_content('"code"=>102')
+		end
+
+		it "returns error 111 (bad user id)" do
+			post :authenticate, phone: "420773646660", uuid: "3s2d4fd2f4fd2", language: "en"
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :verify_code, phone: "420773646660", uuid: "3s2d4fd2f4fd2", verification_code: device.verification_code
+			device = Device.where(phone: "+420773646660", uuid: "3s2d4fd2f4fd2").first
+			post :validate, user_id: "0", auth_token: device.auth_token, uuid: "3s2d4fd2f4fd2", connection_type: "wifi"
+			JSON.parse(response.body).should have_content('"code"=>111')
+		end
+	end
 end
