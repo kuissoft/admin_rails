@@ -13,5 +13,12 @@ describe Api::V1::ContactsController, type: :controller do
 			get :index, user_id: device.user.id, auth_token: device.auth_token, uuid: device.uuid
 			JSON.parse(response.body).should have_content('"contacts"')
 		end
+
+		it "returns error 104 - User is not authenticated" do
+			device = FactoryGirl.create(:device)
+			device.destroy
+			get :index, user_id: device.user.id, auth_token: device.auth_token, uuid: device.uuid
+			JSON.parse(response.body).should have_content('"code"=>104')
+		end
 	end
 end
