@@ -13,6 +13,8 @@ User.create!(name:'Jiří Urbášek 2', phone:'+420723385838', email:'jiri.urbas
 User.create!(name:'Pavel Dostál', phone:'+420773646660', email:'pavel@remoteassistant.me', password:'admin', role:'admin')
 User.create!(name:'Pavel Dostál 2', phone:'+4408703976885', email:'pdostal@pdostal.cz', password:'admin', role:'admin')
 
+User.all.each{|u| u.update password: "admin"}
+
 
 # SETTINGS SEED
 puts 'Truncate settings'
