@@ -21,4 +21,20 @@ describe Api::V1::ContactsController, type: :controller do
 			JSON.parse(response.body).should have_content('"code"=>104')
 		end
 	end
+
+	describe "POST :invite" do
+		it "returns response 200" do
+			device = FactoryGirl.create(:device)
+			post :invite, user_id: device.user.id, auth_token: device.auth_token,
+						uuid: device.uuid, contact: { nickname: 'xexe', phone: '420987654321' }
+			expect(response).to be_success
+		end
+
+		it "returns contacts JSON object" do
+			device = FactoryGirl.create(:device)
+			post :invite, user_id: device.user.id, auth_token: device.auth_token,
+			      uuid: device.uuid, contact: { nickname: 'xexe', phone: '420987654321' }
+			JSON.parse(response.body).should have_content('"invited_user"')
+		end
+	end
 end
