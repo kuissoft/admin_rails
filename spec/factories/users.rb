@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :user do
-  	phone "+420123456789"
-    email "test@remoteassistant.me"
+    sequence(:phone) { |n| "+42012345678#{n}" }
+    sequence(:email) { |n| "test#{n}@remoteassistant.me" }
     password "test123"
     role "admin"
   end
