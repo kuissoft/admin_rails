@@ -70,6 +70,7 @@ GEM
       coffee-script
     daemons (1.1.9)
     dalli (2.7.0)
+    database_cleaner (1.2.0)
     devise (3.2.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -278,6 +279,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   coffeebeans
   dalli
+  database_cleaner
   devise
   factory_girl_rails
   jbuilder (~> 1.2)
