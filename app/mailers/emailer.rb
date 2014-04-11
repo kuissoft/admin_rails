@@ -3,10 +3,10 @@ class Emailer < ActionMailer::Base
 
   def feedback_email feedback 
     @feedback = feedback
-
     @user = User.where(id: @feedback.user_id ).first if @feedback.user_id
+    submess = /((^| )[^ ]+){10}/.match(@feedback.message)
 
-    mail to: "project-4944826-c6516e79fe6f8eada19a7dcf@basecamp.com", subject: 'Feedback (iOS)'
+    mail to: "tomasstanik+k81yzne7dckwyluqnmpj@boards.trello.com", subject: "iOS: #{submess}"
   end
 
   def authentication_email user, device
