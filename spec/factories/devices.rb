@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :device do
-    auth_token "123-456"
-    phone "+420123456789"
-    uuid "3s2d4fd2f4fd2"
+    sequence(:auth_token) { |n| "123-45#{n}" }
+    sequence(:phone) { |n| "+42012345678#{n}" }
+    sequence(:uuid) { |n| "3s2d4fd2f4fd#{n}" }
     language "en"
     association :user
   end
