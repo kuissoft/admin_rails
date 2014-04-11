@@ -39,11 +39,20 @@ class ContactSerializer < ActiveModel::Serializer
       end
     end
     contact_state = 'pending' if object.is_pending
+    Rails.logger.error '========== START DEBUG STATE ============'
+    Rails.logger.error "#{contact_state.inspect}"
+    Rails.logger.error '=========== END DEBUG STATE ============='
     contact_state
   end
 
   def connection_type
-    object.contact.strongest_connection if object.contact
+    if object.contact
+      con_type = object.contact.strongest_connection
+      Rails.logger.error '========== START DEBUG CON TYPE ============'
+      Rails.logger.error "#{con_type.inspect}"
+      Rails.logger.error '=========== END DEBUG CON TYPE ============='
+      con_type
+    end
   end
 
   def photo_url

@@ -40,7 +40,29 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = "random"
+  # config.order = "random"
+
+  config.include Devise::TestHelpers, :type => :controller
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+    Setting.create!([
+      { name: 'token_expiration_period', value: '300' },
+      { name: 'twillio_sms_number', value: '+15005550006' },
+      { name: 'twillio_account_sid', value: 'AC12154c2e28073707ed1af46d75ad9df5' },
+      { name: 'twillio_auth_token', value: '399f58b6a189ec2475853f625edaafe1' },
+      { name: 'force_sms', value: '0' },
+    ])
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 
 end
 

@@ -3,7 +3,8 @@
 FactoryGirl.define do
   factory :user do
   	phone "+420123456789"
-    email "pavel@remoteassistant.me"
-    password "admin"
+    email "test@remoteassistant.me"
+    password "test123"
+    role "admin"
   end
 end

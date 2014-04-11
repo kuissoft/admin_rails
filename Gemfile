@@ -72,6 +72,7 @@ group :test, :development do
   gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
+  gem 'database_cleaner'
 end
 
 # Support for coffescript
