@@ -26,13 +26,13 @@ end
 
 group :production do
   gem 'pg' # use postgres as the database in production (supported by Heroku)
-  gem 'rails_12factor' # enable rails_serve_static_assets (to support css)
+  # gem 'rails_12factor' # enable rails_serve_static_assets (to support css)
 
   # Monitoring
-  gem 'sentry-raven'
+  #gem 'sentry-raven'
   #gem 'newrelic_rpm'
   
-  gem 'postmark-rails' # enable e-mail sending for Heroku
+  #gem 'postmark-rails' # enable e-mail sending for Heroku
 end
 
 # Use SCSS for stylesheets
