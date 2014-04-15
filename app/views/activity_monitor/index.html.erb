@@ -7,14 +7,51 @@
   var autoscroll = true;
   $(document).ready(function () {
 
+    refresh_rails_log();
     
-    
-    // setInterval(refreshPartial, 3000);
+    // setInterval(getLog, 3000);
   });
+
+  function refresh_rails_log(){
+    
+      var milliseconds = 1024;
+      var id = null;
+ 
+      var update = function(){
+        id = setInterval(function(){
+          var request = $.ajax({url: "activity_monitor/refresh_logs?silence=logger", dataType: "json"});
+          request.done(function( response) {
+            log = ""
+            for (var i = 0; i < response.activity_monitor.length; i++)
+            { 
+              if(response.activity_monitor[i].type){
+                var log_class = 'log_rails'
+              }
+              else{
+                var log_class = 'log_node'
+              }
+
+              log += "<tr class='" + log_class + "'>"
+              log += "<td>" + response.activity_monitor[i].timestamp  + "</td>"
+              log += "<td>" + response.activity_monitor[i].level.toLowerCase()  + "</td>"
+              log += "<td>" + response.activity_monitor[i].message  + "</td>"
+              log += "</tr>"
+            }
+
+            $('#logs').html(log);
+            tail();
+          });
+        }, milliseconds);
+        
+      };
+ 
+      update();
+
+    }
 
   function isScrolledIntoView(elem){
       var docViewTop = $(window).scrollTop();
-      var docViewBottom = docViewTop + $(window).height() + 600;
+      var docViewBottom = docViewTop + $(window).height() + 1000;
 
       var elemTop = $(elem).offset().top;
       var elemBottom = elemTop + $(elem).height();
@@ -44,24 +81,31 @@
     parseActiveCalls(data);
   });
 
-  socket.on('log:feed', function (data) {
-    log = JSON.parse(data);
+  // socket.on('log:feed', function (data) {
+  //   log = JSON.parse(data);
     
-    row = '<tr class="' + log.level + '"><td>'+ log.timestamp + '</td><td>'+ log.level + '</td><td>'+ log.msg + '</td></tr>';
+  //   row = '<tr class="' + log.level + '"><td>'+ log.timestamp + '</td><td>'+ log.level + '</td><td>'+ log.msg + '</td></tr>';
 
-    $('#logs').append(row);
+  //   $('#logs').append(row);
+
+  // });
+
+  function tail(){
     var elem = $(".table-logs tr:last");
-
+    console.log("In view: ", isScrolledIntoView(elem));
     if(isScrolledIntoView(elem)){
+      console.log('Is in view and scroll is: ', autoscroll);
       autoscroll = true;
     }else{
+      console.log('Not in view and scroll is: ', autoscroll);
       autoscroll = false;
     }
  
     if(autoscroll){
       $("#log-wrapper").animate({"scrollTop": $('#logs')[0].scrollHeight}, "slow");
     }
-  });
+  }
+
 
   function parseOnlineUsers(data){
     users = JSON.parse(data);
@@ -201,7 +245,6 @@
 </div>
 
 
-
 <div class='row'>
   <div class="col-lg-12">
     <div class="panel panel-default">
@@ -226,6 +269,8 @@
     </div>
   </div>
 </div>
+
+
 
 
 

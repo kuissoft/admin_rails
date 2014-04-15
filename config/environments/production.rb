@@ -110,5 +110,7 @@ RemoteAssistant::Application.configure do
   NODE_ACCESS_NAME = 'remote'
   NODE_ACCESS_PASSWORD = 'asdfasdf'
 
+  NODE_LOG = "/home/ubuntu/node/current"
+
 
 end
