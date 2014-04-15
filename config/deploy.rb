@@ -11,7 +11,7 @@ set :default_env, { rvm_bin_path: '~/.rvm/bin' }
 set :keep_releases, 3
 
 # set :linked_files, %w{config/database.yml}
-set :linked_dirs, %w{public/images logs}
+set :linked_dirs, %w{public/images log}
 
 namespace :deploy do
 
