@@ -74,6 +74,8 @@ RemoteAssistant::Application.configure do
 
   config.action_mailer.default_url_options = {host: "http://dev.admin.remoteassistant.me"}
 
+  config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/remote_assistant.log'))
+
 
   config.action_mailer.smtp_settings = {
    :authentication       => "login",
@@ -95,7 +97,7 @@ RemoteAssistant::Application.configure do
   # config.autoflush_log = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+
 
   # API SETTINGS
   API_HOST = "http://www.remoteassistant.me/api/"
