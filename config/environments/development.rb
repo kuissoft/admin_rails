@@ -22,6 +22,7 @@ RemoteAssistant::Application.configure do
   # Raise an error on page load if there are pending migrations
   config.active_record.migration_error = :page_load
 
+  config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/remote_assistant.log'))
   # Emails settings
   config.action_mailer.asset_host = "http://localhost:3000"
 
@@ -45,4 +46,6 @@ RemoteAssistant::Application.configure do
 
   NODE_ACCESS_NAME = 'remote'
   NODE_ACCESS_PASSWORD = 'asdfasdf'
+
+  NODE_LOG = "/vagrant/node"
 end

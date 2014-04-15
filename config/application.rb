@@ -21,6 +21,7 @@ module RemoteAssistant
     # config.i18n.default_locale = :de
     config.autoload_paths += %W(#{config.root}/lib)
 
+
     config.middleware.use Rack::Cors do
       allow do
         origins "*"
