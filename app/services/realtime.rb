@@ -19,7 +19,9 @@ class Realtime
         data: data
       })
     response = request.execute
-
+    Rails.logger.debug '==========START DEBUG============'
+    Rails.logger.debug "#{response.inspect}"
+    Rails.logger.debug '===========END DEBUG============='
     response
     # RestClient.post(host + "/notify", {user_id: user_id, event: event, data: data })
   end
