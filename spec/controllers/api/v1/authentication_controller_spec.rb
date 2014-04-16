@@ -54,6 +54,14 @@ describe Api::V1::AuthenticationController, type: :controller do
 			JSON.parse(response.body).should have_content('"phone"=>"+'+@phone+'"')
 		end
 
+		it "returns error 110 (using verification_code twice)" do
+			post :authenticate, phone: @phone, uuid: @uuid, language: @language
+			device = Device.where(phone: "+"+@phone, uuid: @uuid).first
+			post :verify_code, phone: @phone, uuid: @uuid, verification_code: device.verification_code
+			post :verify_code, phone: @phone, uuid: @uuid, verification_code: device.verification_code
+			JSON.parse(response.body).should have_content('"code"=>110')
+		end
+
 		it "returns error 109 (bad validation code)" do
 			post :authenticate, phone: @phone, uuid: @uuid, language: @language
 			device = Device.where(phone: "+"+@phone, uuid: @uuid).first
