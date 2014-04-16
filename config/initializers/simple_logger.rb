@@ -14,7 +14,9 @@ class ActiveSupport::Logger::SimpleFormatter
     color = SEVERITY_TO_COLOR_MAP[severity]
     foramtted_msg = msg.strip.gsub('\n','')
 
-    "#{formatted_time}|||#{severity}|||#{foramtted_msg}\n" unless formatted_severity == "DEBUG"
+
+
+     "#{formatted_time}|||#{severity}|||#{foramtted_msg}\n" #unless formatted_severity == "DEBUG"
   end
 
 

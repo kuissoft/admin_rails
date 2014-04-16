@@ -4,29 +4,49 @@ class ActivityMonitorController < AuthenticatedController
   require 'open-uri'
   respond_to :json
   def index
-    rails_log = File.join(Rails.root, "log", "remote_assistant.log")
-    rails_lines = `tail -100 #{ rails_log }`.split(/\n/)
+    
+    @lines = []
+  end
 
-    node_log = File.join(NODE_LOG, "logs", "app.log")
-    node_lines = `tail -100 #{ node_log }`.split(/\n/)
+  RAILS_LINES_CACHE = []
 
-    @lines = merge_lines(rails_lines, node_lines)
+
+  def new_rails_lines time
+
+    if RAILS_LINES_CACHE.size == 0
+
+      rails_log = File.join(Rails.root, "log", "remote_assistant.log")
+      rails_last_line = `tail -1 #{ rails_log }`
+      
+      rails_last_line_parts = rails_last_line.split("|||")
+      
+
+      while 
+
+
+      end
+
+    end
+
+    
+
   end
 
   def refresh_logs
-    rails_log = File.join(Rails.root, "log", "remote_assistant.log")
-    rails_lines = `tail -100 #{ rails_log }`.split(/\n/)
+    
+    new_rails_lines = new_rails_lines(params[:t0])
 
     node_log = File.join(NODE_LOG, "logs", "app.log")
     node_lines = `tail -100 #{ node_log }`.split(/\n/)
-
-    @lines = merge_lines(rails_lines, node_lines)
+    
+    
+    @lines = merge_lines(rails_lines, node_lines, params[:t0])
 
     respond_with @lines
   end
 
   def merge_lines rails, node, time = 10
-
+    puts time
     logs = []
     rails.each do |r|
 
@@ -37,7 +57,7 @@ class ActivityMonitorController < AuthenticatedController
     node.each do |n|
       logs << HashWithIndifferentAccess.new(ActiveSupport::JSON.decode(n)) rescue ""
     end
-    time_past = Time.now - time.minutes
+    time_past = time.to_time
 
     logs.each_with_index do |l, index|
 

@@ -28,15 +28,27 @@
 .table-logs {
  
   color: #ffffff;
-  background: #000000;
+  // background: #000000;
   
 }
 .table-logs tr {
-  background: #000000;
+  // background: #000000;
 }
 
 .table-logs td {
-  background: #000000;
+  // background: #000000;
+
+
+.log_rails {
+  color: white;
+  background-color: black; 
+}
+
+.log_node {
+  color: white;
+  background-color: gray; 
+}
+
 }
 .info {
   color: white;
@@ -46,11 +58,14 @@
   color: red;
 }
 
-.warning {
-  color: yellow;
-}
-
-.log_rails {
+.fatal {
   color: red;
 }
 
+.warn {
+  color: orange;
+}
+
+.debug {
+  color: blue;
+}

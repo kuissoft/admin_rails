@@ -38,9 +38,6 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
       end
     end
     contact_state = 'pending' if is_pending
-    Rails.logger.error '========== START DEBUG STATE API CONTACT ============'
-    Rails.logger.error "#{contact_state.inspect}"
-    Rails.logger.error '=========== END DEBUG STATE ============='
     contact_state
   end
 
@@ -159,9 +156,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         begin
           Emailer.invitation_email(invited_user, current_user, device).deliver
         rescue => e
-          logger.error "=============== DEBUG START ================"
-          logger.error "Invitation e-mail error: #{e.inspect}"
-          logger.error "================ DEBUG END ================="
+          Rails.logger.error "Invitation e-mail error: #{e.inspect}"
         end
       end
     end

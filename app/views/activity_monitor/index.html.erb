@@ -5,8 +5,11 @@
   var base_url = "<%= NODE_HOST %>";
   var socket = io.connect(base_url);
   var autoscroll = true;
-  $(document).ready(function () {
+  
 
+    
+  $(document).ready(function () {
+    
     refresh_rails_log();
     
     // setInterval(getLog, 3000);
@@ -16,10 +19,15 @@
     
       var milliseconds = 3062;
       var id = null;
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      var t0 = h + ":" + m + ":" + s;
  
       var update = function(){
         id = setInterval(function(){
-          var request = $.ajax({url: "activity_monitor/refresh_logs?silence=logger", dataType: "json"});
+          var request = $.ajax({url: "activity_monitor/refresh_logs?silence=logger&t0=" + t0, dataType: "json"});
           request.done(function( response) {
             log = ""
             for (var i = 0; i < response.activity_monitor.length; i++)
@@ -31,7 +39,7 @@
                 var log_class = 'log_node'
               }
 
-              log += "<tr class='" + log_class + "'>"
+              log += "<tr class='" + log_class + " " + response.activity_monitor[i].level.toLowerCase() +"'>"
               log += "<td>" + response.activity_monitor[i].timestamp  + "</td>"
               log += "<td>" + response.activity_monitor[i].level.toLowerCase()  + "</td>"
               log += "<td>" + response.activity_monitor[i].message  + "</td>"
@@ -92,12 +100,10 @@
 
   function tail(){
     var elem = $(".table-logs tr:last");
-    console.log("In view: ", isScrolledIntoView(elem));
+    
     if(isScrolledIntoView(elem)){
-      console.log('Is in view and scroll is: ', autoscroll);
       autoscroll = true;
     }else{
-      console.log('Not in view and scroll is: ', autoscroll);
       autoscroll = false;
     }
  
@@ -269,9 +275,5 @@
     </div>
   </div>
 </div>
-
-
-
-
 
 
