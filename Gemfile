@@ -30,7 +30,7 @@ group :production do
 
   # Monitoring
   #gem 'sentry-raven'
-  #gem 'newrelic_rpm'
+  gem 'newrelic_rpm'
   
   #gem 'postmark-rails' # enable e-mail sending for Heroku
 end
