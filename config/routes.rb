@@ -66,6 +66,7 @@ RemoteAssistant::Application.routes.draw do
       post "/authentication/deauthenticate", to: "authentication#deauthenticate"
       post "/authentication/verify_code", to: "authentication#verify_code"
       post "/authentication/resend_code", to: "authentication#resend_verification_code"
+      get '/ping', :to => 'application#ping'
     end
   end
   match "*path", :to => "application#routing_error", :via => :all

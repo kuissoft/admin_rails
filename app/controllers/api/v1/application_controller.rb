@@ -6,4 +6,8 @@ class Api::V1::ApplicationController < ActionController::Base
     lang = 'sk' if phone[1..3] == "421"
     lang
   end
+
+  def ping
+  	render json: {}, status: 200
+  end
 end
