@@ -4,7 +4,7 @@ class Emailer < ActionMailer::Base
   def feedback_email feedback 
     @feedback = feedback
     @user = User.where(id: @feedback.user_id ).first if @feedback.user_id
-    submess = /((^| )[^ ]+){10}/.match(@feedback.message)
+    submess = /((^| )[^ ]+){0,10}/.match(@feedback.message)
 
     mail to: "tomasstanik+k81yzne7dckwyluqnmpj@boards.trello.com", subject: "iOS: #{submess}"
   end
