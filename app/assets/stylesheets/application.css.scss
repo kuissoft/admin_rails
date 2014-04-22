@@ -12,6 +12,16 @@
 
 
 
+.log_rails {
+  color: white;
+  background-color: black; 
+}
+
+.log_node {
+  color: white;
+  background-color: gray !important; 
+}
+
 .green {
   color: green;
 }
@@ -39,15 +49,7 @@
   // background: #000000;
 
 
-.log_rails {
-  color: white;
-  background-color: black; 
-}
 
-.log_node {
-  color: white;
-  background-color: gray; 
-}
 
 }
 .info {
@@ -67,5 +69,5 @@
 }
 
 .debug {
-  color: blue;
+  color: #51abcf;
 }

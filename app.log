@@ -1,0 +1,39 @@
+# Logfile created on 2014-04-17 12:07:15 +0000 by logger.rb/44203
+2014-04-17 12:07:26.703|||DEBUG|||
+2014-04-17 12:07:26.906|||DEBUG|||
+2014-04-17 12:07:26.105|||INFO|||Started GET "/settings" for 10.0.2.2 at 2014-04-17 12:07:26 +0000
+2014-04-17 12:07:26.365|||DEBUG|||[1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+2014-04-17 12:07:26.672|||INFO|||Processing by SettingsController#index as HTML
+2014-04-17 12:07:26.706|||DEBUG|||Dalli::Server#connect 127.0.0.1:11211
+2014-04-17 12:07:26.736|||DEBUG|||[1m[35mUser Load (1.5ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 3 ORDER BY "users"."id" ASC LIMIT 1
+2014-04-17 12:07:26.935|||DEBUG|||[1m[36mSetting Load (1.2ms)[0m  [1mSELECT "settings".* FROM "settings" ORDER BY "settings"."name" ASC[0m
+2014-04-17 12:07:26.955|||INFO|||Rendered settings/index.html.erb within layouts/application (32.1ms)
+2014-04-17 12:07:27.401|||INFO|||Completed 200 OK in 315ms (Views: 201.0ms | ActiveRecord: 8.6ms)
+2014-04-17 12:17:50.691|||DEBUG|||
+2014-04-17 12:17:50.281|||DEBUG|||
+2014-04-17 12:17:50.402|||INFO|||Started GET "/settings" for 10.0.2.2 at 2014-04-17 12:17:50 +0000
+2014-04-17 12:17:50.306|||DEBUG|||[1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+2014-04-17 12:17:50.619|||INFO|||Processing by SettingsController#index as HTML
+2014-04-17 12:17:50.661|||DEBUG|||Dalli::Server#connect 127.0.0.1:11211
+2014-04-17 12:17:50.690|||DEBUG|||[1m[35mUser Load (1.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 3 ORDER BY "users"."id" ASC LIMIT 1
+2014-04-17 12:17:50.885|||DEBUG|||[1m[36mSetting Load (1.1ms)[0m  [1mSELECT "settings".* FROM "settings" ORDER BY "settings"."name" ASC[0m
+2014-04-17 12:17:50.911|||INFO|||Rendered settings/index.html.erb within layouts/application (37.7ms)
+2014-04-17 12:17:50.944|||INFO|||Completed 200 OK in 312ms (Views: 191.3ms | ActiveRecord: 10.4ms)
+2014-04-17 12:39:09.835|||DEBUG|||
+2014-04-17 12:39:09.854|||DEBUG|||
+2014-04-17 12:39:09.863|||INFO|||Started GET "/settings" for 10.0.2.2 at 2014-04-17 12:39:09 +0000
+2014-04-17 12:39:10.118|||DEBUG|||[1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+2014-04-17 12:39:10.419|||INFO|||Processing by SettingsController#index as HTML
+2014-04-17 12:39:10.448|||DEBUG|||Dalli::Server#connect 127.0.0.1:11211
+2014-04-17 12:39:10.469|||DEBUG|||[1m[35mUser Load (1.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 3 ORDER BY "users"."id" ASC LIMIT 1
+2014-04-17 12:39:10.664|||DEBUG|||[1m[36mSetting Load (1.1ms)[0m  [1mSELECT "settings".* FROM "settings" ORDER BY "settings"."name" ASC[0m
+2014-04-17 12:39:10.690|||INFO|||Rendered settings/index.html.erb within layouts/application (36.5ms)
+2014-04-17 12:39:10.719|||INFO|||Completed 200 OK in 292ms (Views: 185.4ms | ActiveRecord: 9.3ms)
+2014-04-17 12:40:50.712|||DEBUG|||
+2014-04-17 12:40:50.726|||DEBUG|||
+2014-04-17 12:40:50.742|||INFO|||Started GET "/settings" for 10.0.2.2 at 2014-04-17 12:40:50 +0000
+2014-04-17 12:40:50.973|||INFO|||Processing by SettingsController#index as HTML
+2014-04-17 12:40:50.985|||DEBUG|||[1m[35mUser Load (1.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 3 ORDER BY "users"."id" ASC LIMIT 1
+2014-04-17 12:40:51.108|||DEBUG|||[1m[36mSetting Load (0.7ms)[0m  [1mSELECT "settings".* FROM "settings" ORDER BY "settings"."name" ASC[0m
+2014-04-17 12:40:51.121|||INFO|||Rendered settings/index.html.erb within layouts/application (22.7ms)
+2014-04-17 12:40:51.132|||INFO|||Completed 200 OK in 153ms (Views: 139.1ms | ActiveRecord: 1.7ms)

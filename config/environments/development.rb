@@ -24,7 +24,8 @@ RemoteAssistant::Application.configure do
 
   config.log_level = :debug
 
-  config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/remote_assistant.log'))
+
+  # config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/remote_assistant.log'))
   # Emails settings
   config.action_mailer.asset_host = "http://localhost:3000"
 
@@ -35,7 +36,7 @@ RemoteAssistant::Application.configure do
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
-  config.assets.debug = true
+  config.assets.debug = false
 
   # WEB API SETTINGS
   API_HOST = "http://www.remoteassistant.me/api/"
