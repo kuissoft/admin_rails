@@ -69,5 +69,44 @@ RemoteAssistant::Application.routes.draw do
       get '/ping', :to => 'application#ping'
     end
   end
+
+  # api routes
+  namespace :api, defaults: {format: 'json'} do
+    api_version(:module => "V2", :path => {:value => "v2"}) do
+      resources :devices, only: [:create] do 
+        put :change_language, on: :collection
+        put :set_offline, on: :collection
+        put :set_all_offline, on: :collection
+      end
+      resources :calls
+      resources :notifications
+      resources :sessions, :except => [:edit, :update]
+      resources :locations
+      resources :feedbacks, only: [:create]
+      resources :users, only: [:update] do
+        member do
+        end
+        put :remove_photo
+
+        resources :contacts do
+          collection do
+            get :connections
+            post :accept
+            post :decline
+            delete :remove
+            delete :dismiss
+            post :invite
+          end
+        end
+      end
+      post "/authentication", to: "authentication#create"
+      post "/authentication/validate", to: "authentication#validate"
+      post "/authentication/authenticate", to: "authentication#authenticate"
+      post "/authentication/deauthenticate", to: "authentication#deauthenticate"
+      post "/authentication/verify_code", to: "authentication#verify_code"
+      post "/authentication/resend_code", to: "authentication#resend_verification_code"
+      get '/ping', :to => 'application#ping'
+    end
+  end
   match "*path", :to => "application#routing_error", :via => :all
 end

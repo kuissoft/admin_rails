@@ -1,4 +1,4 @@
-class Api::V1::NotificationsController < Api::V1::ApplicationController
+class Api::V2::NotificationsController < Api::V2::ApplicationController
 
   def index
     # user = User.where(id: params[:user_id], auth_token: params[:auth_token]).first
@@ -46,10 +46,6 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
         n.attributes_for_device = { call_id: key }
         n.sound = "Calling.wav"
         result = n.save!
-        Rails.logger.error '==========START DEBUG============'
-        Rails.logger.error "Rpush result: #{result.inspect}"
-        Rails.logger.debug "Rpush result 1: #{result.inspect}"
-        Rails.logger.error '===========END DEBUG============='
       end
     end
 

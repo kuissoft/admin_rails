@@ -1,6 +1,6 @@
 require 'digest/sha1'
 
-class Api::V1::ContactsController < Api::V1::AuthenticatedController
+class Api::V2::ContactsController < Api::V2::AuthenticatedController
   respond_to :json
   around_action :wrap_transaction
 
@@ -156,9 +156,7 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
         begin
           Emailer.invitation_email(invited_user, current_user, device).deliver
         rescue => e
-          logger.error "=============== DEBUG START ================"
-          logger.error "Invitation e-mail error: #{e.inspect}"
-          logger.error "================ DEBUG END ================="
+          Rails.logger.error "Invitation e-mail error: #{e.inspect}"
         end
       end
     end
