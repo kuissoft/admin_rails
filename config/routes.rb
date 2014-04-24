@@ -10,6 +10,7 @@ RemoteAssistant::Application.routes.draw do
   devise_for :users, controllers: { sessions: "admin/sessions" }
   # web routes
   root :to => "dashboard#index"
+  get '/dashboard/twilio', :to => 'dashboard#twilio', format: 'js'
   
   resources :users do
     member do

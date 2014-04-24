@@ -4,25 +4,16 @@
   </div>
 </div>
 
-<div>
-  <% begin %>
-    Today:
-      <%= @client.account.usage.records.today.list({:category => "sms"}).first.usage %> SMS
-      <%= @client.account.usage.records.today.list({:category => "totalprice"}).first.usage %>$
-    This week:
-      <%= @client.account.usage.records.this_month.list({:category => "sms", :start_date => (Date.today-7.days).to_s(:db), :end_date => Date.today.to_s(:db)}).first.usage %> SMS
-      <%= @client.account.usage.records.this_month.list({:category => "totalprice", :start_date => (Date.today-7.days).to_s(:db), :end_date => Date.today.to_s(:db)}).first.usage %>$
-    This month:
-      <%= @client.account.usage.records.this_month.list({:category => "sms"}).first.usage %> SMS
-      <%= @client.account.usage.records.this_month.list({:category => "totalprice"}).first.usage %>$
-  <% rescue %>
-    Connection to Twillio failed!
-  <% end %>
-</div>
+<div id="twilio"></div>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script>
+  $(window).load(function() {
+    $.getScript('dashboard/twilio.js');
+  });
+</script>
 
 <div>
   Last hour <%= @users.where('last_sign_in_at >= ?',  1.hour.ago).count %>
-  Last 12h <%= @users.where('last_sign_in_at >= ?',  12.hour.ago).count %>
   Last day <%= @users.where('last_sign_in_at >= ?',  Date.today).count %>
   Last 24h <%= @users.where('last_sign_in_at >= ?',  1.day.ago).count %>
   Last week <%= @users.where('last_sign_in_at >= ?',  1.week.ago).count %>
