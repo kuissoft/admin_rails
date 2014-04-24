@@ -22,7 +22,7 @@
 
 <div>
   Last hour <%= @users.where('last_sign_in_at >= ?',  1.hour.ago).count %>
-  Last 12h <%= @users.where('last_sign_in_at >= ?',  12.day.ago).count %>
+  Last 12h <%= @users.where('last_sign_in_at >= ?',  12.hour.ago).count %>
   Last 24h <%= @users.where('last_sign_in_at >= ?',  1.day.ago).count %>
   Last day <%= @users.where('last_sign_in_at >= ?',  Date.today).count %>
   Last week <%= @users.where('last_sign_in_at >= ?',  1.week.ago).count %>
