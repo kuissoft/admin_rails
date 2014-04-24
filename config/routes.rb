@@ -9,7 +9,8 @@ RemoteAssistant::Application.routes.draw do
 
   devise_for :users, controllers: { sessions: "admin/sessions" }
   # web routes
-  root 'dashboard#index', :layout => false
+  root :to => "dashboard#index"
+  
   resources :users do
     member do
       put :expire_token

@@ -118,12 +118,12 @@
             * Zarovnání
             * Chybějící views
             -->
-            <li>
-              <%= link_to(root_path, :class => current_class?(root_path)) do %>
-                <i class="fa fa-dashboard fa-fw fa-3x"></i> Dashboard
-              <% end %>
-            </li>
             <% if current_user %>
+              <li>
+                <%= link_to(root_path, :class => current_class?(root_path)) do %>
+                  <i class="fa fa-dashboard fa-fw fa-3x"></i> Dashboard
+                <% end %>
+              </li>
               <li>
                 <%= link_to(activity_monitor_index_path, :class => current_class?(activity_monitor_index_path)) do %>
                   <i class="fa fa-desktop fa-fw fa-3x"></i> Activity
@@ -181,7 +181,7 @@
       <div id="page-wrapper">
 
         <!--  YIELD -->
-        <%= yield %>
+        <%= yield if current_user %>
         <!-- /YIELD -->
 
       </div>
