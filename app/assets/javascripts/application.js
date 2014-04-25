@@ -20,4 +20,3 @@
 //= require jquery.dataTables
 //= require dataTables.bootstrap
 //= require_tree .
-
