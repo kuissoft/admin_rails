@@ -25,6 +25,8 @@ class ActiveSupport::Logger::SimpleFormatter
 
     @@cnt += 1
 
+    msg = filter_mess(msg)
+
     request = RestClient::Request.new(
       method: :post,
       url: NODE_HOST + "/log_from_rails",
@@ -39,11 +41,19 @@ class ActiveSupport::Logger::SimpleFormatter
       if @@cnt == 2
         @@cnt = 0
       else
-        request.execute
+        request.execute unless msg.empty?
       end
 
     rescue => e
       puts "rescued"
+    end
+  end
+
+  def filter_mess(msg)
+    if msg =~ /\.html|as HTML/
+      msg = ''
+    else
+      msg = msg
     end
   end
 
