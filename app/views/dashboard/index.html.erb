@@ -1,61 +1,21 @@
 <div class="row">
   <div class="col-lg-12">
-    <h3 >Users</h3>
+    <h3 >Dashboard</h3>
   </div>
 </div>
 
-<% begin %>
-Today:
-  <%= @client.account.usage.records.today.list({:category => "sms"}).first.usage %> SMS
-  <%= @client.account.usage.records.today.list({:category => "totalprice"}).first.usage %>$
-This week:
-  <%= @client.account.usage.records.this_month.list({:category => "sms", :start_date => (Date.today-7.days).to_s(:db), :end_date => Date.today.to_s(:db)}).first.usage %> SMS
-  <%= @client.account.usage.records.this_month.list({:category => "totalprice", :start_date => (Date.today-7.days).to_s(:db), :end_date => Date.today.to_s(:db)}).first.usage %>$
-This month:
-  <%= @client.account.usage.records.this_month.list({:category => "sms"}).first.usage %> SMS
-  <%= @client.account.usage.records.this_month.list({:category => "totalprice"}).first.usage %>$
-<% rescue %>
-  Connection to Twillio failed!
-<% end %>
-<div class='row'>
-  <div class="col-lg-12">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div class="table-responsive">
-          <table class="table table-striped table-bordered table-hover" id="sorted_table">
-            <thead>
-              <tr>
-                <th></th>
-          			<th>ID</th>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th></th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
+<div id="twilio"></div>
+<script>
+  $(window).load(function() {
+    $.getScript('dashboard/twilio.js');
+  });
+</script>
 
-            <tbody>
-              <% @users.each do |user| %>
-                <tr>
-                  <td><%= image_tag user.photo.url(:x100), class: 'circular_images' %></td>
-          				<td><%= user.id %></td>
-                  <td><%= link_to user.name, user %></td>
-                  <td><%= user.phone %></td>
-                  <td><%= user.email %></td>
-                  <td><%= user.role %></td>
-                  <td><%= link_to 'Show', user, class: 'btn btn-xs btn-default' %></td>
-                  <td><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-xs btn-default' %></td>
-                  <td><%= link_to 'Destroy', user, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-        <%= link_to 'New User', new_user_path, class: 'btn btn-default' %>
-      </div>
-    </div>
-  </div>
+<div>
+  Last hour <%= @users.where('last_sign_in_at >= ?',  1.hour.ago).count %>
+  Last day <%= @users.where('last_sign_in_at >= ?',  Date.today).count %>
+  Last 24h <%= @users.where('last_sign_in_at >= ?',  1.day.ago).count %>
+  Last week <%= @users.where('last_sign_in_at >= ?',  1.week.ago).count %>
+  Last month <%= @users.where('last_sign_in_at >= ?',  1.month.ago).count %>
+  Total <%= @users.count %>
 </div>

@@ -14,7 +14,7 @@
             <thead>
               <tr>
                 <th>TYPE </th>
-                <th>E_MAIL</th>
+                <th>USER</th>
                 <th>MESSAGE</th>
                 <th>CREATED AT</th>
                 <th></th>
@@ -25,7 +25,10 @@
               <% @feedbacks.each do |feedback| %>
                 <tr>
                   <td><%= feedback.feedback_type.capitalize %></td>
-                  <td><%= feedback.email %></td>
+                  <td>
+                    <%= feedback.user.phone if feedback.user.present? %>
+                    (<%= link_to feedback.user.id, feedback.user if feedback.user.present? %>)
+                  </td>
                   <td><p><%= feedback.message %></p></td>
                   <td><%= l(feedback.created_at, format: "%d.%m.%Y %H:%M") %></td>
                   <td><%= link_to 'Destroy', feedback, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>

@@ -31,5 +31,7 @@ module RemoteAssistant
 
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
     config.assets.precompile += %w( .svg .eot .woff .ttf)
+
+    config.colorize_logging = false
   end
 end
