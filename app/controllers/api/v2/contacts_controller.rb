@@ -96,8 +96,8 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
           ContactNotifications.status_changed(connection, true)
           render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'pending', "nickname" => connection.nickname}}, status: 200   
         else
-          ContactNotifications.status_changed(connection)
-          ContactNotifications.status_changed(other_connection)
+          ContactNotifications.status_changed(connection, false)
+          ContactNotifications.status_changed(other_connection, false)
           render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'online', "nickname" => connection.nickname}}, status: 200  
         end
       else
@@ -172,7 +172,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     # is the contact_id from the other user's perspective
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
 
-    ContactNotifications.status_changed(connection)
+    ContactNotifications.status_changed(connection, false)
     connection.update_attributes!(is_pending: false, is_rejected: false, is_removed: false)
     begin
       current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
@@ -188,7 +188,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
 
     connection.update_attributes!(is_pending: false, is_rejected: true, is_removed: false)
 
-    ContactNotifications.status_changed(connection)
+    ContactNotifications.status_changed(connection, false)
 
     render json: {}, status: 200
   end
@@ -199,7 +199,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
       connection.update_attributes!(is_removed: true, is_rejected: false, is_pending: false) if connection
       Connection.where(user_id: current_user.id, contact_id: params[:contact_id]).first.destroy
 
-      ContactNotifications.status_changed(connection) if connection
+      ContactNotifications.status_changed(connection, false) if connection
 
       render json: {}, status: 200
     rescue => e

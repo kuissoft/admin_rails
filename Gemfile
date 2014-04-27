@@ -22,6 +22,7 @@ gem "rack-cors", require: "rack/cors"
 group :development, :test do
   gem 'sqlite3' # use sqlite3 as the database in development
   gem 'quiet_assets' # hide assets serving messages in logs
+  gem 'pry-rails'
 end
 
 group :production do

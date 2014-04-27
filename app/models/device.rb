@@ -1,7 +1,8 @@
 class Device < ActiveRecord::Base
   belongs_to :user
-  # validates_presence_of :token, :user_id
-  # validates_uniqueness_of :token
+
+  validates_presence_of :uuid
+  validates_uniqueness_of :uuid
 
   before_save :ensure_authentication_token
 

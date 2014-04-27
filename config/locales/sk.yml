@@ -22,6 +22,7 @@ sk:
     undefined_error_title: 'Neznáma chyba'
     undefined_error: 'Nastala neznáma chyba.'
     cant_add_yourself: 'Nemožno pridať sám seba ako kontakt'
+    uuid_exists: 'Autentizace používateľa sa nepodarila'
     activerecord:
       attributes:
         connection:

@@ -23,7 +23,8 @@ API
     0 112    USER_ID_BLANK          User ID can't be blank
     0 113    URL_NOT_FOUND         Url not found
     0 114    RESEND_LIMIT_REACHED        Resend limit reached
-    0 115    DEVICE_NOT_EXISTS      
+    0 115    DEVICE_NOT_EXISTS  
+    0 116    UUID_EXISTS          UUID already exist    
     
 }
 ```
@@ -32,7 +33,7 @@ API
 
 Please specify V1 or V2 uri, if not it uses default API
 
-# DEFAULT API: V1
+# DEFAULT API: V2
 
 
 # Authentication
@@ -73,7 +74,7 @@ Ok, send 200
 ```
 Errors:
 ```
-{ error_info: { code: 101, message: "Wrong format or blank phone number" } }
+{ error_info: { code: 116, message: "User authentication wasn't successful" } }
 ```
 
 ```
@@ -109,8 +110,8 @@ Errors:
 { error_info: { code: 100, title: 'UNDEFINED ERROR', message: '' } }
 ```
 
-### Device code validation
-Validate recieved validation code
+### Device code verification
+Verify recieved verification code
 
 ```
 curl http://rea-rails-development.herokuapp.com/api/authentication/verify_code -d 'phone=420xxxxxxxxx&verification_code=1234&uuid=fsdfdsfsf'

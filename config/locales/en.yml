@@ -22,3 +22,4 @@ en:
     undefined_error_title: 'Undefined error'
     undefined_error: 'Undefined error has occured.'
     cant_add_yourself: "Can't add yourself as a conntact" 
+    uuid_exists: "User authentication wasn't successful"

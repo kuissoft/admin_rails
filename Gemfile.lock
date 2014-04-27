@@ -130,6 +130,8 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.3)
       pry (~> 0.9.10)
+    pry-rails (0.3.2)
+      pry (>= 0.9.10)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
@@ -272,6 +274,7 @@ DEPENDENCIES
   pg
   pry (~> 0.9.12)
   pry-nav (~> 0.2.3)
+  pry-rails
   quiet_assets
   rack-cors
   rails (~> 4.0.0)

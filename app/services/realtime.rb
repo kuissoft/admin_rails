@@ -4,6 +4,7 @@ class Realtime
   end
 
   def notify(user_id, event, data)
+
     request = RestClient::Request.new(
       method: :post,
       url: NODE_HOST + "/notify",

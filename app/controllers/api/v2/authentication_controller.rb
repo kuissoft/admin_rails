@@ -38,36 +38,21 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
     # Find device by phone
     phone = "+#{params[:phone]}".gsub(" ","")
 
-    devices = Device.where(phone: phone)
+    device = Device.where(uuid: params[:uuid]).first
 
-    # If device exists
-    if devices
-      # tests if device uuid exists for current phone number and if yes just update data
-      if device = devices.select{|d| d.uuid == params[:uuid]}.first
+    if device
+      if device.phone == phone
         device.update language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000)
-        # Odstranit řádek
-      elsif device = devices.select{|d| d.uuid == nil }.first
-        device.update uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000)
       else
-        # if not exists create new device for phone number
-        begin
-          device = Device.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
-        rescue => e
-          Rails.logger.debug '==========START DEBUG============'
-          Rails.logger.debug "1: #{e.inspect}"
-          Rails.logger.debug '===========END DEBUG============='
-          err = 101
-        end
+        device.update phone: phone, language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000)
       end
     else
       # If device not exists => create new device and generate verification code
       begin
         device = Device.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
       rescue => e
-        Rails.logger.debug '==========START DEBUG============'
-          Rails.logger.debug "2: #{e.inspect}"
-          Rails.logger.debug '===========END DEBUG============='
-        err = 101
+        Rails.logger.error "2: #{e.inspect}"
+        err = 116
       end
     end
 
@@ -84,8 +69,8 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
         render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
       end
     else
-      if err == 101
-        render json: { error_info: { code: 101, title: '', message: t('errors.phone_wrong_format', locale: set_language_by_area_code(phone)) } }, status: 401
+      if err == 116
+        render json: { error_info: { code: 116, title: '', message: t('errors.uuid_exists', locale: set_language_by_area_code(phone)) } }, status: 401
       else
         render json: { error_info: { code: 100, title: t('errors.undefined_error_title', locale: set_language_by_area_code(phone)), message: ''} }, status: 401
       end
@@ -201,14 +186,14 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
 
   ###
   # Device deauthenticate
-  # * Delete APNS and AUTH Tokens from devices table
+  # * Delete device from devices table
   ###
   def deauthenticate
     device = Device.where(user_id: params[:user_id], uuid: params[:uuid]).first
 
     if device
       if params[:auth_token].present? and (device.auth_token == params[:auth_token] or device.last_token == params[:auth_token])
-        if device.update token: nil, auth_token: nil, online: false
+        if device.destroy
           render json: {},  status: 200
         else
           Rails.logger.error '========== DEAUTHENTICATE ERRORS ============'
