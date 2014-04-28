@@ -1,7 +1,7 @@
 class UsersController < AuthenticatedController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :destroy_connection]
-  before_action :set_connections, except: [:index, :new, :create, :reset_password, :photo]
-  before_action :set_devices, except: [:index, :new, :create, :reset_password, :photo]
+  before_action :set_connections, except: [:index, :new, :create, :reset_password, :photo, :reset_sms]
+  before_action :set_devices, except: [:index, :new, :create, :reset_password, :photo, :reset_sms]
 
   # GET /users
   # GET /users.json
@@ -82,6 +82,12 @@ class UsersController < AuthenticatedController
   def reset_password
     user = User.find(params[:id])
     user.reset_password!
+    redirect_to :back
+  end
+
+  def reset_sms
+    user = User.find(params[:id])
+    user.reset_sms!
     redirect_to :back
   end
 

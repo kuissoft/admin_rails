@@ -49,15 +49,15 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     phone = "+#{params[:contact][:phone]}".gsub(" ","")
     # Check if inveted user exists
     invited_user = User.where(phone: phone).first
-    device = Device.where(phone: phone, uuid: params[:uuid]).first
+    # device = Device.where(phone: phone, uuid: params[:uuid]).first
 
     # If invited user not exits than create new one
     invited_user = User.create!(phone: phone, password: 'asdfasdf') unless invited_user
-    unless device
-      device = Device.create!(phone: phone, uuid: params[:uuid], language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id)
-    else
-      device.update  uuid: params[:uuid], user_id: invited_user.id, language: device.language
-    end
+    # unless device
+    #   device = Device.create!(phone: phone, uuid: params[:uuid], language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id)
+    # else
+    #   device.update  uuid: params[:uuid], user_id: invited_user.id, language: device.language
+    # end
 
 
     # Find if connection between users exists
@@ -92,7 +92,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
 
       if connection.save
         unless both_invited
-          send_sms_or_email(connection, current_user, invited_user, device)
+          send_sms_or_email(connection, current_user, invited_user)
           ContactNotifications.status_changed(connection, true)
           render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'pending', "nickname" => connection.nickname}}, status: 200   
         else
@@ -106,7 +106,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     else
       # If connection exists and it's pending send invitation msg agaim
       if conn.is_pending
-        send_sms_or_email(conn, current_user, invited_user, device)
+        send_sms_or_email(conn, current_user, invited_user)
 
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name, "state" => 'pending' , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
         ContactNotifications.status_changed(conn, true)
@@ -123,14 +123,14 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
 
   
 
-  def send_sms_or_email connection, current_user, invited_user, device
+  def send_sms_or_email connection, current_user, invited_user
     # Device for sms count
     allow_send = true
-    if device
-      if device.sms_count == 10 and Time.new < device.created_at + 30.days
+    if current_user
+      if current_user.sms_count == 10 and Time.new < current_user.created_at + 30.days
         allow_send = false
-      elsif device.sms_count == 10 and Time.new > device.created_at + 30.days
-        device.update sms_count: 0, created_at: Time.now
+      elsif current_user.sms_count == 10 and Time.new > current_user.created_at + 30.days
+        current_user.update sms_count: 0, created_at: Time.now
         allow_send = true
       end
     else
@@ -138,23 +138,17 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     end
 
     if allow_send
-      invited_user_device = Device.where(phone: invited_user.phone).first
       lang = set_language_by_area_code(invited_user.phone)
-      if invited_user_device
-        if invited_user_device.language == 'cs'
-          lang = 'cs'
-        elsif invited_user_device.language == 'sk'
-          lang = 'sk'
-        else
-          lang = 'en'
-        end
-      end
+
+      lang = 'en' unless lang == 'cs' or lang == 'sk'
+        
+
       msg = t('sms.invitation', user: resolve_name(current_user), locale: lang )
-      unless invited_user.admin? and get_settings_value(:force_sms) != "1" 
+      unless Rails.env == 'development' or (invited_user.admin? and get_settings_value(:force_sms) != "1")
         sms = Sms.new(invited_user.phone, msg).deliver
       else
         begin
-          Emailer.invitation_email(invited_user, current_user, device).deliver
+          Emailer.invitation_email(invited_user, current_user).deliver
         rescue => e
           Rails.logger.error "Invitation e-mail error: #{e.inspect}"
         end

@@ -18,6 +18,9 @@
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th>SMS sent</th>
+                <th>SMS Resets</th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -33,6 +36,11 @@
                   <td><%= user.phone %></td>
                   <td><%= user.email %></td>
                   <td><%= user.role %></td>
+                  <td><%= user.sms_count %></td>
+                  <td><%= user.reset_count %></td>
+                  <td>
+                    <%= link_to("Reset sms", reset_sms_user_path(id: user.id), method: :put, class: 'btn btn-default') %>
+                  </td>
                   <td><%= link_to 'Show', user, class: 'btn btn-xs btn-default' %></td>
                   <td><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-xs btn-default' %></td>
                   <td><%= link_to 'Destroy', user, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>

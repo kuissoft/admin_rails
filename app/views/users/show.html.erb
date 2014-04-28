@@ -38,6 +38,20 @@
           <strong>Role:</strong>
           <%= @user.role %>
         </p>
+
+        <p>
+          <strong>SMS sent:</strong>
+          <%= @user.sms_count %>
+        </p>
+
+        <p>
+          <strong>SMS resets:</strong>
+          <%= @user.reset_count %>
+        </p>
+
+        <p>
+          <%= link_to("Reset sms", reset_sms_user_path(id: @user.id), method: :put, class: 'btn btn-default') %>
+        </p>
      </div>
     </div>
   </div>

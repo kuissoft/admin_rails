@@ -106,10 +106,14 @@ class User < ActiveRecord::Base
     begin
       Emailer.reset_password_email(self, new_password).deliver
     rescue => e
-      Rails.logger.debug '==========START DEBUG============'
-      Rails.logger.debug "#E-mail not send{r.inspect}"
-      Rails.logger.debug '===========END DEBUG============='
+      Rails.logger.error "#E-mail not send: {r.inspect}"
     end
+  end
+
+  def reset_sms!
+    self.sms_count = 0
+    self.reset_count = reset_count + 1
+    save
   end
 
   def follows_me? user_id

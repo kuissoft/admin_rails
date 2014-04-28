@@ -43,11 +43,7 @@ class DevicesController < ApplicationController
     end
   end
 
-  def reset_sms
-    device = Device.find(params[:id])
-    device.reset_sms!
-    redirect_to :back
-  end
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.

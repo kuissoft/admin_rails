@@ -40,16 +40,20 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
 
     device = Device.where(uuid: params[:uuid]).first
 
+    user = User.where(phone: phone).first
+
+    user = User.create phone: phone, password: SecureRandom.hex unless user
+
     if device
       if device.phone == phone
-        device.update language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000)
+        device.update language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000), user_id: user.id
       else
-        device.update phone: phone, language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000)
+        device.update phone: phone, language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000), user_id: user.id
       end
     else
       # If device not exists => create new device and generate verification code
       begin
-        device = Device.create!(phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
+        device = Device.create!(user_id: user.id, phone: phone, uuid: params[:uuid], language: params[:language], verification_code: 100000 + SecureRandom.random_number(900000))
       rescue => e
         Rails.logger.error "2: #{e.inspect}"
         err = 116
@@ -61,9 +65,9 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
     # If there is any error send and error response
     # else send 200
     if device and device.verification_code
-      sms = send_sms_or_email(device)
+      sms = send_sms_or_email(device, user)
       if sms.first
-        device.update sms_count: device.sms_count + 1
+        user.update sms_count: user.sms_count + 1
         render json: {}, status: 200
       else
         render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
@@ -79,12 +83,12 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
 
   end
 
-  def send_sms_or_email device
+  def send_sms_or_email device, user
     allow_send = true
-    if device.sms_count == 10 and Time.new < device.created_at + 30.days
+    if user.sms_count == 10 and Time.new < user.created_at + 30.days
       allow_send = false
-    elsif device.sms_count == 10 and Time.new > device.created_at + 30.days
-      device.update sms_count: 0, created_at: Time.now
+    elsif user.sms_count == 10 and Time.new > user.created_at + 30.days
+      user.update sms_count: 0, created_at: Time.now
       allow_send = true
     end
 
@@ -93,9 +97,8 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
       lang = 'en' unless device.language == 'cs' or device.language == 'sk'
 
       msg = t('sms.verification', code: device.verification_code, locale: lang)
-      user = User.where(phone: device.phone).first
 
-      if user and user.admin? and get_settings_value(:force_sms) != "1" 
+      if Rails.env == 'development' or (user and user.admin? and get_settings_value(:force_sms) != "1")
         Emailer.authentication_email(user, device).deliver
         sms = [true, nil]
       else
@@ -113,8 +116,8 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
   def resend_verification_code
     phone = "+#{params[:phone]}".gsub(" ","")
     device = Device.where(phone: phone, uuid: params[:uuid]).first
-
-    if device
+    user = device.user
+    if device and user
       # If device request verification 1 times send device that he reached limit
       if device.resent and Time.new < device.resent_at + 1.day
         lang = device.language
@@ -129,9 +132,10 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
           device.update verification_code: 100000 + SecureRandom.random_number(900000)
         end
         # send sms
-        sms = send_sms_or_email(device)
+        sms = send_sms_or_email(device, user)
         if sms.first
-          device.update sms_count: device.sms_count + 1, resent_at: Time.new, resent: true
+          user.update sms_count: user.sms_count + 1
+          device.update resent_at: Time.new, resent: true
           render json: {}, status: 200
         else
           render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401

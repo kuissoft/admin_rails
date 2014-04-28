@@ -6,11 +6,7 @@ class Device < ActiveRecord::Base
 
   before_save :ensure_authentication_token
 
-  def reset_sms!
-    self.sms_count = 0
-    self.reset_count = reset_count + 1
-    save
-  end
+  
 
   def ensure_authentication_token
     assign_new_token if auth_token.blank?
