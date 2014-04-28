@@ -6,7 +6,7 @@ class Device < ActiveRecord::Base
   validates_uniqueness_of :token, allow_nil: true, allow_blank: true
 
   before_save :ensure_authentication_token
-  before_validation :ensure_apns_token_is_unique!
+  # before_validation :ensure_apns_token_is_unique!
 
 
   def ensure_apns_token_is_unique!
