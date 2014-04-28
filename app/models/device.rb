@@ -6,12 +6,12 @@ class Device < ActiveRecord::Base
   validates_uniqueness_of :token, allow_nil: true, allow_blank: true
 
   before_save :ensure_authentication_token
-  # before_validation :ensure_apns_token_is_unique!
+  before_validation :ensure_apns_token_is_unique!
 
-
+  # Delete all devices except mine
   def ensure_apns_token_is_unique!
     unless token.blank?
-      devices = Device.where(token: token)
+      devices = Device.where("id != ? AND token = ?", id, token)
       devices.destroy_all if devices.any?
     end
   end
