@@ -1,16 +1,6 @@
 class Api::V2::DevicesController < Api::V2::AuthenticatedController
   skip_before_action :authenticate_user_from_token!, only: [:change_language, :set_all_offline]
   def create
-    # Find if device token exists for another user
-    device = Device.where("token = ? and user_id != ?", params[:device][:token], current_user.id).first
-
-    # If device exists and has different user_id destroy it
-    device.update token: nil if device
-
-    # # Check if exists zombie devices and if yes kill them all
-    # zombie_devices = Device.where("token = ? AND user_id = ? AND uuid != ", params[:device][:token], current_user.id, params[:uuid] )
-    # zombie_devices.destroy_all
-
     # If I have device registered just return 200
     if current_user.devices.exists?(token: params[:device][:token], uuid: params[:uuid])
       render json: {}, status: 200

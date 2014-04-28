@@ -3,8 +3,18 @@ class Device < ActiveRecord::Base
 
   validates_presence_of :uuid
   validates_uniqueness_of :uuid
+  validates_uniqueness_of :token, allow_nil: true, allow_blank: true
 
   before_save :ensure_authentication_token
+  before_validation :ensure_apns_token_is_unique!
+
+
+  def ensure_apns_token_is_unique!
+    unless token.blank?
+      devices = Device.where(token: token)
+      devices.destroy_all if devices.any?
+    end
+  end
 
   
 
