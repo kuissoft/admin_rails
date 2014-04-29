@@ -1,6 +1,6 @@
 en:
   sms:
-    verification: "PIN: %{code}. Thank you for using Remote Assistant."
+    verification: "Verification code: %{code}. Thank you for using Remote Assistant."
     invitation: "Hi! %{user} invites you to connect with him via Remote Assistant."
   errors:
     token_expired: 'Authentication token has expired.'
@@ -21,5 +21,5 @@ en:
     device_not_exist: 'Device does not exist.'
     undefined_error_title: 'Undefined error'
     undefined_error: 'Undefined error has occured.'
-    cant_add_yourself: "Can't add yourself as a conntact" 
+    cant_add_yourself: "Can't add yourself as a conntact"
     uuid_exists: "User authentication wasn't successful"

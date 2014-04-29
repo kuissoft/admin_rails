@@ -1,6 +1,6 @@
 sk:
   sms:
-    verification: "PIN: %{code}. Ďakujeme, že používate Remote Assistant."
+    verification: "Overovací kód: %{code}. Ďakujeme, že používate Remote Assistant."
     invitation: "Dobrý deň! %{user} vám poslal pozvánku do aplikácie Remote Assistant."
   errors:
     token_expired: 'Platnost autentizačného tokenu vypršala.'
@@ -66,4 +66,3 @@ sk:
             attributes:
               user_id:
                 blank: 'nemôže byť prázdne'
-    
