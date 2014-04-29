@@ -13,6 +13,9 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   def validate
     device = Device.where(user_id: params[:user_id], uuid: params[:uuid]).first
 
+    puts "Params >>>>>> #{params.inspect}"
+    puts "Deeeeeviiiiceee >>>>>> #{device.inspect}"
+
     if device 
       if params[:auth_token].present? and (device.auth_token == params[:auth_token] or device.last_token == params[:auth_token])
         # if user.expired_token?
