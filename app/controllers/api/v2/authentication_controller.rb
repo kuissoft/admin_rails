@@ -200,9 +200,7 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
         if device.destroy
           render json: {},  status: 200
         else
-          Rails.logger.error '========== DEAUTHENTICATE ERRORS ============'
           Rails.logger.error "#{device.errors.inspect}"
-          Rails.logger.error '=========== END DEBUG ============='
           lang = device.language
           lang = 'en' unless device.language == 'cs' or device.language == 'sk'
           render json: { error_info: { code: 100, title: t('errors.undefined_error_title', locale: lang), message: ''} }, status: 401
