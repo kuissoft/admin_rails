@@ -10,3 +10,18 @@ if LogStasher.enabled
     #LogStasher.custom_fields << :myapi_runtime
   end
 end
+
+class Rails::Rack::Logger
+ # Overwrites Rails 3.2 code that logs new requests
+ def call_app(*args)
+   puts "Hello: #{args.inspect}"
+   env = args.last
+   @app.call(env)
+ ensure
+   ActiveSupport::LogSubscriber.flush_all!
+ end
+
+ # Overwrites Rails 3.0/3.1 code that logs new requests
+ def before_dispatch(env)
+ end
+end
