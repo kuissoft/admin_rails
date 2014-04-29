@@ -13,6 +13,6 @@
 
 <div>
   Last day <%= @users.where('last_sign_in_at >= ?',  Date.today).count %>
-  Last 7days <%= @users.where('last_sign_in_at >= ?',  7.day.ago).count %>
-  Last 30days <%= @users.where('last_sign_in_at >= ?',  30.day.ago).count %>
+  Last 7days <%= @users.where('last_sign_in_at >= ?',  7.days.ago).count %>
+  Last 30days <%= @users.where('last_sign_in_at >= ?',  30.days.ago).count %>
 </div>
