@@ -29,7 +29,6 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         render json: { error_info: { code: 103, title: '', message: t('errors.token_not_match')} }, status: 401
       end
     else
-      Rails.logger.error " >>>>>>>>>>>>>>>>> Validate WTF??? <<<<<<<<<<<<<"
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist') } }, status: 401
     end
   end
@@ -153,7 +152,6 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         end
       end
     else
-      Rails.logger.error " >>>>>>>>>>>>>>>>> Resend WTF??? <<<<<<<<<<<<<"
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist', locale: set_language_by_area_code(phone)) } }, status: 401
     end
   end
@@ -196,7 +194,6 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         render json: { error_info: { code: 110, title: '', message: t('errors.no_verification_code', locale: lang) } }, status: 401
       end
     else
-      Rails.logger.error " >>>>>>>>>>>>>>>>> Verify WTF??? <<<<<<<<<<<<<"
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist', locale: set_language_by_area_code(phone)) } }, status: 401
     end
   end
@@ -213,9 +210,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         if device.update token: nil, auth_token: nil, online: false
           render json: {},  status: 200
         else
-          Rails.logger.error '========== DEAUTHENTICATE ERRORS ============'
           Rails.logger.error "#{device.errors.inspect}"
-          Rails.logger.error '=========== END DEBUG ============='
           lang = device.language
           lang = 'en' unless device.language == 'cs' or device.language == 'sk'
           render json: { error_info: { code: 100, title: t('errors.undefined_error_title', locale: lang), message: ''} }, status: 401
@@ -226,7 +221,6 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         render json: { error_info: { code: 102, title: '', message: t('errors.token_not_match', locale: lang)} }, status: 401
       end
     else
-      Rails.logger.error " >>>>>>>>>>>>>>>>> deauthenticate WTF??? <<<<<<<<<<<<<"
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist') } }, status: 401
     end
   end
