@@ -11,7 +11,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
 
       render json: {notifications: notifications}, status: 200
     else
-      Rails.logger.debug " >>>>>>>>>>>>>>>>> Notifications WTF??? <<<<<<<<<<<<<"
+      Rails.logger.error " >>>>>>>>>>>>>>>>> Notifications WTF??? <<<<<<<<<<<<<"
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist')} }, status: 400
     end
   end
