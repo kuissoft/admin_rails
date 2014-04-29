@@ -77,7 +77,9 @@ RemoteAssistant::Application.routes.draw do
         put :set_offline, on: :collection
         put :set_all_offline, on: :collection
       end
-      resources :calls
+      resources :calls do 
+        get :dummy_call, on: :collection
+      end
       resources :notifications
       resources :sessions, :except => [:edit, :update]
       resources :locations

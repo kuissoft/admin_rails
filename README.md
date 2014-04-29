@@ -178,6 +178,20 @@ Errors:
 {"error_info":{"code":101,"message":"Invalid call id"}}
 ```
 
+### Dummy Call
+
+API Call
+```
+curl -XGET http://dev.api.remoteassistant.me/v2/calls/dummy_call
+```
+
+Response
+
+Ok, send 200
+```
+{"session_id":"2_MX4zODgyODg0Mn4xMjcuMC4wLjF-VHVlIEFwciAyOSAwOToyNDowMiBQRFQgMjAxNH4wLjg0NzgwMTU3flB-","caller_token":"T1==cGFydG5lcl9pZD0z","assistant_token":"T1==cGFydG5lcl9pZD0zODgyOD"}
+```
+
 # Contacts
 
 ### Get all contacts
