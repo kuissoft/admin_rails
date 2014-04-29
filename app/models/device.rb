@@ -1,12 +1,12 @@
 class Device < ActiveRecord::Base
   belongs_to :user
 
-  validates_presence_of :uuid
-  validates_uniqueness_of :uuid
-  validates_uniqueness_of :token, allow_nil: true, allow_blank: true
+  # validates_presence_of :uuid
+  # validates_uniqueness_of :uuid
+  # validates_uniqueness_of :token, allow_nil: true, allow_blank: true
 
   before_save :ensure_authentication_token
-  before_validation :ensure_apns_token_is_unique!
+  #before_validation :ensure_apns_token_is_unique!
 
   # Delete all devices except mine
   def ensure_apns_token_is_unique!

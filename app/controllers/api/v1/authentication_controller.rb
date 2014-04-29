@@ -13,9 +13,6 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   def validate
     device = Device.where(user_id: params[:user_id], uuid: params[:uuid]).first
 
-    puts "Params >>>>>> #{params.inspect}"
-    puts "Deeeeeviiiiceee >>>>>> #{device.inspect}"
-
     if device 
       if params[:auth_token].present? and (device.auth_token == params[:auth_token] or device.last_token == params[:auth_token])
         # if user.expired_token?
@@ -32,6 +29,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         render json: { error_info: { code: 103, title: '', message: t('errors.token_not_match')} }, status: 401
       end
     else
+      Rails.logger.error " >>>>>>>>>>>>>>>>> Validate WTF??? <<<<<<<<<<<<<"
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist') } }, status: 401
     end
   end
@@ -155,6 +153,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         end
       end
     else
+      Rails.logger.error " >>>>>>>>>>>>>>>>> Resend WTF??? <<<<<<<<<<<<<"
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist', locale: set_language_by_area_code(phone)) } }, status: 401
     end
   end
@@ -197,6 +196,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         render json: { error_info: { code: 110, title: '', message: t('errors.no_verification_code', locale: lang) } }, status: 401
       end
     else
+      Rails.logger.error " >>>>>>>>>>>>>>>>> Verify WTF??? <<<<<<<<<<<<<"
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist', locale: set_language_by_area_code(phone)) } }, status: 401
     end
   end
@@ -226,6 +226,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
         render json: { error_info: { code: 102, title: '', message: t('errors.token_not_match', locale: lang)} }, status: 401
       end
     else
+      Rails.logger.error " >>>>>>>>>>>>>>>>> deauthenticate WTF??? <<<<<<<<<<<<<"
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist') } }, status: 401
     end
   end
