@@ -13,10 +13,8 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
   def validate
     device = Device.where(user_id: params[:user_id], uuid: params[:uuid]).first
 
-    Rails.logger.error '==========START error============'
-    Rails.logger.error "Params >>>>>> #{params.inspect}"
-    Rails.logger.error "Deeeeeviiiiceee >>>>>> #{device.inspect}"
-    Rails.logger.error '===========END DEBUG============='
+    puts "Params >>>>>> #{params.inspect}"
+    puts "Deeeeeviiiiceee >>>>>> #{device.inspect}"
 
     if device 
       if params[:auth_token].present? and (device.auth_token == params[:auth_token] or device.last_token == params[:auth_token])
