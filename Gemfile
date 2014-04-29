@@ -32,7 +32,7 @@ group :production do
   # Monitoring
   #gem 'sentry-raven'
   gem 'newrelic_rpm'
-  
+
   #gem 'postmark-rails' # enable e-mail sending for Heroku
 end
 
@@ -88,6 +88,8 @@ gem 'versionist'
 # Images upload
 gem "paperclip"
 
+# log formater
+gem 'logstasher'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

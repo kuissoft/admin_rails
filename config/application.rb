@@ -33,5 +33,8 @@ module RemoteAssistant
     config.assets.precompile += %w( .svg .eot .woff .ttf)
 
     config.colorize_logging = false
+
+    config.logstasher.enabled = true
+    config.logstasher.source = 'rails'
   end
 end
