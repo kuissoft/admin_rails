@@ -23,3 +23,4 @@ en:
     undefined_error: 'Undefined error has occured.'
     cant_add_yourself: "Can't add yourself as a conntact"
     uuid_exists: "User authentication wasn't successful"
+    connection_not_exists: 'Pending invitation can not be removed'

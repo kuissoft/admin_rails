@@ -95,6 +95,7 @@ RemoteAssistant::Application.routes.draw do
             delete :remove
             delete :dismiss
             post :invite
+            delete :cancel_invitation
           end
         end
       end

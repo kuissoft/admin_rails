@@ -23,6 +23,7 @@ cs:
     undefined_error: 'Nastala neznámá chyba.'
     cant_add_yourself: 'Nelze přidat sám sebe jako kontakt'
     uuid_exists: 'Autentizace uživatele se nepodařila'
+    connection_not_exists: 'Odeslanou pozvánku nelze odstranit'
     activerecord:
       attributes:
         connection:

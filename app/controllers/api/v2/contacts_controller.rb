@@ -197,10 +197,21 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
 
       render json: {}, status: 200
     rescue => e
-      logger.error "=============== DEBUG START ================"
       logger.error "Debug: #{e.inspect}"
-      logger.error "================ DEBUG END ================="
       render json: { error_info: { code: 113, title: '', message: t('errors.url_or_record_not_found') }  }, status: 500
+    end
+  end
+
+  def cancel_invitation
+    connection = Connection.where(user_id: params[:user_id], contact_id: params[:contact_id]).first
+    if connection and connection.is_pending
+      if connection.destroy
+        render json: {}, status: 200
+      else
+        render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
+      end
+    else
+      render json: { error_info: { code: 117, title: '', message: t('errors.connection_not_exists') }  }, status: 401
     end
   end
 

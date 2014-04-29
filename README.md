@@ -25,6 +25,7 @@ API
     0 114    RESEND_LIMIT_REACHED        Resend limit reached
     0 115    DEVICE_NOT_EXISTS  
     0 116    UUID_EXISTS          UUID already exist    
+    0 117    CONNECTION_NOT_EXISTS          Connection does not exist    
     
 }
 ```
@@ -41,7 +42,7 @@ Please specify V1 or V2 uri, if not it uses default API
 ### Validate
 API Call
 ```
-curl -i -XPOST http://rea-rails-development.herokuapp.com/api/authentication/validate -d 'user_id=6&auth_token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf&connection_type=wifi'
+curl -i -XPOST http://dev.api.remoteassistant.me/authentication/validate -d 'user_id=6&auth_token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf&connection_type=wifi'
 ```
 Response
 
@@ -65,7 +66,7 @@ Errors:
 Resister user or send new code to activate new device
 
 ```
-curl http://rea-rails-development.herokuapp.com/api/authentication/authenticate -d 'phone=420xxxxxxxxx&uuid=3s2d4fd2f4fd2&language=en|cs|sk'
+curl http://dev.api.remoteassistant.me/authentication/authenticate -d 'phone=420xxxxxxxxx&uuid=3s2d4fd2f4fd2&language=en|cs|sk'
 ```
 
 Ok, send 200
@@ -90,7 +91,7 @@ Errors:
 Deauthentificate user's device
 
 ```
-curl http://rea-rails-development.herokuapp.com/api/authentication/deauthenticate -d 'user_id=1&uuid=3s2d4fd2f4fd2&auth_token=xxxXXX'
+curl http://dev.api.remoteassistant.me/authentication/deauthenticate -d 'user_id=1&uuid=3s2d4fd2f4fd2&auth_token=xxxXXX'
 ```
 
 Ok, send 200
@@ -114,7 +115,7 @@ Errors:
 Verify recieved verification code
 
 ```
-curl http://rea-rails-development.herokuapp.com/api/authentication/verify_code -d 'phone=420xxxxxxxxx&verification_code=1234&uuid=fsdfdsfsf'
+curl http://dev.api.remoteassistant.me/authentication/verify_code -d 'phone=420xxxxxxxxx&verification_code=1234&uuid=fsdfdsfsf'
 ```
 
 Ok, send 200
@@ -139,7 +140,7 @@ Errors:
 Resend verification code
 
 ```
-curl http://rea-rails-development.herokuapp.com/api/authentication/resend_code -d 'phone=420xxxxxxxxx&uuid=fsdfdsfsf'
+curl http://dev.api.remoteassistant.me/authentication/resend_code -d 'phone=420xxxxxxxxx&uuid=fsdfdsfsf'
 ```
 
 Ok, send 200
@@ -163,7 +164,7 @@ Errors:
 ### Get call info !!ONLY WHEN NOTIFICATION IS SENT!!
 API Call
 ```
-curl http://rea-rails-development.herokuapp.com/api/calls\?call_id=Ul2jrfWYQG8QsQ2RoTqbzA
+curl http://dev.api.remoteassistant.me/calls\?call_id=Ul2jrfWYQG8QsQ2RoTqbzA
 ```
 Response
 
@@ -183,7 +184,7 @@ Errors:
 
 API Call
 ```
-curl http://rea-rails-development.herokuapp.com/api/users/1/contacts.json?auth_token=XXX&uuid=fsdfdsfsf
+curl http://dev.api.remoteassistant.me/users/1/contacts.json?auth_token=XXX&uuid=fsdfdsfsf
 ```
 Response
 
@@ -208,7 +209,7 @@ Errors:
 ### Inivte new contact
 API Call
 ```
-curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/invite?auth_token=xxxXXXX&uuid=fsdfdsfsf -d '{"contact":{"nickname":"Papuska", "phone":"421917328431"}}'
+curl -H 'Content-Type: application/json' -X POST http://dev.api.remoteassistant.me/users/:user_id/contacts/invite?auth_token=xxxXXXX&uuid=fsdfdsfsf -d '{"contact":{"nickname":"Papuska", "phone":"421917328431"}}'
 ```
 Response
 
@@ -230,19 +231,19 @@ API Call
 
 Accept
 ```
-curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/accept?auth_token=XXX&uuid=fsdfdsfsf   -d 'contact_id=2'
+curl -XPOST http://dev.api.remoteassistant.me/users/1/contacts/accept?auth_token=XXX&uuid=fsdfdsfsf   -d 'contact_id=2'
 ```
 Decline
 ```
-curl -XPOST http://rea-rails-development.herokuapp.com/api/users/1/contacts/decline?auth_token=XXX&uuid=fsdfdsfsf  -d 'contact_id=2'
+curl -XPOST http://dev.api.remoteassistant.me/users/1/contacts/decline?auth_token=XXX&uuid=fsdfdsfsf  -d 'contact_id=2'
 ```
 Remove
 ```
-curl -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX&uuid=fsdfdsfsf -d 'contact_id=2'
+curl -XDELETE http://dev.api.remoteassistant.me/users/1/contacts/remove?auth_token=XXX&uuid=fsdfdsfsf -d 'contact_id=2'
 ```
 Dismiss
 ```
-curl -XDELETE http://rea-rails-development.herokuapp.com/api/users/1/contacts/remove?auth_token=XXX&uuid=fsdfdsfsf -d 'contact_id=2'
+curl -XDELETE http://dev.api.remoteassistant.me/users/1/contacts/remove?auth_token=XXX&uuid=fsdfdsfsf -d 'contact_id=2'
 ```
 Response 
 
@@ -251,10 +252,34 @@ Ok, send 200
 {}
 ```
 
+### Cancel Invitation
+API Call
+
+Cancel Invitation
+```
+curl -XDELETE http://dev.api.remoteassistant.me/users/:user_id/contacts cancel_invitation?contact_id=2&auth_token=bbb&uuid=aaa
+```
+
+Response 
+
+Ok, send 200 
+```
+{}
+```
+
+Errors:
+```
+{ errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }
+```
+
+```
+{ error_info: { code: 117, title: '', message: 'Pending invitation can not be removed' } }
+```
+
 ### Update contact
 API Call
 ```
-curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:user_id/contacts/:id?auth_token=xxxXXX&uuid=fsdfdsfsf -d '{"contact":{"nickname":"Bossak"}}'
+curl -H 'Content-Type: application/json' -X PUT http://dev.api.remoteassistant.me/users/:user_id/contacts/:id?auth_token=xxxXXX&uuid=fsdfdsfsf -d '{"contact":{"nickname":"Bossak"}}'
 ```
 Response 
 
@@ -274,7 +299,7 @@ Errors:
 ### Device create
 API Calls
 ```
-curl -H 'Content-Type: application/json' -X POST http://rea-rails-development.herokuapp.com/api/devices -d '{"user_id":"23", "auth_token":"xxxxxxx","device":{ "token":"fdsfdsfdsfdsf", "uuid":"dfsfdsf"}}'
+curl -H 'Content-Type: application/json' -X POST http://dev.api.remoteassistant.me/devices -d '{"user_id":"23", "auth_token":"xxxxxxx","device":{ "token":"fdsfdsfdsfdsf", "uuid":"dfsfdsf"}}'
 ```
 Response
 
@@ -297,7 +322,7 @@ If device errors
 ### Get all notifications for user
 API call
 ```
-curl http://rea-rails-development.herokuapp.com/api/notifications?user_id=4&auth_token=xxxXXX&uuid=fsdfdsfsf
+curl http://dev.api.remoteassistant.me/notifications?user_id=4&auth_token=xxxXXX&uuid=fsdfdsfsf
 ```
 
 Responds
@@ -339,7 +364,7 @@ Required fields:
 
 
 ```
-curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"feedback":{"message":"I have bug when starting call. No cancel button appears! Thanks.", "feedback_type":"bug", "user_id":"4"}}' http://rea-rails-development.herokuapp.com/api/feedbacks
+curl -H 'Content-Type: application/json' -H "Accept: application/json" -X POST -d '{"feedback":{"message":"I have bug when starting call. No cancel button appears! Thanks.", "feedback_type":"bug", "user_id":"4"}}' http://dev.api.remoteassistant.me/feedbacks
 ```
 Response
 
@@ -360,18 +385,18 @@ Required fields:
 * email - user e-mail
 
 ```
-curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"uuid": "fdsfdsfds", "user":{"name":"Karel Novák", "phone":"+421917328431", "email":"name@example.com", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
+curl -H 'Content-Type: application/json' -X PUT http://dev.api.remoteassistant.me/users/:id -d '{"uuid": "fdsfdsfds", "user":{"name":"Karel Novák", "phone":"+421917328431", "email":"name@example.com", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
 ```
 
 
 # Avatar upload
 ```
-curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id -d '{"uuid": "fdsfdsfds", "user":{"photo":"Image Object", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
+curl -H 'Content-Type: application/json' -X PUT http://dev.api.remoteassistant.me/users/:id -d '{"uuid": "fdsfdsfds", "user":{"photo":"Image Object", "auth_token":"VMdGAUSzUmppuoxr4CSg"}}'
 ```
 
 # Avatar remove
 ```
-curl -H 'Content-Type: application/json' -X PUT http://rea-rails-development.herokuapp.com/api/users/:id/remove_photo -d '{"uuid": "fdsfdsfds", "auth_token":"WtcEvb-uF819dwCsiocg"}'
+curl -H 'Content-Type: application/json' -X PUT http://dev.api.remoteassistant.me/users/:id/remove_photo -d '{"uuid": "fdsfdsfds", "auth_token":"WtcEvb-uF819dwCsiocg"}'
 ```
 
 Ok, send 200
