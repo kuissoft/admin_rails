@@ -58,11 +58,9 @@ class LogStasher::RequestLogSubscriber < ActiveSupport::LogSubscriber
 
     puts "\n\n"+data.to_a.inspect+"\n\n"
     time = DateTime.now.strftime("%Y-%m-%d %H:%M:%S.")
-    params = data[:parameters].except('path').to_s
-    path = data[:path]
-    severity = 'debug'
-    puts "\n\n#{time} ||| #{severity} ||| #{path} ||| #{params}\n\n"
-    log_to_node(time, severity, "Path #{path} with #{params} loaded") if path =~ /^\/api/
+    msg = "#{data[:method]} Path #{data[:path]} with #{data[:parameters].except('path').to_s} loaded (status #{data[:status]})"
+    puts "\n\n#{time} > #{msg}\n\n"
+    log_to_node(time, 'debug', msg) if data[:path] =~ /^\/api/
 
     tags = ['request']
     tags.push('exception') if payload[:exception]
