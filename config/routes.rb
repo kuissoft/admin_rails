@@ -79,7 +79,7 @@ RemoteAssistant::Application.routes.draw do
           post :validate
           post :verify_code
           post :resend_code
-          post :set_apns_token
+          post :apns_token
           put :change_language
           put :set_offline
           put :set_all_offline

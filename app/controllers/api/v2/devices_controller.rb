@@ -177,7 +177,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
 
 
   # Add APNS token to device
-  def set_apns_token
+  def apns_token
     # If I have device registered just return 200
     if current_user.devices.exists?(apns_token: params[:device][:apns_token], uuid: params[:uuid])
       render json: {}, status: 200
