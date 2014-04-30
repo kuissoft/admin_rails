@@ -8,7 +8,16 @@ end
 
 class Rails::Rack::Logger
   def call_app(*args)
-    puts "Hello: #{args.inspect}"
+    #puts JSON.parse '{ "x": "y" }'
+    #puts JSON.parse(args).inspect
+    #puts '{ "x": "y" }'.inspect
+    puts "\n\n"+args.join(" ... ")+"\n\n"
+    puts "\n\n"+args[1].to_a.join(" ... ")+"\n\n"
+    path = args[1]['REQUEST_PATH']
+    time = DateTime.now.strftime("%Y-%m-%d %H:%M:%S.")
+    severity = 'debug'
+    puts "\n#{path} ||| #{time} ||| #{severity}"
+    log_to_node(time, severity, "Path #{path} loaded") if path =~ /^\/api/
     env = args.last
     @app.call(env)
   ensure
@@ -19,7 +28,6 @@ class Rails::Rack::Logger
   end
 
   def log_to_node(time, severity, msg)
-    @@cnt += 1
     request = RestClient::Request.new(
       method: :post,
       url: NODE_HOST + "/log_from_rails",
@@ -31,11 +39,7 @@ class Rails::Rack::Logger
         msg: msg
     })
     begin
-      if @@cnt == 2
-        @@cnt = 0
-      else
-        request.execute unless msg.empty?
-      end
+      request.execute unless msg.empty?
     rescue => e
       puts "rescued"
     end
