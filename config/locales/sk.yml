@@ -6,7 +6,7 @@ sk:
     token_expired: 'Platnost autentizačného tokenu vypršala.'
     token_not_match: 'Autentizačný token je nesprávny.'
     token_invalid: 'Neplatný autentizačný token.'
-    not_authenticated: 'Používateľ nebol autentifikovaný.'
+    not_authenticated: 'Zariadenie nebolo autentifikované.'
     phone_wrong_format: 'Telefónne číslo je v nesprávnom tvare.'
     phone_not_valid: 'Telefoní číslo nie je platné.'
     sms_cannot_send: 'Nepodarilo sa odoslať potvrdzovaciu SMS. Vyskúšajte to neskôr.'
@@ -22,7 +22,7 @@ sk:
     undefined_error_title: 'Neznáma chyba'
     undefined_error: 'Nastala neznáma chyba.'
     cant_add_yourself: 'Nemožno pridať sám seba ako kontakt'
-    uuid_exists: 'Autentizace používateľa sa nepodarila'
+    uuid_exists: 'Autentizace zariadenia sa nepodarila'
     connection_not_exists: 'Odoslanú pozvánku nemožno odstrániť'
     activerecord:
       attributes:

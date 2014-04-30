@@ -34,39 +34,22 @@ API
 
 Please specify V1 or V2 uri, if not it uses default API
 
-# DEFAULT API: V2
+# DEFAULT API: V1
 
+# Device
 
-# Authentication
+### Authenticate
 
-### Validate
+Authenticate new device and send new verification code
+
+#### Parameters
+* {String} phone
+* {String} uuid
+* {String} language - [en, cs, sk]
+
 API Call
 ```
-curl -i -XPOST http://dev.api.remoteassistant.me/authentication/validate -d 'user_id=6&auth_token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf&connection_type=wifi'
-```
-Response
-
-Ok, sends 200
-```
-{"name":"Jiri Kratochvil","role":"admin", "uuid":"fsdfdsgfgdfgfdg"}
-```
-Errors:
-```
-{"error_info":{"code": 102, title: 'Token expired', message: 'Authentication token expired'}}
-```
-```
-{"error_info":{"code": 103, title: '', message: 'Validation code not match'}}
-```
-```
-{"error_info":{"code": 111, title: '', message: 'User not exists'}}
-```
-
-### Device user authentification
-
-Resister user or send new code to activate new device
-
-```
-curl http://dev.api.remoteassistant.me/authentication/authenticate -d 'phone=420xxxxxxxxx&uuid=3s2d4fd2f4fd2&language=en|cs|sk'
+curl -XPOST http://dev.api.remoteassistant.me/devices/authenticate -d 'phone=420xxxxxxxxx&uuid=3s2d4fd2f4fd2&language=en'
 ```
 
 Ok, send 200
@@ -75,7 +58,7 @@ Ok, send 200
 ```
 Errors:
 ```
-{ error_info: { code: 116, message: "User authentication wasn't successful" } }
+{ error_info: { code: 116, message: "Device authentication wasn't successful" } }
 ```
 
 ```
@@ -86,12 +69,18 @@ Errors:
 { error_info: { code: 100, title: 'UNDEFINED ERROR', message: '' } }
 ```
 
-### Device user deauthentification
+### Deauthenticate
 
 Deauthentificate user's device
 
+#### Parameters
+* {String} user_id
+* {String} uuid
+* {String} auth_token
+
+API Call
 ```
-curl http://dev.api.remoteassistant.me/authentication/deauthenticate -d 'user_id=1&uuid=3s2d4fd2f4fd2&auth_token=xxxXXX'
+curl http://dev.api.remoteassistant.me/devices/deauthenticate -d 'user_id=1&uuid=3s2d4fd2f4fd2&auth_token=xxxXXX'
 ```
 
 Ok, send 200
@@ -100,53 +89,98 @@ Ok, send 200
 ```
 Errors:
 ```
-{"error_info":{"code": 102, title: 'Token expired', message: 'Authentication token expired'}}
+{"error_info":{"code": 102, title: '', message: 'Authentication token does not match.'}}
 ```
 
 ```
-{"error_info":{"code": 111, title: '', message: 'User not exists'}}
+{"error_info":{"code":104,"title":"","message":"Device not authenticated."}}
 ```
 
 ```
 { error_info: { code: 100, title: 'UNDEFINED ERROR', message: '' } }
 ```
 
-### Device code verification
-Verify recieved verification code
+### Validate
+
+Validate device from Node server
+
+#### Parameters
+* {String} user_id
+* {String} uuid
+* {String} auth_token
+* {String} connection_type - ['Unknown', 'GPRS', 'Edge', '3G', '4G', 'LTE', 'Wi-Fi']
+
+API Call
+```
+curl -i -XPOST http://dev.api.remoteassistant.me/devices/validate -d 'user_id=6&auth_token=-x1wSyy68Fstzx1ZCZ_h&uuid=fsdfdsfsf&connection_type=Wi-Fi'
+```
+Response
+
+Ok, sends 200
+```
+{"name":"Jiri Kratochvil","role":"admin", "uuid":"fsdfdsgfgdfgfdg"}
+```
+Errors:
+```
+{"error_info":{"code": 102, title: '', message: 'Authentication token does not match.'}}
+```
 
 ```
-curl http://dev.api.remoteassistant.me/authentication/verify_code -d 'phone=420xxxxxxxxx&verification_code=1234&uuid=fsdfdsfsf'
+{"error_info":{"code":104,"title":"","message":"Device not authenticated."}}
+```
+
+### Verify code
+
+Verify recieved verification code
+
+#### Parameters
+* {String} phone
+* {String} uuid
+* {String} verification_code
+
+API Call
+
+```
+curl http://dev.api.remoteassistant.me/devices/verify_code -d 'phone=420xxxxxxxxx&verification_code=1234&uuid=fsdfdsfsf'
 ```
 
 Ok, send 200
 ```
-{"user":{"id":12,"name":null,"email":null,"phone":"+420xxxxxxxxx","auth_token":"kL2LLCmyKsbszkWzQeU7","role":"user","last_token":null,"token_updated_at":"2014-01-06T10:43:13.618Z"}}
+{"user":{"id":3,"name":"Jiří Kratochvíl","email":"jiri@remoteassistant.me","phone":"+420720733688","role":"admin","auth_token":"bbb","last_token":"","token_updated_at":"2014-04-30T11:36:00.000+02:00","photo_url":null}}
 ```
 Errors:
 ```
-{ error_info: { code: 109, title: '', message: 'Validation code not match' } }
+{ error_info: { code: 109, title: '', message: 'Verification code does not match.' } }
 ```
 
 ```
-{ error_info: { code: 110, title: '', message: 'No validation code' } }
+{ error_info: { code: 110, title: '', message: 'No verification code.' } }
 ```
 
 ```
-{ error_info: { code: 111, title: '', message: 'User not exists'} }
+{ error_info: { code: 115, title: '', message: 'Device does not exist'} }
 
 ```
 
 ### Resend verification code
+
 Resend verification code
 
+#### Parameters
+* {String} phone
+* {String} uuid
+
+API Call
+
 ```
-curl http://dev.api.remoteassistant.me/authentication/resend_code -d 'phone=420xxxxxxxxx&uuid=fsdfdsfsf'
+curl http://dev.api.remoteassistant.me/devices/resend_code -d 'phone=420xxxxxxxxx&uuid=fsdfdsfsf'
 ```
 
 Ok, send 200
 ```
 {}
 ```
+
 Errors:
 ```
 { error_info: { code: 114, title:'', message: 'Resend Verification code limit reached' } }, status: 401
@@ -157,7 +191,45 @@ Errors:
 ```
 
 ```
-{ error_info: { code: 111, title: '', message: 'User not exists' } }, status: 401
+{ error_info: { code: 111, title: '', message: 'User does not exists' } }
+```
+
+```
+{ error_info: { code: 115, title: '', message: 'Device does not exist'} }
+
+```
+
+### Set APNS Token
+
+Set APNS Token
+
+#### Parameters
+* {String} user_id
+* {String} auth_token
+* {String} uuid
+* {String} device[apns_token]
+
+API Call
+
+```
+curl -H 'Content-Type: application/json' -X POST http://dev.api.remoteassistant.me/devices/set_apns_token -d '{"user_id":"23", "auth_token":"xxxxxxx", "uuid":"dfsfdsf", device":{ "apns_token":"fdsfdsfdsfdsf"}}'
+```
+
+Response
+
+Ok, send 200
+```
+{}
+```
+
+Errors:
+
+```
+{"error_info":{"code": 102, title: '', message: 'Authentication token does not match.'}}
+```
+
+```
+{"error_info":{"code":104,"title":"","message":"Device not authenticated."}}
 ```
 
 # Calls
@@ -309,28 +381,6 @@ Errors:
 { error_info: { code: 111, title: '', message: 'User not exists' } }
 ```
 
-# Device 
-### Device create
-API Calls
-```
-curl -H 'Content-Type: application/json' -X POST http://dev.api.remoteassistant.me/devices -d '{"user_id":"23", "auth_token":"xxxxxxx","device":{ "token":"fdsfdsfdsfdsf", "uuid":"dfsfdsf"}}'
-```
-Response
-
-If device is already registered to my account send 200
-```
-{}
-```
-
-If device not registered to my account, it is created a send device object
-```
-{"id":4,"token":"myReallySecretTokenUniq","user_id":4,"created_at":"2014-01-17T13:09:32.503Z","updated_at":"2014-01-17T13:09:32.503Z"}
-```
-
-If device errors 
-```
-{"error_info":{"code": 101,"message": "token has already been taken"}}
-```
 # Notifications
 
 ### Get all notifications for user

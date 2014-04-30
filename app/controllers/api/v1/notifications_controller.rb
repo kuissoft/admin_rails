@@ -11,7 +11,6 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
 
       render json: {notifications: notifications}, status: 200
     else
-      Rails.logger.error " >>>>>>>>>>>>>>>>> Notifications WTF??? <<<<<<<<<<<<<"
       render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist')} }, status: 400
     end
   end
@@ -22,7 +21,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
     Rails.logger.warn "Saving #{key} with #{params}"
     Rails.cache.write(key, params)
 
-    device_ids = Device.where(user_id: params[:assistant_id]).map(&:token)
+    device_ids = Device.where(user_id: params[:assistant_id]).map(&:apns_token)
     Rails.logger.warn "Found devices #{device_ids}"
     name = "Unknown User"
     con = User.where(id: params[:assistant_id]).first
@@ -49,10 +48,6 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
         n.attributes_for_device = { call_id: key }
         n.sound = "Calling.wav"
         result = n.save!
-        Rails.logger.error '==========START DEBUG============'
-        Rails.logger.error "Rpush result: #{result.inspect}"
-        Rails.logger.debug "Rpush result 1: #{result.inspect}"
-        Rails.logger.error '===========END DEBUG============='
       end
     end
 

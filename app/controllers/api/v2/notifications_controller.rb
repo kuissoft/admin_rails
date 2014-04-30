@@ -19,7 +19,7 @@ class Api::V2::NotificationsController < Api::V2::ApplicationController
     Rails.logger.warn "Saving #{key} with #{params}"
     Rails.cache.write(key, params)
 
-    device_ids = Device.where(user_id: params[:assistant_id]).map(&:token)
+    device_ids = Device.where(user_id: params[:assistant_id]).map(&:apns_token)
     Rails.logger.warn "Found devices #{device_ids}"
     name = "Unknown User"
     con = User.where(id: params[:assistant_id]).first

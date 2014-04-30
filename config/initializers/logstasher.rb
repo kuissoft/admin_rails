@@ -14,7 +14,6 @@ end
 class Rails::Rack::Logger
  # Overwrites Rails 3.2 code that logs new requests
  def call_app(*args)
-   puts "Hello: #{args.inspect}"
    env = args.last
    @app.call(env)
  ensure

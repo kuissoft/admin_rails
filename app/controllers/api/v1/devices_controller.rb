@@ -2,23 +2,24 @@ class Api::V1::DevicesController < Api::V1::AuthenticatedController
   skip_before_action :authenticate_user_from_token!, only: [:change_language, :set_all_offline]
   def create
     # Find if device token exists for another user
-    device = Device.where("token = ? and user_id != ?", params[:device][:token], current_user.id).first
+    device = Device.where("apns_token = ? and user_id != ?", params[:device][:token], current_user.id).first
 
     # If device exists and has different user_id destroy it
-    device.update token: nil if device
+    device.update apns_token: nil if device
 
     # # Check if exists zombie devices and if yes kill them all
     # zombie_devices = Device.where("token = ? AND user_id = ? AND uuid != ", params[:device][:token], current_user.id, params[:uuid] )
     # zombie_devices.destroy_all
 
     # If I have device registered just return 200
-    if current_user.devices.exists?(token: params[:device][:token], uuid: params[:uuid])
+    if current_user.devices.exists?(apns_token: params[:device][:token], uuid: params[:uuid])
       render json: {}, status: 200
       return
     end
 
     # If device is not registered -> register it to my user_id
-    if device = current_user.devices.where(uuid: params[:uuid]).first.update(device_params)
+    if device = current_user.devices.where(uuid: params[:uuid]).first
+      device.update apns_token: params[:device][:token]
       render json: {}, status: 200
     else
       render json: { error_info: { code: 101, message: device.errors.full_message.join(", ") } }, status: 400

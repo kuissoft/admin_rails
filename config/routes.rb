@@ -72,10 +72,18 @@ RemoteAssistant::Application.routes.draw do
   # api routes
   namespace :api, defaults: {format: 'json'} do
     api_version(:module => "V2", :path => {:value => "v2"}) do
-      resources :devices, only: [:create] do 
-        put :change_language, on: :collection
-        put :set_offline, on: :collection
-        put :set_all_offline, on: :collection
+      resources :devices, except: [:create, :update, :new, :edit, :destroy, :index, :show] do
+        collection do
+          post :authenticate
+          post :deauthenticate
+          post :validate
+          post :verify_code
+          post :resend_code
+          post :set_apns_token
+          put :change_language
+          put :set_offline
+          put :set_all_offline
+        end
       end
       resources :calls do 
         get :dummy_call, on: :collection
@@ -102,11 +110,6 @@ RemoteAssistant::Application.routes.draw do
         end
       end
       post "/authentication", to: "authentication#create"
-      post "/authentication/validate", to: "authentication#validate"
-      post "/authentication/authenticate", to: "authentication#authenticate"
-      post "/authentication/deauthenticate", to: "authentication#deauthenticate"
-      post "/authentication/verify_code", to: "authentication#verify_code"
-      post "/authentication/resend_code", to: "authentication#resend_verification_code"
       get '/ping', :to => 'application#ping'
     end
   end

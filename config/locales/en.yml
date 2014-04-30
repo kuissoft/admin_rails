@@ -6,7 +6,7 @@ en:
     token_expired: 'Authentication token has expired.'
     token_not_match: 'Authentication token does not match.'
     token_invalid: 'Invalid authentication token.'
-    not_authenticated: 'User not authenticated.'
+    not_authenticated: 'Device not authenticated.'
     phone_wrong_format: 'Phone number in wrong format.'
     phone_not_valid: 'Phone number is not valid.'
     sms_cannot_send: 'Cannot send verification SMS. Please try again later.'
@@ -22,5 +22,5 @@ en:
     undefined_error_title: 'Undefined error'
     undefined_error: 'Undefined error has occured.'
     cant_add_yourself: "Can't add yourself as a conntact"
-    uuid_exists: "User authentication wasn't successful"
+    uuid_exists: "Device authentication wasn't successful"
     connection_not_exists: 'Pending invitation can not be removed'

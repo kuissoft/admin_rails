@@ -207,7 +207,7 @@ class Api::V1::AuthenticationController < Api::V1::ApplicationController
 
     if device
       if params[:auth_token].present? and (device.auth_token == params[:auth_token] or device.last_token == params[:auth_token])
-        if device.update token: nil, auth_token: nil, online: false
+        if device.update apns_token: nil, auth_token: nil, online: false
           render json: {},  status: 200
         else
           Rails.logger.error "#{device.errors.inspect}"
