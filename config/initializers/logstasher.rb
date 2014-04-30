@@ -8,16 +8,15 @@ end
 
 class Rails::Rack::Logger
   def call_app(*args)
-    #puts JSON.parse '{ "x": "y" }'
-    #puts JSON.parse(args).inspect
-    #puts '{ "x": "y" }'.inspect
     puts "\n\n"+args.join(" ... ")+"\n\n"
     puts "\n\n"+args[1].to_a.join(" ... ")+"\n\n"
     path = args[1]['REQUEST_PATH']
+    get = args[1]['QUERY_STRING']
+    post = args[1]['rack.request.form_vars']
     time = DateTime.now.strftime("%Y-%m-%d %H:%M:%S.")
     severity = 'debug'
     puts "\n#{path} ||| #{time} ||| #{severity}"
-    log_to_node(time, severity, "Path #{path} loaded") if path =~ /^\/api/
+    log_to_node(time, severity, "Path #{path} with #{get}&#{post} loaded") if path =~ /^\/api/
     env = args.last
     @app.call(env)
   ensure
