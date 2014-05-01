@@ -166,25 +166,33 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     # is the contact_id from the other user's perspective
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
 
-    ContactNotifications.status_changed(connection, false)
-    connection.update_attributes!(is_pending: false, is_rejected: false, is_removed: false)
-    begin
-      current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
+    if connection
+      ContactNotifications.status_changed(connection, false)
+      connection.update_attributes!(is_pending: false, is_rejected: false, is_removed: false)
+      begin
+        current_user.connections.create!(user_id: current_user.id, contact_id: params[:contact_id], is_pending: false)
 
-      render json: {}, status: 200
-    rescue
-      render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists')  }  }, status: 400
+        render json: {}, status: 200
+      rescue
+        render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists')  }  }, status: 400
+      end
+    else
+      render json: { error_info: { code: 118, title: '', message: t('errors.connection_not_exists') }  }, status: 401
     end
   end
 
   def decline
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
 
-    connection.update_attributes!(is_pending: false, is_rejected: true, is_removed: false)
+    if connection
+      connection.update_attributes!(is_pending: false, is_rejected: true, is_removed: false)
 
-    ContactNotifications.status_changed(connection, false)
+      ContactNotifications.status_changed(connection, false)
 
-    render json: {}, status: 200
+      render json: {}, status: 200
+    else
+      render json: { error_info: { code: 118, title: '', message: t('errors.connection_not_exists') }  }, status: 401
+    end
   end
 
   def remove
@@ -211,7 +219,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
         render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
       end
     else
-      render json: { error_info: { code: 117, title: '', message: t('errors.connection_not_exists') }  }, status: 401
+      render json: { error_info: { code: 117, title: '', message: t('errors.connection_pending_not_exists') }  }, status: 401
     end
   end
 

@@ -23,7 +23,8 @@ sk:
     undefined_error: 'Nastala neznáma chyba.'
     cant_add_yourself: 'Nemožno pridať sám seba ako kontakt'
     uuid_exists: 'Autentizace zariadenia sa nepodarila'
-    connection_not_exists: 'Odoslanú pozvánku nemožno odstrániť'
+    connection_pending_not_exists: 'Odoslanú pozvánku nemožno odstrániť'
+    connection_not_exists: 'Pozvánka již neexistuje.'
     activerecord:
       attributes:
         connection:

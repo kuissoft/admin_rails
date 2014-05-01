@@ -25,7 +25,8 @@ API
     0 114    RESEND_LIMIT_REACHED        Resend limit reached
     0 115    DEVICE_NOT_EXISTS  
     0 116    UUID_EXISTS          UUID already exist    
-    0 117    CONNECTION_NOT_EXISTS          Connection does not exist    
+    0 117    PENDING_CONNECTION_NOT_EXISTS Pending Connection does not exist    
+    0 118    CONNECTION_NOT_EXISTS          Connection does not exist    
     
 }
 ```

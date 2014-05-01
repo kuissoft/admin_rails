@@ -23,4 +23,5 @@ en:
     undefined_error: 'Undefined error has occured.'
     cant_add_yourself: "Can't add yourself as a conntact"
     uuid_exists: "Device authentication wasn't successful"
-    connection_not_exists: 'Pending invitation can not be removed'
+    connection_pending_not_exists: 'Pending invitation can not be removed'
+    connection_not_exists: 'Invitation does not exist.'
