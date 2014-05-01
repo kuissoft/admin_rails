@@ -2,6 +2,7 @@ if LogStasher.enabled
   LogStasher.add_custom_fields do |fields|
     fields[:user] = current_user && current_user.phone
     fields[:response] = response.body
+    fields[:request] = params.to_s
     fields[:site] = request.path =~ /^\/api/ ? 'api' : 'admin'
     #fields.except!(:route)
   end
@@ -59,7 +60,7 @@ class LogStasher::RequestLogSubscriber < ActiveSupport::LogSubscriber
 
     #puts "\n\n"+data.to_a.inspect+"\n\n"
     time = DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
-    msg = "#{data[:method]} Path #{data[:path]} with #{data[:parameters].except('path').to_s} . Response: #{data[:response]} with status #{data[:status]}."
+    msg = "#{data[:method]} Path #{data[:path]} with #{data[:request]} . Response: #{data[:response]} with status #{data[:status]}."
     #puts "\n\n#{time} > #{msg}\n\n"
     log_to_node(time, 'debug', msg) if data[:path] =~ /^\/api/
 
