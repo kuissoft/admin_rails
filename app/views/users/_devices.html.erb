@@ -40,6 +40,7 @@
             <td><%= device.token_updated_at.to_s(:datetime) if device.token_updated_at%></td>
             <td><%= device.connection_type %></td>
             <td><%= device.last_online_at.to_s(:datetime) if device.last_online_at%></td>
+            <td><%= link_to "Deauthenticate", deauthenticate_user_path(id: @user.id, device_id: device.id), method: :put, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
             <td><%= link_to "Edit", edit_device_path(device), class: 'btn btn-xs btn-default' %></td>
             <td><%= link_to 'Destroy', device, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
             <td>

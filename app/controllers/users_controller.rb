@@ -1,7 +1,7 @@
 class UsersController < AuthenticatedController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :destroy_connection]
-  before_action :set_connections, except: [:index, :new, :create, :reset_password, :photo, :reset_sms]
-  before_action :set_devices, except: [:index, :new, :create, :reset_password, :photo, :reset_sms]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :destroy_connection, :deauthenticate]
+  before_action :set_connections, except: [:index, :new, :create, :reset_password, :photo, :reset_sms, :deauthenticate]
+  before_action :set_devices, except: [:index, :new, :create, :reset_password, :photo, :reset_sms, :deauthenticate]
 
   # GET /users
   # GET /users.json
@@ -91,22 +91,38 @@ class UsersController < AuthenticatedController
     redirect_to :back
   end
 
+  def deauthenticate
+    if params[:all]
+      Device.all.each do |device|
+        device.update auth_token: nil
+        Realtime.new.notify(@user.id, "device:deauthenticate", {uuid: device.uuid})
+      end
+      flash[:notice] = "All user's devices were deauthenticated"
+    elsif params[:device_id]
+      device = Device.where(id: params[:device_id]).first
+      device.update auth_token: nil
+      Realtime.new.notify(@user.id, "device:deauthenticate", {uuid: device.uuid})
+      flash[:notice] = "User's device with id #{params[:id]} was deauthenticated"
+    end
+    redirect_to :back
+  end
+
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    def set_connections
-      @connections = User.where(id: @user.followers_uniq)
-    end
+  def set_connections
+    @connections = User.where(id: @user.followers_uniq)
+  end
 
-    def set_devices
-      @devices = @user.devices
-    end
+  def set_devices
+    @devices = @user.devices
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:name, :phone, :email, :password, :role, :photo, :remove)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:name, :phone, :email, :password, :role, :photo, :remove)
+  end
 end

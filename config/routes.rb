@@ -17,6 +17,7 @@ RemoteAssistant::Application.routes.draw do
       put :expire_token
       put :reset_password
       put :reset_sms
+      put :deauthenticate
     end
     delete :destroy_connection, on: :collection
   end
