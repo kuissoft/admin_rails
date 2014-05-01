@@ -50,13 +50,18 @@
   socket.on('log:feed', function (data) {
     log = JSON.parse(data);
     if(log.type == 'rails'){
-      var log_class = 'log_rails'
+      var log_class = 'log_rails';
+      datetime = log.timestamp.split(" ");
+      date = datetime[0].split("-");
+      var timestamp = date[2] + "." + date[1] + ". " + datetime[1];
     }
     else{
-      var log_class = 'log_node'
+      var log_class = 'log_node';
+      var date = new Date(log.timestamp);
+      var timestamp = date.getDate() + "." + (date.getMonth() + 1) + ". " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":" + date.getMilliseconds();
     }
     
-    row = '<tr class="' + log_class + ' ' + log.level.toLowerCase() + ' "><td>'+ log.timestamp + '</td><td>'+ log.level.toLowerCase() + '</td><td>'+ log.msg + '</td></tr>';
+    row = '<tr class="' + log_class + ' ' + log.level.toLowerCase() + ' "><td>'+ timestamp + '</td><td>'+ log.level.toLowerCase() + '</td><td>'+ log.msg + '</td></tr>';
 
     $('#logs').append(row);
     tail();
