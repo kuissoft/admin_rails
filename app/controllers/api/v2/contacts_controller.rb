@@ -3,6 +3,7 @@ require 'digest/sha1'
 class Api::V2::ContactsController < Api::V2::AuthenticatedController
   respond_to :json
   around_action :wrap_transaction
+  before_action :set_language, only: [:invite, :send_sms_or_email, :accept, :decline, :remove, :cancel_invitation]
 
   def index
     if params[:only_ids]
@@ -31,7 +32,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
   def state user, is_pending
     contact_state = 'offline'
     if user
-      if user.is_online? 
+      if user.is_online?
         contact_state = 'online'
       else
         contact_state = 'offline'
@@ -94,11 +95,11 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
         unless both_invited
           send_sms_or_email(connection, current_user, invited_user)
           ContactNotifications.status_changed(connection, true)
-          render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'pending', "nickname" => connection.nickname}}, status: 200   
+          render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'pending', "nickname" => connection.nickname}}, status: 200
         else
           ContactNotifications.status_changed(connection, false)
           ContactNotifications.status_changed(other_connection, false)
-          render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'online', "nickname" => connection.nickname}}, status: 200  
+          render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'online', "nickname" => connection.nickname}}, status: 200
         end
       else
         render json: { error_info: { code: 101, title: '', message: connection.errors.full_messages.join(", ") } }, status: 400
@@ -111,17 +112,17 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name, "state" => 'pending' , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
         ContactNotifications.status_changed(conn, true)
       elsif conn.is_rejected or conn.is_removed
-        # and if is rejected set connection to pending again 
+        # and if is rejected set connection to pending again
         conn.update is_pending: true, is_rejected: false, is_removed: false
         render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name, "state" => 'pending' , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
         ContactNotifications.status_changed(conn, true)
       else
-        render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists') }  }, status: 400
+        render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists', locale: @lang) }  }, status: 400
       end
     end
   end
 
-  
+
 
   def send_sms_or_email connection, current_user, invited_user
     # Device for sms count
@@ -138,12 +139,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     end
 
     if allow_send
-      lang = set_language_by_area_code(invited_user.phone)
-
-      lang = 'en' unless lang == 'cs' or lang == 'sk'
-        
-
-      msg = t('sms.invitation', user: resolve_name(current_user), locale: lang )
+      msg = t('sms.invitation', user: resolve_name(current_user), locale: @lang )
       unless Rails.env == 'development' or (invited_user.admin? and get_settings_value(:force_sms) != "1")
         sms = Sms.new(invited_user.phone, msg).deliver
       else
@@ -165,9 +161,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     # Since the other user is accepting, we search for a contact where user_id
     # is the contact_id from the other user's perspective
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
-  
-    lang = @device.language
-    lang = 'en' unless lang == 'cs' or lang == 'sk'
+
     if connection
       ContactNotifications.status_changed(connection, false)
       connection.update_attributes!(is_pending: false, is_rejected: false, is_removed: false)
@@ -176,17 +170,16 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
 
         render json: {}, status: 200
       rescue
-        render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists', locale: lang)  }  }, status: 400
+        render json: { error_info: { code: 108, title: '', message: t('errors.connection_exists', locale: @lang)  }  }, status: 400
       end
     else
-      render json: { error_info: { code: 118, title: '', message: t('errors.connection_not_exists', locale: lang)  }  }, status: 401
+      render json: { error_info: { code: 118, title: '', message: t('errors.connection_not_exists', locale: @lang)  }  }, status: 401
     end
   end
 
   def decline
     connection = Connection.where(user_id: params[:contact_id], contact_id: current_user.id).first
-    lang = @device.language
-    lang = 'en' unless lang == 'cs' or lang == 'sk'
+
     if connection
       connection.update_attributes!(is_pending: false, is_rejected: true, is_removed: false)
 
@@ -194,7 +187,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
 
       render json: {}, status: 200
     else
-      render json: { error_info: { code: 118, title: '', message: t('errors.connection_not_exists', locale: lang)}  }, status: 401
+      render json: { error_info: { code: 118, title: '', message: t('errors.connection_not_exists', locale: @lang)}  }, status: 401
     end
   end
 
@@ -209,14 +202,13 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
       render json: {}, status: 200
     rescue => e
       logger.error "Debug: #{e.inspect}"
-      render json: { error_info: { code: 113, title: '', message: t('errors.url_or_record_not_found') }  }, status: 500
+      render json: { error_info: { code: 113, title: '', message: t('errors.url_or_record_not_found', locale: @lang) }  }, status: 500
     end
   end
 
   def cancel_invitation
     connection = Connection.where(user_id: params[:user_id], contact_id: params[:contact_id]).first
-    lang = @device.language
-    lang = 'en' unless lang == 'cs' or lang == 'sk'
+
     if connection and connection.is_pending
       if connection.destroy
         render json: {}, status: 200
@@ -224,7 +216,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
         render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
       end
     else
-      render json: { error_info: { code: 117, title: '', message: t('errors.connection_pending_not_exists', locale: lang) }  }, status: 401
+      render json: { error_info: { code: 117, title: '', message: t('errors.connection_pending_not_exists', locale: @lang) }  }, status: 401
     end
   end
 
@@ -236,6 +228,11 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
   end
 
   private
+
+  def set_language
+    @lang = @device.language
+    @lang = 'cs' unless @lang == 'en' or @lang == 'sk'
+  end
 
   def wrap_transaction
     ActiveRecord::Base.transaction do
