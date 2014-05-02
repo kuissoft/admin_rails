@@ -37,22 +37,33 @@ class Api::V2::NotificationsController < Api::V2::ApplicationController
       end
     end
 
-    device_ids.each do |device_id|
-      unless device_id.blank?
-        n = Rpush::Apns::Notification.new
-        n.app = Rpush::Apns::App.find_by_name("ios_app")
-        n.device_token = device_id
-        n.alert = "Request from #{name}"
-        n.attributes_for_device = { call_id: key }
-        n.sound = "Calling.wav"
-        result = n.save!
+    if devices_ids.any?
+      if has_at_least_one_apns_token?(device_ids)
+        device_ids.each do |device_id|
+          unless device_id.blank?
+            n = Rpush::Apns::Notification.new
+            n.app = Rpush::Apns::App.find_by_name("ios_app")
+            n.device_token = device_id
+            n.alert = "Request from #{name}"
+            n.attributes_for_device = { call_id: key }
+            n.sound = "Calling.wav"
+            result = n.save!
+          end
+        end
+        render json: {}, status: 200
+        Rpush.push
+      else
+        render json: {}, status: 204
       end
+    else
+      render json: {}, status: 204
     end
 
-    Rpush.push
     
+  end
 
-    render json: {}, status: 200
+  def has_at_least_one_apns_token? apns_tokens
+    apns_tokens.select{|t| !t.nil? }.any?
   end
 
   def create_notification data, type = 'invitation'

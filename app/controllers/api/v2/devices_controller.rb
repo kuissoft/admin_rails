@@ -1,6 +1,6 @@
 class Api::V2::DevicesController < Api::V2::AuthenticatedController
   skip_before_action :authenticate_user_from_token!, only: [:change_language, :set_all_offline, :authenticate, :verify_code, :resend_code]
-
+  before_action :verify_api_key!, only: [:authenticate, :verify_code, :resend_code ]
   ###
   # Authenticate new device
   # @url /api/device/authenticate
@@ -234,6 +234,13 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
   end
 
   private
+
+  def verify_api_key!
+    unless params[:api_key] == API_KEY
+      phone = "+#{params[:phone]}".gsub(" ","")
+      render json: { error_info: { code: 119, title: '', message: t('errors.invalid_api_key', locale: set_language_by_area_code(phone))} }, status: 401 
+    end
+  end
 
   def device_params
     params.require(:device).permit(:apns_token, :uuid)

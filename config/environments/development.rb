@@ -42,6 +42,7 @@ RemoteAssistant::Application.configure do
   API_HOST = "http://www.remoteassistant.me/api/"
   API_NAME = "remoteassistant"
   API_PASSWORD = "eR35xZ65"
+  API_KEY = "Oe8vLl8p5hXY7HI1P3HxgjLQjPPyal5"
 
   NODE_HOST = "http://localhost:4000"
   RAILS_HOST = "http://localhost:3000/api"

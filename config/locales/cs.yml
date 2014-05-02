@@ -25,6 +25,7 @@ cs:
     uuid_exists: 'Autentizace zařízení se nepodařila'
     connection_pending_not_exists: 'Odeslanou pozvánku nelze odstranit'
     connection_not_exists: 'Pozvánka již neexistuje.'
+    invalid_api_key: 'Akci nelze dokončit.'
     activerecord:
       attributes:
         connection:
