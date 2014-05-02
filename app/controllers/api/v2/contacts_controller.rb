@@ -3,7 +3,6 @@ require 'digest/sha1'
 class Api::V2::ContactsController < Api::V2::AuthenticatedController
   respond_to :json
   around_action :wrap_transaction
-  before_action :set_language, only: [:invite, :send_sms_or_email, :accept, :decline, :remove, :cancel_invitation]
 
   def index
     if params[:only_ids]
@@ -228,11 +227,6 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
   end
 
   private
-
-  def set_language
-    @lang = @device.language
-    @lang = 'cs' unless @lang == 'en' or @lang == 'sk'
-  end
 
   def wrap_transaction
     ActiveRecord::Base.transaction do
