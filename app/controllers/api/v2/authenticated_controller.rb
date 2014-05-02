@@ -6,7 +6,7 @@ class Api::V2::AuthenticatedController < Api::V2::ApplicationController
   private
 
   def authenticate_user_from_token!
-    # Find device by combination user_id and device uuid 
+    # Find device by combination user_id and device uuid
     @device = Device.where(user_id: params[:user_id], uuid: params[:uuid]).first
 
     if @device

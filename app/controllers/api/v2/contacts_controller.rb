@@ -231,7 +231,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
 
   def set_language
     @lang = @device.language
-    @lang = 'cs' unless @lang == 'en' or @lang == 'sk'
+    @lang = 'en' unless @lang == 'cs' or @lang == 'sk'
   end
 
   def wrap_transaction
