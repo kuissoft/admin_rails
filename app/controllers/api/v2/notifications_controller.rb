@@ -37,7 +37,7 @@ class Api::V2::NotificationsController < Api::V2::ApplicationController
       end
     end
 
-    if devices_ids.any?
+    if device_ids.any?
       if has_at_least_one_apns_token?(device_ids)
         device_ids.each do |device_id|
           unless device_id.blank?
