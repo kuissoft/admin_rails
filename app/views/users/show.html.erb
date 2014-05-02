@@ -52,6 +52,10 @@
         <p>
           <%= link_to("Reset sms", reset_sms_user_path(id: @user.id), method: :put, class: 'btn btn-default') %>
         </p>
+
+        <p>
+          <%= link_to "Deauthenticate all devices", deauthenticate_user_path(id: @user.id, all: "1"), method: :put, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %>
+        </p>
      </div>
     </div>
   </div>
