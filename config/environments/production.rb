@@ -113,8 +113,8 @@ RemoteAssistant::Application.configure do
   IMAGES_HOST = "http://dev.admin.remoteassistant.me"
 
 
-  NODE_ACCESS_NAME = 'remote'
-  NODE_ACCESS_PASSWORD = 'asdfasdf'
+  NODE_ACCESS_NAME = 'admin'
+  NODE_ACCESS_PASSWORD = 'hyQM3O9E4SoMzTYcZ6eC0v3'
 
   NODE_LOG = "/home/ubuntu/node/current"
 

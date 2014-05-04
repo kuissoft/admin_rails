@@ -75,8 +75,8 @@ class LogStasher::RequestLogSubscriber < ActiveSupport::LogSubscriber
     request = RestClient::Request.new(
       method: :post,
       url: NODE_HOST + "/log_from_rails",
-      user: 'remote',
-      password: 'asdfasdf',
+      user: NODE_ACCESS_NAME,
+      password: NODE_ACCESS_PASSWORD,
       payload: {
         time: time,
         severity: severity,

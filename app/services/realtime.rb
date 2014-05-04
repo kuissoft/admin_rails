@@ -8,8 +8,8 @@ class Realtime
     request = RestClient::Request.new(
       method: :post,
       url: NODE_HOST + "/notify",
-      user: 'remote',
-      password: 'asdfasdf',
+      user: NODE_ACCESS_NAME,
+      password: NODE_ACCESS_PASSWORD,
       payload: {
         user_id: user_id,
         event: event,

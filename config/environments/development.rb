@@ -48,8 +48,8 @@ RemoteAssistant::Application.configure do
   RAILS_HOST = "http://localhost:3000/api"
   IMAGES_HOST = "http://localhost:3000"
 
-  NODE_ACCESS_NAME = 'remote'
-  NODE_ACCESS_PASSWORD = 'asdfasdf'
+  NODE_ACCESS_NAME = 'admin'
+  NODE_ACCESS_PASSWORD = 'hyQM3O9E4SoMzTYcZ6eC0v3'
 
   NODE_LOG = "/vagrant/node"
 
