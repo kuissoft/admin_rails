@@ -26,4 +26,5 @@ en:
     connection_pending_not_exists: 'Pending invitation can not be removed'
     connection_not_exists: 'Invitation does not exist.'
     invalid_api_key: 'Action could not be complete.'
-    email_cannot_send: 'Cannot send E-mail. Please try again later.'
+    email_cannot_send: 'Cannot send e-mail. Please try again later.'
+    invitation_cannot_send: 'Cannot send invitation. Please try again later.'

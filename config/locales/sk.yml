@@ -27,6 +27,7 @@ sk:
     connection_not_exists: 'Pozvánka již neexistuje.'
     invalid_api_key: 'Akciu nebolo možné dokončiť.'
     email_cannot_send: 'Nepodarilo sa odoslať e-mail. Vyskúšajte to neskôr.'
+    invitation_cannot_send: 'Nepodarilo sa odoslať pozvánku. Vyskúšajte to neskôr.'
   activerecord:
     attributes:
       connection:

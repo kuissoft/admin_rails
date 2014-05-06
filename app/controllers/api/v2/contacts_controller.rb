@@ -135,7 +135,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
         sms = [true, nil]
       rescue => e
         Rails.logger.error "Invitation e-mail error: #{e.inspect}"
-        sms = [false, ::I18n.t('errors.email_cannot_send', locale: lang )]
+        sms = [false, ::I18n.t('errors.invitation_cannot_send', locale: lang )]
       end
     end
     sms

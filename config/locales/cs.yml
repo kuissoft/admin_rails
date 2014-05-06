@@ -27,6 +27,7 @@ cs:
     connection_not_exists: 'Pozvánka již neexistuje.'
     invalid_api_key: 'Akci nelze dokončit.'
     email_cannot_send: Nelze odeslat e-mail. Zkuste to později.'
+    invitation_cannot_send: Nelze odeslat pozvánku. Zkuste to později.'
   activerecord:
     attributes:
       connection:
