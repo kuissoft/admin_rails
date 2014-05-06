@@ -11,7 +11,7 @@ RemoteAssistant::Application.routes.draw do
   # web routes
   root :to => "dashboard#index"
   get '/dashboard/twilio', :to => 'dashboard#twilio', format: 'js'
-  
+
   resources :users do
     member do
       put :expire_token
@@ -30,11 +30,12 @@ RemoteAssistant::Application.routes.draw do
     get :refresh_logs, on: :collection
   end
   resources :feedbacks, only: [:index, :show, :destroy]
+  resources :dashboard, only: [:index]
 
   # api routes
   namespace :api, defaults: {format: 'json'} do
     api_version(:module => "V1", :path => {:value => "v1"}, :default => true) do
-      resources :devices, only: [:create] do 
+      resources :devices, only: [:create] do
         put :change_language, on: :collection
         put :set_offline, on: :collection
         put :set_all_offline, on: :collection
@@ -86,7 +87,7 @@ RemoteAssistant::Application.routes.draw do
           put :set_all_offline
         end
       end
-      resources :calls do 
+      resources :calls do
         get :dummy_call, on: :collection
       end
       resources :notifications
