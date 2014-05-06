@@ -3,7 +3,7 @@ require 'digest/sha1'
 class Api::V2::ContactsController < Api::V2::AuthenticatedController
   respond_to :json
   around_action :wrap_transaction
-  before_action :set_language, only: [:invite, :send_sms_or_email, :accept, :decline, :remove, :cancel_invitation]
+  before_action :set_language, only: [:invite, :accept, :decline, :remove, :cancel_invitation]
 
   def index
     if params[:only_ids]
@@ -50,16 +50,9 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     phone = "+#{params[:contact][:phone]}".gsub(" ","")
     # Check if inveted user exists
     invited_user = User.where(phone: phone).first
-    # device = Device.where(phone: phone, uuid: params[:uuid]).first
 
     # If invited user not exits than create new one
     invited_user = User.create!(phone: phone, password: 'asdfasdf') unless invited_user
-    # unless device
-    #   device = Device.create!(phone: phone, uuid: params[:uuid], language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id)
-    # else
-    #   device.update  uuid: params[:uuid], user_id: invited_user.id, language: device.language
-    # end
-
 
     # Find if connection between users exists
     conn = Connection.where(user_id: current_user, contact_id: invited_user).first
@@ -67,7 +60,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     # if connection not exits
     unless conn
       # Build new connection with invited user id
-      connection = current_user.connections.build(contact_params)
+      connection = current_user.connections.build(nickname: params[:contact][:nickname])
       connection.contact_id = invited_user.id
 
       # check if exist pending invitation from other side
@@ -93,9 +86,14 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
 
       if connection.save
         unless both_invited
-          send_sms_or_email(connection, current_user, invited_user)
-          ContactNotifications.status_changed(connection, true)
-          render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'pending', "nickname" => connection.nickname}}, status: 200
+          sms = send_sms_or_email(connection, current_user, invited_user, @lang)
+          if sms.first
+            current_user.update sms_count: current_user.sms_count + 1
+            ContactNotifications.status_changed(connection, true)
+            render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'pending', "nickname" => connection.nickname}}, status: 200
+          else
+            render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
+          end
         else
           ContactNotifications.status_changed(connection, false)
           ContactNotifications.status_changed(other_connection, false)
@@ -107,10 +105,14 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     else
       # If connection exists and it's pending send invitation msg agaim
       if conn.is_pending
-        send_sms_or_email(conn, current_user, invited_user)
-
-        render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name, "state" => 'pending' , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
-        ContactNotifications.status_changed(conn, true)
+        sms = send_sms_or_email(conn, current_user, invited_user, @lang)
+        if sms.first
+          current_user.update sms_count: current_user.sms_count + 1
+          render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name, "state" => 'pending' , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
+          ContactNotifications.status_changed(conn, true)
+        else
+          render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
+        end
       elsif conn.is_rejected or conn.is_removed
         # and if is rejected set connection to pending again
         conn.update is_pending: true, is_rejected: false, is_removed: false
@@ -123,33 +125,20 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
   end
 
 
-
-  def send_sms_or_email connection, current_user, invited_user
-    # Device for sms count
-    allow_send = true
-    if current_user
-      if current_user.sms_count == 10 and Time.new < current_user.created_at + 30.days
-        allow_send = false
-      elsif current_user.sms_count == 10 and Time.new > current_user.created_at + 30.days
-        current_user.update sms_count: 0, created_at: Time.now
-        allow_send = true
-      end
+  def send_sms_or_email connection, current_user, invited_user, lang = 'en'
+    msg = t('sms.invitation', user: resolve_name(current_user), locale: lang )
+    unless Rails.env == 'development' or (invited_user.admin? and get_settings_value(:force_sms) != "1")
+      sms = Sms.new(invited_user.phone, msg, lang).deliver
     else
-      allow_send = false
-    end
-
-    if allow_send
-      msg = t('sms.invitation', user: resolve_name(current_user), locale: @lang )
-      unless Rails.env == 'development' or (invited_user.admin? and get_settings_value(:force_sms) != "1")
-        sms = Sms.new(invited_user.phone, msg).deliver
-      else
-        begin
-          Emailer.invitation_email(invited_user, current_user).deliver
-        rescue => e
-          Rails.logger.error "Invitation e-mail error: #{e.inspect}"
-        end
+      begin
+        Emailer.invitation_email(invited_user, current_user).deliver
+        sms = [true, nil]
+      rescue => e
+        Rails.logger.error "Invitation e-mail error: #{e.inspect}"
+        sms = [false, ::I18n.t('errors.email_cannot_send', locale: lang )]
       end
     end
+    sms
   end
 
   def resolve_name user
@@ -244,4 +233,3 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     params.require(:contact).permit(:contact_id, :nickname)
   end
 end
-

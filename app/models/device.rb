@@ -19,20 +19,25 @@ class Device < ActiveRecord::Base
 
 
   def send_sms_or_email user
+    lang = language
+    lang = 'en' unless language == 'cs' or language == 'sk'
     if allow_to_send?(user)
-      lang = language
-      lang = 'en' unless language == 'cs' or language == 'sk'
 
       msg = ::I18n.t('sms.verification', code: verification_code, locale: lang)
 
       if Rails.env == 'development' or (user and user.admin? and get_settings_value(:force_sms) != "1")
-        Emailer.authentication_email(user, self).deliver
-        sms = [true, nil]
+        begin
+          Emailer.authentication_email(user, self).deliver
+          sms = [true, nil]
+        rescue => e
+          Rails.logger.error "E-mail error: #{e.inspect}"
+          sms = [false, ::I18n.t('errors.email_cannot_send', locale: lang )]
+        end
       else
-        sms = Sms.new(phone, msg).deliver
+        sms = Sms.new(phone, msg, lang).deliver
       end
     else
-      sms = [false, ::I18n.t('errors.sms_limit')]
+      sms = [false, ::I18n.t('errors.sms_limit', locale: lang )]
     end
     sms
   end

@@ -2,12 +2,13 @@ require 'twilio-ruby'
 
 class Sms
   include ApplicationHelper
-  attr_accessor :send_to, :msg, :send_from
+  attr_accessor :send_to, :msg, :send_from, :lang
 
-  def initialize send_to, msg
+  def initialize send_to, msg, lang = 'en'
     @send_to = send_to
     @msg = msg
     @send_from = get_settings_value(:twillio_sms_number) 
+    @lang = lang
   end
 
 
@@ -19,21 +20,15 @@ class Sms
     @client = Twilio::REST::Client.new account_sid, auth_token
 
     begin
-      if (@send_to.length < 7 and @send_to.length > 15) and /\A(\+)?[0-9 ]+\z/.match(@send_to)
-        return [false, ::I18n.t('errors.phone_not_valid')]
-      else
-        @client.account.messages.create(
-        :from => @send_from,
-        :to => @send_to,
-        :body => @msg
-        )
-        return [true, nil]
-      end
+      @client.account.messages.create(
+      :from => @send_from,
+      :to => @send_to,
+      :body => @msg
+      )
+      return [true, nil]
     rescue Twilio::REST::RequestError => e
-      Rails.logger.info "=============== DEBUG TWILIO START ================"
       Rails.logger.error "Twilio REST Error:  #{e.message}"
-      Rails.logger.info "================ DEBUG TWILIO END ================="
-      return [false, ::I18n.t('errors.sms_cannot_send')]
+      return [false, ::I18n.t('errors.sms_cannot_send', locale: @lang)]
     end
   end
 

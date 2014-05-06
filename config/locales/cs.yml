@@ -26,46 +26,47 @@ cs:
     connection_pending_not_exists: 'Odeslanou pozvánku nelze odstranit'
     connection_not_exists: 'Pozvánka již neexistuje.'
     invalid_api_key: 'Akci nelze dokončit.'
-    activerecord:
-      attributes:
+    email_cannot_send: Nelze odeslat e-mail. Zkuste to později.'
+  activerecord:
+    attributes:
+      connection:
+        user_id: 'Uživatelské ID'
+        contact_id: 'ID kontaktu'
+        nickname: 'Přezdívka'
+        is_pending: 'Čeká na schválení'
+        is_rejected: 'Odmítnutá'
+        is_removed: 'Odstraněna'
+      device:
+        uuid: 'UUID'
+        verification_code: 'Potvrzovací kód'
+        resent: 'Preposlané'
+        phone: 'Telefoní číslo'
+        invalid_count: 'Špatný potvrzovací kód'
+        sms_count: 'Počet odeslaných SMS'
+        resent_at: 'Přeposláno'
+        language: 'Jazyk'
+        token: 'Token'
+        user_id: 'Uživatelské ID'
+        online: "Online"
+        connection_type: 'Internetové připojení'
+      feedback:
+        message: 'Zpráva'
+        feedback_type: 'Druh spětné vazby'
+        email: 'E-mail'
+        user_id: 'Uživatelské ID'
+      setting:
+        name: 'Název'
+        value: 'Hodnota'
+      user:
+        name: 'Jméno'
+        phone: 'Telefoní číslo'
+        email: 'E-mail'
+        role: 'Role'
+        password: 'Heslo'
+        photo: 'Profilové foto'
+    errors:
+      models:
         connection:
-          user_id: 'Uživatelské ID'
-          contact_id: 'ID kontaktu'
-          nickname: 'Přezdívka'
-          is_pending: 'Čeká na schválení'
-          is_rejected: 'Odmítnutá'
-          is_removed: 'Odstraněna'
-        device:
-          uuid: 'UUID'
-          verification_code: 'Potvrzovací kód'
-          resent: 'Preposlané'
-          phone: 'Telefoní číslo'
-          invalid_count: 'Špatný potvrzovací kód'
-          sms_count: 'Počet odeslaných SMS'
-          resent_at: 'Přeposláno'
-          language: 'Jazyk'
-          token: 'Token'
-          user_id: 'Uživatelské ID'
-          online: "Online"
-          connection_type: 'Internetové připojení'
-        feedback:
-          message: 'Zpráva'
-          feedback_type: 'Druh spětné vazby'
-          email: 'E-mail'
-          user_id: 'Uživatelské ID'
-        setting:
-          name: 'Název'
-          value: 'Hodnota'
-        user:
-          name: 'Jméno'
-          phone: 'Telefoní číslo'
-          email: 'E-mail'
-          role: 'Role'
-          password: 'Heslo'
-          photo: 'Profilové foto'
-      errors:
-        models:
-          connection:
-            attributes:
-              user_id:
-                blank: 'nesmí být prázdné'
+          attributes:
+            user_id:
+              blank: 'nesmí být prázdné'

@@ -26,46 +26,47 @@ sk:
     connection_pending_not_exists: 'Odoslanú pozvánku nemožno odstrániť'
     connection_not_exists: 'Pozvánka již neexistuje.'
     invalid_api_key: 'Akciu nebolo možné dokončiť.'
-    activerecord:
-      attributes:
+    email_cannot_send: 'Nepodarilo sa odoslať e-mail. Vyskúšajte to neskôr.'
+  activerecord:
+    attributes:
+      connection:
+        user_id: 'Používateľské ID'
+        contact_id: 'ID kontaktu'
+        nickname: 'Prezývka'
+        is_pending: 'Čaká na schválenie'
+        is_rejected: 'Odmietnutá'
+        is_removed: 'Odstránená'
+      device:
+        uuid: 'UUID'
+        verification_code: 'Potvrdzovací kód'
+        resent: 'Preposlané'
+        phone: 'Telefónne číslo'
+        invalid_count: 'Chybný potvrdzovací kód'
+        sms_count: 'Počet odoslaných SMS'
+        resent_at: 'Preposlané'
+        language: 'Jazyk'
+        token: 'Token'
+        user_id: 'Používateľské ID'
+        online: "Online"
+        connection_type: 'Internetové pripojenie'
+      feedback:
+        message: 'Správa'
+        feedback_type: 'Druh spätnej väzby'
+        email: 'E-mail'
+        user_id: 'Používateľské ID'
+      setting:
+        name: 'Názov'
+        value: 'Hodnota'
+      user:
+        name: 'Meno'
+        phone: 'Telefónne číslo'
+        email: 'E-mail'
+        role: 'Rola'
+        password: 'Heslo'
+        photo: 'Profilová fotka'
+    errors:
+      models:
         connection:
-          user_id: 'Používateľské ID'
-          contact_id: 'ID kontaktu'
-          nickname: 'Prezývka'
-          is_pending: 'Čaká na schválenie'
-          is_rejected: 'Odmietnutá'
-          is_removed: 'Odstránená'
-        device:
-          uuid: 'UUID'
-          verification_code: 'Potvrdzovací kód'
-          resent: 'Preposlané'
-          phone: 'Telefónne číslo'
-          invalid_count: 'Chybný potvrdzovací kód'
-          sms_count: 'Počet odoslaných SMS'
-          resent_at: 'Preposlané'
-          language: 'Jazyk'
-          token: 'Token'
-          user_id: 'Používateľské ID'
-          online: "Online"
-          connection_type: 'Internetové pripojenie'
-        feedback:
-          message: 'Správa'
-          feedback_type: 'Druh spätnej väzby'
-          email: 'E-mail'
-          user_id: 'Používateľské ID'
-        setting:
-          name: 'Názov'
-          value: 'Hodnota'
-        user:
-          name: 'Meno'
-          phone: 'Telefónne číslo'
-          email: 'E-mail'
-          role: 'Rola'
-          password: 'Heslo'
-          photo: 'Profilová fotka'
-      errors:
-        models:
-          connection:
-            attributes:
-              user_id:
-                blank: 'nemôže byť prázdne'
+          attributes:
+            user_id:
+              blank: 'nemôže byť prázdne'
