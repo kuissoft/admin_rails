@@ -42,7 +42,7 @@
             <td><%= device.last_online_at.to_s(:datetime) if device.last_online_at%></td>
             <td><%= link_to "Deauthenticate", deauthenticate_user_path(id: @user.id, device_id: device.id), method: :put, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
             <td><%= link_to "Edit", edit_device_path(id: device.id, return_to: @user.id), class: 'btn btn-xs btn-default' %></td>
-            <td><%= link_to 'Destroy', device, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
+            <td><%= link_to 'Destroy', device_path(id: device.id, return_to: @user.id ), method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
             <td>
           </tr>
         <% end -%>

@@ -42,8 +42,12 @@ class DevicesController < ApplicationController
   def destroy
     @device.destroy
     respond_to do |format|
-      format.html { redirect_to devices_url }
-      format.json { head :no_content }
+      if params[:return_to]
+        format.html { redirect_to user_path(params[:return_to]), notice: 'Device was successfully deleted.' }
+      else
+        format.html { redirect_to devices_url }
+        format.json { head :no_content }
+      end
     end
   end
 
