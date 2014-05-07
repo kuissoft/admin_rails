@@ -74,6 +74,8 @@
     <%= f.datetime_select :last_online_at, class: "form-control" %>
   </div>
 
+  <%= hidden_field_tag :return_to, params[:return_to] %>
+
 
   <div class="form-group">
     <%= f.submit class: 'btn btn-primary' %>
