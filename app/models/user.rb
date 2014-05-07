@@ -65,9 +65,6 @@ class User < ActiveRecord::Base
     devices.select{|d| d.online == true }.any?
   end
 
-  def last_online
-    devices.where("last_online_at is not null").order(:last_online_at).last.try(:last_online_at)
-  end
 
   def strongest_connection
     return "offline" if !is_online?

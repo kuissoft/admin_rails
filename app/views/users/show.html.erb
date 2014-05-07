@@ -40,6 +40,11 @@
         </p>
 
         <p>
+          <strong>Last Online At:</strong>
+          <%= @user.last_online_at.to_s(:datetime) if @user.last_online_at %>
+        </p>
+
+        <p>
           <strong>SMS sent:</strong>
           <%= @user.sms_count %>
         </p>
@@ -48,6 +53,8 @@
           <strong>SMS resets:</strong>
           <%= @user.reset_count %>
         </p>
+
+        
 
         <p>
           <%= link_to("Reset sms", reset_sms_user_path(id: @user.id), method: :put, class: 'btn btn-default') %>

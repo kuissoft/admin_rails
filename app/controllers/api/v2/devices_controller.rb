@@ -165,7 +165,11 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
   # @param {Integer} auth_token
   ###
   def deauthenticate
+    # Disconnect device from socket and notify contacts
+    Realtime.new.disconnect(current_user.id, @device.uuid, current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false).map(&:contact_id))
+    # Destroy device
     if @device.destroy
+      current_user.update last_online_at: Time.now
       render json: {},  status: 200
     else
       Rails.logger.error "Error while deauthenticate a device: #{@device.errors.inspect}"
@@ -198,6 +202,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
 
     if device
       if device.update online: params[:is_online], last_online_at: params[:last_online_at]
+        current_user.update last_online_at: params[:last_online_at]
         render json: {}, status: 200
       else
         Rails.logger.error "Device update error: #{device.errors.inspect}"
@@ -213,6 +218,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
     error = false
     devices.each do |device|
       unless device.update online: false, last_online_at: Time.now
+        device.user.update last_online_at: Time.now if device.user
         Rails.logger.error "All devices set to offline error: #{device.errors.inspect}"
         error = true
       end

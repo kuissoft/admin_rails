@@ -19,7 +19,7 @@ class ContactSerializer < ActiveModel::Serializer
 
   def last_online
     if object.contact and !object.contact.is_online?
-      object.contact.last_online
+      object.contact.last_online_at
     else
       nil
     end

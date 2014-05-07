@@ -123,6 +123,6 @@ class UsersController < AuthenticatedController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:name, :phone, :email, :password, :role, :photo, :remove)
+    params.require(:user).permit(:name, :phone, :email, :password, :role, :photo, :remove, :last_online_at)
   end
 end
