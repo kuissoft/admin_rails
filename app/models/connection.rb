@@ -9,7 +9,7 @@ class Connection < ActiveRecord::Base
 
   def self_reference
     if user_id == contact_id
-      errors.add(:contact_id, ::I18n.t('errors.cant_add_yourself'))
+      errors.add(:base, ::I18n.t('errors.cant_add_yourself', locale: user.get_language))
     end
   end
 end

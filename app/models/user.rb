@@ -65,6 +65,10 @@ class User < ActiveRecord::Base
     devices.select{|d| d.online == true }.any?
   end
 
+  def get_language
+    devices.first.language
+  end
+
 
   def strongest_connection
     return "offline" if !is_online?

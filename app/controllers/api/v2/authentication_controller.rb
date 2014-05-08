@@ -10,14 +10,4 @@ class Api::V2::AuthenticationController < Api::V2::ApplicationController
     end
   end
 
-  
-  
-
-  
-
-  
-
-  
-
-
 end
