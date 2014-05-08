@@ -201,7 +201,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
     device = current_user.devices.where(uuid: params[:uuid]).first
 
     if device
-      if device.update online: params[:is_online], last_online_at: params[:last_online_at]
+      if device.update online: params[:is_online], last_online_at: params[:last_online_at], connection_type: nil
         current_user.update last_online_at: params[:last_online_at]
         render json: {}, status: 200
       else
@@ -217,7 +217,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
     devices = Device.all
     error = false
     devices.each do |device|
-      unless device.update online: false, last_online_at: Time.now
+      unless device.update online: false, last_online_at: Time.now, connection_type: nil
         device.user.update last_online_at: Time.now if device.user
         Rails.logger.error "All devices set to offline error: #{device.errors.inspect}"
         error = true
