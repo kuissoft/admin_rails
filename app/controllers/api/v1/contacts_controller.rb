@@ -53,11 +53,11 @@ class Api::V1::ContactsController < Api::V1::AuthenticatedController
 
     # If invited user not exits than create new one
     invited_user = User.create!(phone: phone, password: 'asdfasdf') unless invited_user
-    unless device
-      device = Device.create!(phone: phone, uuid: params[:uuid], language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id)
-    else
-      device.update  uuid: params[:uuid], user_id: invited_user.id, language: device.language
-    end
+    # unless device
+    #   device = Device.create!(phone: phone, uuid: params[:uuid], language: set_language_by_area_code(invited_user.phone), user_id: invited_user.id)
+    # else
+    #   device.update  uuid: params[:uuid], user_id: invited_user.id, language: device.language
+    # end
 
 
     # Find if connection between users exists
