@@ -45,9 +45,9 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
       end
     else
       if err == 116
-        render json: { error_info: { code: 116, title: '', message: t('errors.uuid_exists', locale: set_language_by_area_code(phone)) } }, status: 401
+        render json: { error_info: { code: 116, title: '', message: t('errors.uuid_exists', locale: @language) } }, status: 401
       else
-        render json: { error_info: { code: 100, title: t('errors.undefined_error_title', locale: set_language_by_area_code(phone)), message: ''} }, status: 401
+        render json: { error_info: { code: 100, title: t('errors.undefined_error_title', locale: @language), message: ''} }, status: 401
       end
     end
   end
@@ -92,7 +92,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
         render json: { error_info: { code: 110, title: '', message: t('errors.no_verification_code', locale: lang) } }, status: 401
       end
     else
-      render json: { error_info: { code: 115, title: '', message: t('errors.device_not_exist', locale: set_language_by_area_code(phone)) } }, status: 401
+      render json: { error_info: { code: 115, title: '', message: t('errors.device_not_exist', locale: @language) } }, status: 401
     end
   end
 
@@ -139,7 +139,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
         render json: { error_info: { code: 111, title: '', message: t('errors.user_not_exist', locale: lang ) } }, status: 401
       end
     else
-      render json: { error_info: { code: 115, title: '', message: t('errors.device_not_exist', locale: set_language_by_area_code(phone)) } }, status: 401
+      render json: { error_info: { code: 115, title: '', message: t('errors.device_not_exist', locale: @language) } }, status: 401
     end
   end
 
@@ -208,7 +208,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
         Rails.logger.error "Device update error: #{device.errors.inspect}"
       end
     else
-      render json: { error_info: { code: 115, message: t('errors.device_not_exist') } }, status: 400
+      render json: { error_info: { code: 115, message: t('errors.device_not_exist', locale: @language) } }, status: 400
     end
     # update device status if device disconnect
   end
@@ -226,7 +226,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
     unless error
       render json: {}, status: 200
     else
-      render json: { error_info: { code: 100, title: t('errors.undefined_error_title'), message: ''} }, status: 401
+      render json: { error_info: { code: 100, title: t('errors.undefined_error_title', locale: @language), message: ''} }, status: 401
     end
   end
 
@@ -235,7 +235,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
     if device
       render json: {}, status: 200 if device.update language: params[:language]
     else
-      render json: { error_info: { code: 115, message: t('errors.device_not_exist') } }, status: 400
+      render json: { error_info: { code: 115, message: t('errors.device_not_exist', locale: @language) } }, status: 400
     end
   end
 

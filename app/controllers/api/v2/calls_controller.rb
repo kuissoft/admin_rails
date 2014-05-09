@@ -4,7 +4,7 @@ class Api::V2::CallsController < Api::V2::ApplicationController
 		if call
 			render json: call
 		else
-			render json: { error_info: { code: 101, message: t('errors.invalid_call_id') } }, status: 401
+			render json: { error_info: { code: 101, message: t('errors.invalid_call_id', locale: @language) } }, status: 401
 		end
 	end
 

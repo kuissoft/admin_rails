@@ -1,10 +1,14 @@
 class ApplicationController < ActionController::Base
+  
   skip_before_filter :verify_authenticity_token
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
   include ApplicationHelper
   include SharedControllerMethods
+
+
+  
 
   # CUSTOM EXCEPTION HANDLING
   rescue_from Exception do |e|
