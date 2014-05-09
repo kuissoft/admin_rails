@@ -1,5 +1,5 @@
 class ContactSerializer < ActiveModel::Serializer
-  attributes :id, :name, :email, :phone, :is_pending, :state, :is_rejected, :is_removed, :nickname, :last_online, :is_online, :connection_type, :photo_url
+  attributes :id, :name, :phone, :is_pending, :state, :is_rejected, :is_removed, :nickname, :last_online, :is_online, :connection_type, :photo_url
 
   def id
     object.contact.id if object.contact
@@ -7,10 +7,6 @@ class ContactSerializer < ActiveModel::Serializer
 
   def name
     object.contact.name if object.contact
-  end
-
-  def email
-    object.contact.email if object.contact
   end
 
   def phone
