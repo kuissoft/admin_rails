@@ -2,6 +2,7 @@ sk:
   sms:
     verification: "Overovací kód: %{code}. Ďakujeme, že používate Remote Assistant."
     invitation: "Dobrý deň! %{user} vám poslal pozvánku do aplikácie Remote Assistant."
+    request: 'Žiadosť od %{user}.'
   errors:
     token_expired: 'Platnost autentizačného tokenu vypršala.'
     token_not_match: 'Autentizačný token je nesprávny.'

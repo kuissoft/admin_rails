@@ -2,6 +2,7 @@ en:
   sms:
     verification: "Verification code: %{code}. Thank you for using Remote Assistant."
     invitation: "Hi! %{user} invites you to connect with him via Remote Assistant."
+    request: 'Request from %{user}.'
   errors:
     token_expired: 'Authentication token has expired.'
     token_not_match: 'Authentication token does not match.'

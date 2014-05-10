@@ -2,6 +2,7 @@ cs:
   sms:
     verification: "Ověřovací kód: %{code}. Děkujeme, že používáte Remote Assistant."
     invitation: "Dobrý den! %{user} vám poslal pozvánku do aplikace Remote Assistant."
+    request: 'Žádost od %{user}.'
   errors:
     token_expired: 'Platnost autentizačního tokenu vypršela.'
     token_not_match: 'Autentizační token je nesprávný.'
@@ -50,6 +51,7 @@ cs:
         user_id: 'Uživatelské ID'
         online: "Online"
         connection_type: 'Internetové připojení'
+        token_updated_at: 'Změna autorizačního tokenu'
       feedback:
         message: 'Zpráva'
         feedback_type: 'Druh spětné vazby'
@@ -71,3 +73,5 @@ cs:
           attributes:
             user_id:
               blank: 'nesmí být prázdné'
+  date:
+    order: 'Seřadit'

@@ -19,8 +19,9 @@ class Api::V2::NotificationsController < Api::V2::ApplicationController
     Rails.logger.warn "Saving #{key} with #{params}"
     Rails.cache.write(key, params)
 
-    device_ids = Device.where(user_id: params[:assistant_id]).map(&:apns_token)
-    Rails.logger.warn "Found devices #{device_ids}"
+    devices = Device.where(user_id: params[:assistant_id])
+    # device_ids = Device.where(user_id: params[:assistant_id]).map(&:apns_token)
+    Rails.logger.warn "Found devices #{devices}"
     name = "Unknown User"
     con = User.where(id: params[:assistant_id]).first
     user = con.connections.where(contact_id: params[:caller_id]).first
@@ -37,14 +38,14 @@ class Api::V2::NotificationsController < Api::V2::ApplicationController
       end
     end
 
-    if device_ids.any?
-      if has_at_least_one_apns_token?(device_ids)
-        device_ids.each do |device_id|
-          unless device_id.blank?
+    if devices.any?
+      if has_at_least_one_apns_token?(devices)
+        devices.each do |device|
+          unless device.apns_token.blank?
             n = Rpush::Apns::Notification.new
             n.app = Rpush::Apns::App.find_by_name("ios_app")
-            n.device_token = device_id
-            n.alert = "Request from #{name}"
+            n.device_token = device.apns_token
+            n.alert = t('sms.request', user: name, locale: set_lang!(device.language))
             n.attributes_for_device = { call_id: key }
             n.sound = "Calling.wav"
             result = n.save!
@@ -62,8 +63,16 @@ class Api::V2::NotificationsController < Api::V2::ApplicationController
     
   end
 
-  def has_at_least_one_apns_token? apns_tokens
-    apns_tokens.select{|t| !t.nil? }.any?
+  def has_at_least_one_apns_token? devices
+    has_apns_token = false
+    devices.each do |device|
+      has_apns_token = true unless device.apns_token.blank?
+    end
+    has_apns_token
+  end
+
+  def set_lang! lang
+    lang = 'en' unless lang == 'cs' or lang == 'sk'
   end
 
   def create_notification data, type = 'invitation'
