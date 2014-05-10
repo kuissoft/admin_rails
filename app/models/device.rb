@@ -28,16 +28,16 @@ class Device < ActiveRecord::Base
       if Rails.env == 'development' or (user and user.admin? and get_settings_value(:force_sms) != "1")
         begin
           Emailer.authentication_email(user, self).deliver
-          sms = [true, nil]
+          sms = [true, nil, true]
         rescue => e
           Rails.logger.error "E-mail error: #{e.inspect}"
-          sms = [false, ::I18n.t('errors.email_cannot_send', locale: lang )]
+          sms = [false, ::I18n.t('errors.email_cannot_send', locale: lang ), true]
         end
       else
         sms = Sms.new(phone, msg, lang).deliver
       end
     else
-      sms = [false, ::I18n.t('errors.sms_limit', locale: lang )]
+      sms = [false, ::I18n.t('errors.sms_limit', locale: lang ), false]
     end
     sms
   end
