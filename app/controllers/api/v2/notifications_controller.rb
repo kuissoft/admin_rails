@@ -46,7 +46,7 @@ class Api::V2::NotificationsController < Api::V2::ApplicationController
             n.app = Rpush::Apns::App.find_by_name("ios_app")
             n.device_token = device.apns_token
             n.alert = t('sms.request', user: name, locale: set_lang!(device.language))
-            n.attributes_for_device = { call_id: key }
+            #n.attributes_for_device = { call_id: key }
             n.sound = "Calling.wav"
             result = n.save!
           end
