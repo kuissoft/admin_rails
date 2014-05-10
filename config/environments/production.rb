@@ -83,8 +83,8 @@ RemoteAssistant::Application.configure do
   config.action_mailer.smtp_settings = {
    :authentication       => "login",
    :enable_starttls_auto => true,
-   :user_name            => "AKIAICTBP5YCKI5VLVFQ",
-   :password             => "ArZKRWtsSFnqkpYYqXFmhtBz+jot/WBaWjF5le5NMHYC",
+   :user_name            => "AKIAIVV7MFJLVFIY2KMA",
+   :password             => "Ar258A1yYU96CEkys23QdUVAaf5yjpMhHl80HOZ5JCGA",
    :address              => "email-smtp.eu-west-1.amazonaws.com",
    :port                 => 25
   }
