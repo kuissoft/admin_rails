@@ -38,10 +38,10 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
     if device and device.verification_code
       sms = device.send_sms_or_email(user)
       if sms.first
-        user.update sms_count: user.sms_count + 1
+        user.update sms_count: user.sms_count + 1 unless sms.last
         render json: {}, status: 200
       else
-        render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
+        render json: { error_info: { code: 106, title:'', message: sms[1] } }, status: 401
       end
     else
       if err == 116
@@ -126,11 +126,11 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
           # send sms
           sms = device.send_sms_or_email(user)
           if sms.first
-            user.update sms_count: user.sms_count + 1
+            user.update sms_count: user.sms_count + 1 unless sms.last
             device.update resent_at: Time.new, resent: true
             render json: {}, status: 200
           else
-            render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
+            render json: { error_info: { code: 106, title:'', message: sms[1] } }, status: 401
           end
         end
       else

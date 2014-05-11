@@ -25,10 +25,10 @@ class Sms
       :to => @send_to,
       :body => @msg
       )
-      return [true, nil]
+      return [true, nil, false]
     rescue Twilio::REST::RequestError => e
       Rails.logger.error "Twilio REST Error:  #{e.message}"
-      return [false, ::I18n.t('errors.sms_cannot_send', locale: @lang)]
+      return [false, ::I18n.t('errors.sms_cannot_send', locale: @lang), false]
     end
   end
 

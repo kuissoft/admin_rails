@@ -88,11 +88,11 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
         unless both_invited
           sms = send_sms_or_email(connection, current_user, invited_user, @lang)
           if sms.first
-            current_user.update sms_count: current_user.sms_count + 1
+            current_user.update sms_count: current_user.sms_count + 1 unless sms.last
             ContactNotifications.status_changed(connection, true)
             render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name , "phone" => invited_user.phone, "state" => 'pending', "nickname" => connection.nickname}}, status: 200
           else
-            render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
+            render json: { error_info: { code: 106, title:'', message: sms[1] } }, status: 401
           end
         else
           ContactNotifications.status_changed(connection, false)
@@ -107,11 +107,11 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
       if conn.is_pending
         sms = send_sms_or_email(conn, current_user, invited_user, @lang)
         if sms.first
-          current_user.update sms_count: current_user.sms_count + 1
+          current_user.update sms_count: current_user.sms_count + 1 unless sms.last
           render json: {invited_user: {"id" => invited_user.id, "name" => invited_user.name, "state" => 'pending' , "phone" => invited_user.phone, "nickname" => conn.nickname}}, status: 200
           ContactNotifications.status_changed(conn, true)
         else
-          render json: { error_info: { code: 106, title:'', message: sms.last } }, status: 401
+          render json: { error_info: { code: 106, title:'', message: sms[1] } }, status: 401
         end
       elsif conn.is_rejected or conn.is_removed
         # and if is rejected set connection to pending again
@@ -132,10 +132,10 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     else
       begin
         Emailer.invitation_email(invited_user, current_user).deliver
-        sms = [true, nil]
+        sms = [true, nil, true]
       rescue => e
         Rails.logger.error "Invitation e-mail error: #{e.inspect}"
-        sms = [false, ::I18n.t('errors.invitation_cannot_send', locale: lang )]
+        sms = [false, ::I18n.t('errors.invitation_cannot_send', locale: lang ), true]
       end
     end
     sms
