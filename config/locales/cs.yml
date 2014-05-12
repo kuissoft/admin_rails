@@ -73,5 +73,3 @@ cs:
           attributes:
             user_id:
               blank: 'nesmí být prázdné'
-  date:
-    order: 'Seřadit'
