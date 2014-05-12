@@ -76,7 +76,7 @@ RemoteAssistant::Application.configure do
   config.action_mailer.perform_deliveries = true
 
 
-  config.action_mailer.default_url_options = {host: "http://dev.admin.remoteassistant.me"}
+  config.action_mailer.default_url_options = {host: "http://admin.remoteassistant.me"}
 
 
 
@@ -108,15 +108,13 @@ RemoteAssistant::Application.configure do
   API_PASSWORD = "eR35xZ65"
   # API_KEY = "ZT2wooEd3pvJYVqk674XzT6VGTdOgnG"
 
-  NODE_HOST = "http://dev.node.remoteassistant.me"
-  RAILS_HOST = "http://dev.api.remoteassistant.me"
-  IMAGES_HOST = "http://dev.admin.remoteassistant.me"
+  NODE_HOST = "http://node.remoteassistant.me"
+  RAILS_HOST = "http://api.remoteassistant.me"
+  IMAGES_HOST = "http://admin.remoteassistant.me"
 
 
   NODE_ACCESS_NAME = 'admin'
   NODE_ACCESS_PASSWORD = 'hyQM3O9E4SoMzTYcZ6eC0v3'
-
-  NODE_LOG = "/home/ubuntu/node/current"
 
 
 end
