@@ -10,7 +10,7 @@ module UsersHelper
       " | " +
       content_tag(:span, t('is_removed', scope: 'activerecord.attributes.connection'), class: conn.is_removed ? "green" : "red") +
       " | " +
-      link_to(image_tag('edit.png'), edit_connection_path(id: conn.id, user: (reverse ? conn.contact.id : conn.user.id))) +
+      link_to(image_tag('edit.png'), edit_connection_path(id: conn.id, return_to: conn.user.id, user: (reverse ? conn.contact.id : conn.user.id))) +
       " | " +
       link_to(image_tag('destroy.png'), destroy_connection_users_path(id: @user, conn_id: conn.id), data: { confirm: 'Are you sure?' }, :method => :delete) +
       tag(:br)

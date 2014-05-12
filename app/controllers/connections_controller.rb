@@ -40,6 +40,7 @@ class ConnectionsController < AuthenticatedController
   # PATCH/PUT /connections/1
   # PATCH/PUT /connections/1.json
   def update
+    puts "DEBUG "+params[:return_to]
     respond_to do |format|
       if connection_params[:id_user].present?
         redirect_me = user_path(connection_params[:id_user])
@@ -47,8 +48,13 @@ class ConnectionsController < AuthenticatedController
         redirect_me = @connection
       end
       if @connection.update(connection_params)
-        format.html { redirect_to redirect_me, notice: 'Connection was successfully updated.' }
-        format.json { head :no_content }
+        if params[:return_to].present?
+          format.html { redirect_to user_path(params[:return_to]), notice: 'Connection was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { redirect_to redirect_me, notice: 'Connection was successfully updated.' }
+          format.json { head :no_content }
+        end
       else
         format.html { render action: 'edit' }
         format.json { render json: @connection.errors, status: :unprocessable_entity }
@@ -74,6 +80,6 @@ class ConnectionsController < AuthenticatedController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def connection_params
-      params.require(:connection).permit(:user_id, :contact_id, :is_pending, :id_user, :is_rejected, :is_removed, :nickname)
+      params.require(:connection).permit(:user_id, :contact_id, :is_pending, :id_user, :is_rejected, :is_removed, :nickname, :return_to)
     end
 end
