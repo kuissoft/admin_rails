@@ -145,5 +145,17 @@ class User < ActiveRecord::Base
     connections.where(contact_id: user_id).first
   end
 
+  def get_name_or_phone
+    if name.blank?
+      return phone
+    else
+      return name
+    end
+  end
+
+  def get_auth_tokens
+    devices.map(&:auth_token)
+  end
+
   
 end
