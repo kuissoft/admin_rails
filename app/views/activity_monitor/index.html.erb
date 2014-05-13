@@ -9,7 +9,18 @@
     
   $(document).ready(function () {
     
+
+    $(".monitor_users").click(function(e) {
+      e.preventDefault();
+      console.log('aaaaa');
+      monitor_user();
+    });
   });
+
+  function monitor_user(){
+      console.log("Users: ", $("#monitor_users").val());
+      socket.emit("set:log:users", { users: $("#monitor_users").val()});
+    }
 
   function isScrolledIntoView(elem){
       var docViewTop = $(window).scrollTop();
@@ -152,6 +163,8 @@
       return '<tr><td>' + value.caller_name + ' (' + value.caller_id + ')</td>' + '<td>' + value.assistant_name + ' (' + value.assistant_id + ')</td>' + '<td>' + call_start + '</td></tr>';
     }
   }
+
+  
   
 
 </script>
@@ -160,6 +173,11 @@
   <div class="col-lg-12">
     <h3>Activity Monitor</h3>
   </div>
+</div>
+
+<div class='row'>
+  <%= select_tag :users, options_for_select(User.order(:id).collect{|u| ["#{u.get_name_or_phone} (role: #{u.role}, id: #{u.id})", u.get_auth_tokens]}), id: 'monitor_users', :multiple => true%>
+  <%= button_tag "Set users", class: 'monitor_users' %>
 </div>
 
 <div class='row'>
