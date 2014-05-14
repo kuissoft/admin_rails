@@ -1,26 +1,22 @@
 module ConnectionsHelper
   def viewname user, contact = nil
-    if user.present?
-      if user.name.empty?
-        if contact.nil?
-          conn = Connection.where(contact_id: user.id).first
+    if user.name.blank?
+      if contact.nil?
+        conn = Connection.where(contact_id: user.id).first
+      else
+        conn = Connection.where(contact_id: user.id, user_id: contact.id).first
+      end
+      if conn.present?
+        unless conn.nickname.blank?
+          "(#{conn.nickname})"
         else
-          conn = Connection.where(contact_id: user.id, user_id: contact.id).first
-        end
-        if conn.present?
-          unless conn.nickname.blank?
-            "(#{conn.nickname})"
-          else
-            "(User #{user.id})"
-          end
-        else
-          user.name
+          "(User #{user.id})"
         end
       else
         user.name
       end
     else
-      "(User #{user.id})"
+      user.name
     end
   end
 end
