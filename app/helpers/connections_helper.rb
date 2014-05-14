@@ -6,10 +6,14 @@ module ConnectionsHelper
       else
         conn = Connection.where(contact_id: user.id, user_id: contact.id).first
       end
-      unless conn.nickname.blank?
-        "(#{conn.nickname})"
+      if conn.present?
+        unless conn.nickname.blank?
+          "(#{conn.nickname})"
+        else
+          "(User #{user.id})"
+        end
       else
-        "(User #{user.id})"
+        user.name
       end
     else
       user.name
