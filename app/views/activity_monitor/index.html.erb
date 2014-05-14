@@ -210,10 +210,10 @@
 
         <% admin_users = [] %>
         <% User.where(role: 'admin').each do |admin| %>
-          <% admin_users << admin.get_auth_tokens %>
+          <% admin_users a %>
         <% end %>
 
-        <%= hidden_field_tag 'admin_users', admin_users.reject! { |c| c.empty? }.join(",") %>
+        <%= hidden_field_tag 'admin_users', admin_users.reject { |c| c.empty? }.join(",") %>
         <%= button_tag "Show only admins", class: 'monitor_admins btn btn-primary' %>
 
         <%= hidden_field_tag 'my_auth_tokens', current_user.get_auth_tokens %>
