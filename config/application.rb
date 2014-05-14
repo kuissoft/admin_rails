@@ -35,6 +35,7 @@ module RemoteAssistant
     config.colorize_logging = false
 
     config.logstasher.enabled = true
+    config.logstasher.suppress_app_log = false
     config.logstasher.source = 'rails'
   end
 end
