@@ -154,7 +154,7 @@ class User < ActiveRecord::Base
   end
 
   def get_auth_tokens
-    devices.map(&:auth_token)
+    devices.map(&:auth_token).join(",")
   end
 
   
