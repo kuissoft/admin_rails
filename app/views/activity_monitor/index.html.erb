@@ -9,18 +9,43 @@
     
   $(document).ready(function () {
     
+    $("#log-header").click(function(e) {
+      $("#log-filter").slideToggle();
+    });
 
     $(".monitor_users").click(function(e) {
       e.preventDefault();
-      console.log('aaaaa');
-      monitor_user();
+      users = $("#monitor_users").val().join();
+      monitor_users(users);
+    });
+
+    $(".monitor_admins").click(function(e) {
+      e.preventDefault();
+      users = $("#admin_users").val();
+      monitor_users(users);
+    });
+
+    $(".monitor_myself").click(function(e) {
+      e.preventDefault();
+      users = $("#my_auth_tokens").val();
+      monitor_users(users);
+    });
+
+    $(".reset_filter").click(function(e) {
+      e.preventDefault();
+      users = "";
+      monitor_users(users);
     });
   });
 
-  function monitor_user(){
-      console.log("Users: ", $("#monitor_users").val());
-      socket.emit("set:log:users", { users: $("#monitor_users").val()});
-    }
+  function monitor_users(users){
+    socket.emit("set:log:users", { users: users}, function(data){
+      if(data.success){
+        alert('Users were successfully set!');
+      }
+    });
+  }
+
 
   function isScrolledIntoView(elem){
       var docViewTop = $(window).scrollTop();
@@ -176,8 +201,27 @@
 </div>
 
 <div class='row'>
-  <%= select_tag :users, options_for_select(User.order(:id).collect{|u| ["#{u.get_name_or_phone} (role: #{u.role}, id: #{u.id})", u.get_auth_tokens]}), id: 'monitor_users', :multiple => true%>
-  <%= button_tag "Set users", class: 'monitor_users' %>
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading" id='log-header'>Users filter <i>(click for show/hide)</i></div>
+      <div class="panel-body" id="log-filter" style="display:none;">
+        <%= select_tag :users, options_for_select(User.order(:id).collect{|u| ["#{u.get_name_or_phone} (role: #{u.role}, id: #{u.id})", u.get_auth_tokens]}), id: 'monitor_users', class: 'form-control', :multiple => true %><br />
+        <%= button_tag "Set selected users", class: 'monitor_users btn btn-primary' %>
+
+        <% admin_users = [] %>
+        <% User.where(role: 'admin').each do |admin| %>
+          <% admin_users << admin.get_auth_tokens %>
+        <% end %>
+
+        <%= hidden_field_tag 'admin_users', admin_users.reject! { |c| c.empty? }.join(",") %>
+        <%= button_tag "Show only admins", class: 'monitor_admins btn btn-primary' %>
+
+        <%= hidden_field_tag 'my_auth_tokens', current_user.get_auth_tokens %>
+        <%= button_tag "Show only me", class: 'monitor_myself btn btn-primary' %>
+        <%= button_tag "Reset filter", class: 'reset_filter btn btn-danger' %>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class='row'>
