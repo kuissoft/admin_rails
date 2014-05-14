@@ -39,10 +39,8 @@
   });
 
   function monitor_users(users){
-    console.log("Sending log users: ", users);
     socket.emit("set:log:users", { users: users}, function(data){
       if(data.success){
-        console.log("Sending log users data success: ", data.success);
         alert('Users were successfully set!');
       }
     });
