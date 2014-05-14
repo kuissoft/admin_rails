@@ -33,7 +33,7 @@
                 <tr>
                   <td><%= image_tag user.photo.url(:x100), class: 'circular_images' %></td>
           				<td><%= user.id %></td>
-                  <td><%= link_to user.name, user %></td>
+                  <td><%= link_to viewname(user), user %></td>
                   <td><%= user.phone %></td>
                   <td><%= user.email %></td>
                   <td><%= user.role %></td>
