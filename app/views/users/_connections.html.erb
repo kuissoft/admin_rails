@@ -3,7 +3,7 @@
   <div class="connection_row">
     <div class="connection_header">
       <% conn = @user.get_connection(connection.id) %>
-      <%= link_to (@user.name ? @user.name : @user.phone), @user %> <%= get_relation(@user, connection.id) %> <%= link_to (connection.name ? connection.name : conn.nickname), connection %> 
+      <%= link_to (viewname(@user, connection)), @user %> <%= get_relation(@user, connection.id) %> <%= link_to (viewname(connection, @user)), connection %>
       <%= image_tag 'information.png', class: 'show_detail_button'%>
     </div>
     <div class="connection_detail">

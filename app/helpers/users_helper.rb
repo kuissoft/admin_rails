@@ -19,13 +19,13 @@ module UsersHelper
 
   def names conn, reverse
     if reverse
-      link_to((conn.contact.name ? conn.contact.name : conn.contact.phone), conn.contact) +
+      link_to(viewname(conn.contact, conn.user), conn.contact) +
       " <- " +
-      link_to((conn.user.name ? conn.user.name : conn.nickname), conn.user)
+      link_to(viewname(conn.user, conn.contact), conn.user)
     else
-      link_to((conn.user.name ? conn.user.name : conn.user.phone), conn.user) +
+      link_to(viewname(conn.user, conn.contact), conn.user) +
       " -> " +
-      link_to((conn.contact.name ? conn.contact.name : conn.nickname), conn.contact)
+      link_to(viewname(conn.contact, conn.user), conn.contact)
     end
   end
 end
