@@ -1,7 +1,7 @@
 module ConnectionsHelper
   def viewname user, contact = nil
     if user.name.blank?
-      if contact.nil?
+      if contact.blank?
         conn = Connection.where(contact_id: user.id).first
       else
         conn = Connection.where(contact_id: user.id, user_id: contact.id).first
@@ -13,7 +13,7 @@ module ConnectionsHelper
           "(User #{user.id})"
         end
       else
-        user.name
+        "(User #{user.id})"
       end
     else
       user.name
