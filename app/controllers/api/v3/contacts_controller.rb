@@ -1,15 +1,24 @@
 require 'digest/sha1'
 
-class Api::V2::ContactsController < Api::V2::AuthenticatedController
+class Api::V3::ContactsController < Api::V3::AuthenticatedController
   respond_to :json
   around_action :wrap_transaction
   before_action :set_language, only: [:invite, :accept, :decline, :remove, :cancel_invitation]
 
   def index
-    if params[:only_ids]
-      render json: {contacts: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false).map(&:contact_id)}
+    if current_user.operator?
+      service = Service.where(id: current_user.services.first.id).first
+      if params[:only_ids]
+        render json: {contacts: service.operators(current_user.id).map(&:id)}
+      else
+        render json: service.operators(current_user.id), each_serializer: ServiceSerializer
+      end
     else
-      render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer
+      if params[:only_ids]
+        render json: {contacts: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false).map(&:contact_id)}
+      else
+        render json: current_user.connections.where("is_rejected = ? AND is_removed = ? ", false, false), each_serializer: ContactSerializer
+      end
     end
   end
 

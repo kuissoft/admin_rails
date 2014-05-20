@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140506190933) do
+ActiveRecord::Schema.define(version: 20140515101709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,14 @@ ActiveRecord::Schema.define(version: 20140506190933) do
 
   add_index "rpush_notifications", ["app_id", "delivered", "failed", "deliver_after"], name: "index_rpush_notifications_multi", using: :btree
 
+  create_table "services", force: true do |t|
+    t.string   "name"
+    t.time     "time_from"
+    t.time     "time_until"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "settings", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -157,5 +165,13 @@ ActiveRecord::Schema.define(version: 20140506190933) do
   end
 
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "users_services", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "service_id"
+    t.boolean  "notify_available", default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

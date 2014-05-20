@@ -11,6 +11,11 @@ class User < ActiveRecord::Base
   has_many :contacts, through: :connections
   has_many :devices, dependent: :destroy
 
+  has_many :users_services
+  has_many :services, through: :users_services
+
+  accepts_nested_attributes_for :users_services
+
 
   # TODO: figure out production lengths and regexes
   #validates :name,
@@ -24,7 +29,7 @@ class User < ActiveRecord::Base
   #   uniqueness: true,
   #   length: { in: 5..70 },
   #   format: { with: /\A.+(\@).+(\.).+\z/ }
-  validates :email, presence: true, if: -> {role == 'admin'}
+  validates :email, presence: true, if: -> {role == 'admin' or role == 'operator'}
 
   # validates :password, length: { in: 5..100 }
   validates :role, presence: true
@@ -89,6 +94,10 @@ class User < ActiveRecord::Base
 
   def admin?
     role == 'admin'
+  end
+
+  def operator?
+    role == 'operator'
   end
 
   def role_changed?

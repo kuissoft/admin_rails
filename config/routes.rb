@@ -25,6 +25,7 @@ RemoteAssistant::Application.routes.draw do
   resources :locations
   resources :contacts
   resources :settings
+  resources :services
   resources :devices
   resources :activity_monitor do
     get :refresh_logs, on: :collection

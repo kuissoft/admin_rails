@@ -55,6 +55,6 @@ class SettingsController < AuthenticatedController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def setting_params
-    params.require(:setting).permit(:name, :value)
-  end
+      params.require(:setting).permit(:name, :value)
+    end
 end

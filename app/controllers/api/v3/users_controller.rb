@@ -1,4 +1,4 @@
-class Api::V2::UsersController < Api::V2::ApplicationController
+class Api::V3::UsersController < Api::V3::ApplicationController
   respond_to :json
 
   def update

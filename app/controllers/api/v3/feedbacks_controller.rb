@@ -1,4 +1,4 @@
-class Api::V2::FeedbacksController < Api::V2::ApplicationController
+class Api::V3::FeedbacksController < Api::V3::ApplicationController
   respond_to :json
 
   def create

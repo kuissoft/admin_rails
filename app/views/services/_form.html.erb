@@ -1,0 +1,22 @@
+<%= form_for @service, role: "form" do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :time_from %>
+    <%= f.time_select :time_from, {:ampm => false} %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :time_until %>
+    <%= f.time_select :time_until, {:ampm => false} %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.submit "Save", class: 'btn btn-primary' %>
+    <%= link_to "Back", :back, class: 'btn btn-default' %>
+  </div>
+<% end -%>
+

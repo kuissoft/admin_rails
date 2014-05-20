@@ -1,4 +1,4 @@
-class Api::V2::CallsController < Api::V2::ApplicationController
+class Api::V3::CallsController < Api::V3::ApplicationController
 	def index
 		call = Rails.cache.read(params[:call_id])
 		if call

@@ -1,4 +1,4 @@
-class Api::V2::ApplicationController < ActionController::Base
+class Api::V3::ApplicationController < ActionController::Base
   before_action :set_language_from_headers
   include ApplicationHelper
   def set_language_by_area_code phone

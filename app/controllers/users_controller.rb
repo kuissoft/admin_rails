@@ -17,6 +17,7 @@ class UsersController < AuthenticatedController
   # GET /users/new
   def new
     @user = User.new
+    @user.users_services.build
   end
 
   # GET /users/1/edit
@@ -123,6 +124,6 @@ class UsersController < AuthenticatedController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:name, :phone, :email, :password, :role, :photo, :remove, :last_online_at)
+    params.require(:user).permit(:name, :phone, :email, :password, :role, :photo, :remove, :last_online_at, users_services_attributes: [:user_id, :service_id])
   end
 end

@@ -1,4 +1,4 @@
-class Api::V2::DevicesController < Api::V2::AuthenticatedController
+class Api::V3::DevicesController < Api::V3::AuthenticatedController
   skip_before_action :authenticate_user_from_token!, only: [:change_language, :set_all_offline, :authenticate, :verify_code, :resend_code]
   # before_action :verify_api_key!, only: [:authenticate, :verify_code, :resend_code ]
   ###
@@ -78,7 +78,7 @@ class Api::V2::DevicesController < Api::V2::AuthenticatedController
           user = User.create phone: phone, password: SecureRandom.hex unless user
           device.update user_id: user.id, verification_code: nil, invalid_count: 0, online: true, resent: false, resent_at: nil
           photo_url = "#{IMAGES_HOST}#{user.photo.url.gsub(/_.*/,'')}" if user.photo.present?
-          render json: { user: { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role, auth_token: device.auth_token, last_token: device.last_token, token_updated_at: device.token_updated_at, photo_url: photo_url}}, status: 200
+          render json: { user: { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role, auth_token: device.auth_token, last_token: device.last_token, token_updated_at: device.token_updated_at, photo_url: photo_url, services: user.services.map(&:id)}}, status: 200
         else
           # Count invalid attempts
           device.update invalid_count: device.invalid_count += 1

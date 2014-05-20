@@ -1,4 +1,4 @@
-class Api::V2::AuthenticationController < Api::V2::ApplicationController
+class Api::V3::AuthenticationController < Api::V3::ApplicationController
 
   def create
     user = User.find_by_email(params[:email])

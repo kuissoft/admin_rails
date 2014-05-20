@@ -25,7 +25,7 @@ class Device < ActiveRecord::Base
 
       msg = ::I18n.t('sms.verification', code: verification_code, locale: lang)
 
-      if Rails.env == 'development' or (user and user.admin? and get_settings_value(:force_sms) != "1")
+      if Rails.env == 'development' or (user and (user.admin? or user.operator?) and get_settings_value(:force_sms) != "1")
         begin
           Emailer.authentication_email(user, self).deliver
           sms = [true, nil, true]

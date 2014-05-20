@@ -1,4 +1,4 @@
-class Api::V2::NotificationsController < Api::V2::ApplicationController
+class Api::V3::NotificationsController < Api::V3::ApplicationController
 
   def index
     # user = User.where(id: params[:user_id], auth_token: params[:auth_token]).first
