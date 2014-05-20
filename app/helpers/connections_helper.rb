@@ -2,9 +2,17 @@ module ConnectionsHelper
   def viewname user, contact = nil
     if user.name.blank?
       if contact.blank?
-        conn = Connection.where(contact_id: user.id).first
+        conns = Connection.where(contact_id: user.id)
+        conn = conns.last
+        conns.each do |c|
+          conn = c if c.nickname.present?
+        end
       else
-        conn = Connection.where(contact_id: user.id, user_id: contact.id).first
+        conns = Connection.where(contact_id: user.id, user_id: contact.id)
+        conn = conns.last
+        conns.each do |c|
+          conn = c if c.nickname.present?
+        end
       end
       if conn.present?
         unless conn.nickname.blank?
