@@ -1,2 +1,2 @@
-$('#twilio').html("<%= render 'dashboard/twilio' %>");
+$('#twilio').html("<%= escape_javascript(render 'dashboard/twilio') %>");
 console.log('twiiii');
