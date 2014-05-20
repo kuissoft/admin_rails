@@ -26,7 +26,7 @@
             <tbody>
               <% @connections.each do |connection| %>
                 <tr>
-                  <td><%= link_to viewname(connection.user), connection.user %></td>
+                  <td><%= link_to viewname(connection.user, connection.contact), connection.user %></td>
                   <td><%= link_to viewname(connection.contact, connection.user), connection.contact %></td>
                   <td><%= connection.nickname %></td>
                   <td><%= connection.is_pending %></td>
