@@ -26,7 +26,7 @@ class DevicesController < ApplicationController
   def update
     respond_to do |format|
       if @device.update(device_params)
-        if params[:return_to]
+        if params[:return_to].present?
           format.html { redirect_to user_path(params[:return_to]), notice: 'Device was successfully updated.' }
         else
           format.html { redirect_to devices_path, notice: 'Device was successfully updated.' }

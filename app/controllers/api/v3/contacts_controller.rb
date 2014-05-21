@@ -208,9 +208,9 @@ class Api::V3::ContactsController < Api::V3::AuthenticatedController
     connection = Connection.where(user_id: params[:user_id], contact_id: params[:contact_id]).first
 
     if connection and connection.is_pending
-      ContactNotifications.status_changed(connection, false)
       if connection.destroy
         render json: {}, status: 200
+        ContactNotifications.status_changed(connection, true)
       else
         render json: { errors_info: {code: 101, title: '', messages: "#{connection.errors.full_messages.join(", ")}"} }, status: 400
       end

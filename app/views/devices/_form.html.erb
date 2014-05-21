@@ -59,20 +59,12 @@
     <%= f.text_field :last_token, class: "form-control" %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :token_updated_at %>
-    <%= f.datetime_select :token_updated_at, class: "form-control" %>
-  </div>
 
   <div class="form-group">
     <%= f.label :connection_type %>
     <%= f.text_field :connection_type, class: "form-control" %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :last_online_at %>
-    <%= f.datetime_select :last_online_at, class: "form-control" %>
-  </div>
 
   <%= hidden_field_tag :return_to, params[:return_to] %>
 
