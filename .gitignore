@@ -37,3 +37,4 @@ dump.rdb
 /public/images/.DS_Store
 /spec/.DS_Store
 /vendor/.DS_Store
+/public/images/photos/*
