@@ -76,23 +76,21 @@ RemoteAssistant::Application.configure do
   #EMAILER SETTINGS
   config.action_mailer.delivery_method = :smtp
   
-  config.action_mailer.smtp_settings = {
-    :enable_starttls_auto => false,
-  }
+
   config.action_mailer.raise_delivery_errors = true
   
   config.action_mailer.perform_deliveries = true
 
 
 
-  # config.action_mailer.smtp_settings = {
-  #  :authentication       => "login",
-  #  :enable_starttls_auto => true,
-  #  :user_name            => "AKIAIVV7MFJLVFIY2KMA",
-  #  :password             => "Ar258A1yYU96CEkys23QdUVAaf5yjpMhHl80HOZ5JCGA",
-  #  :address              => "email-smtp.eu-west-1.amazonaws.com",
-  #  :port                 => 25
-  # }
+  config.action_mailer.smtp_settings = {
+   :authentication       => "login",
+   :enable_starttls_auto => true,
+   :user_name            => "AKIAIVV7MFJLVFIY2KMA",
+   :password             => "Ar258A1yYU96CEkys23QdUVAaf5yjpMhHl80HOZ5JCGA",
+   :address              => "email-smtp.eu-west-1.amazonaws.com",
+   :port                 => 25
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
