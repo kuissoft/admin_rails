@@ -1,6 +1,6 @@
 #lock '3.1.0'
 
-set :stages, %w(production development)
+set :stages, %w(production development forge)
 set :default_stage, 'development'
 set :scm, :git
 set :format, :pretty
