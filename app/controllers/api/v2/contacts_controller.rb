@@ -199,6 +199,7 @@ class Api::V2::ContactsController < Api::V2::AuthenticatedController
     connection = Connection.where(user_id: params[:user_id], contact_id: params[:contact_id]).first
 
     if connection and connection.is_pending
+      ContactNotifications.status_changed(connection, false)
       if connection.destroy
         render json: {}, status: 200
       else

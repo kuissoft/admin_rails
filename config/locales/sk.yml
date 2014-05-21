@@ -12,7 +12,7 @@ sk:
     phone_not_valid: 'Telefoní číslo nie je platné.'
     sms_cannot_send: 'Nepodarilo sa odoslať overovaciu SMS. Vyskúšajte to neskôr.'
     sms_limit: 'Dosiahli ste maximálny počet autentifikačných SMS (10 SMS za 30 dní).'
-    resend_limit: 'Dosiahli ste limit preposlania verifikačného kódu.'
+    resend_limit: 'Dosiahli ste limit preposlania overovacieho kódu.'
     user_not_exist: 'Používateľ neexistuje.'
     verification_not_match: 'Nesprávny overovací kód.'
     no_verification_code: 'Nezadali ste overovací kód.'
