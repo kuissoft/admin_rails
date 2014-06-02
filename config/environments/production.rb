@@ -76,7 +76,7 @@ RemoteAssistant::Application.configure do
   config.action_mailer.perform_deliveries = true
 
 
-  config.action_mailer.default_url_options = {host: "https://dev.admin.sedrick.cz"}
+  config.action_mailer.default_url_options = {host: "https://dev.admin.remoteassistant.me"}
 
 
 
@@ -108,9 +108,9 @@ RemoteAssistant::Application.configure do
   API_PASSWORD = "eR35xZ65"
   # API_KEY = "ZT2wooEd3pvJYVqk674XzT6VGTdOgnG"
 
-  NODE_HOST = "https://dev.node.sedrick.cz"
-  RAILS_HOST = "https://dev.api.sedrick.cz"
-  IMAGES_HOST = "https://dev.admin.sedrick.cz"
+  NODE_HOST = "https://dev.node.remoteassistant.me"
+  RAILS_HOST = "https://dev.api.remoteassistant.me"
+  IMAGES_HOST = "https://dev.admin.remoteassistant.me"
 
 
   NODE_ACCESS_NAME = 'admin'
