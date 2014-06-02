@@ -52,7 +52,7 @@ RemoteAssistant::Application.configure do
   # config.log_tags = [ :subdomain, :uuid ]
 
   # Use a different logger for distributed setups.
-  config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/remote_assistant.log'))
+  config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/remote_assistant_development.log'))
 
 
   # Use a different cache store in production.
@@ -76,7 +76,7 @@ RemoteAssistant::Application.configure do
   config.action_mailer.perform_deliveries = true
 
 
-  config.action_mailer.default_url_options = {host: "https://dev.admin.remoteassistant.me"}
+  config.action_mailer.default_url_options = {host: "http://dev.admin.remoteassistant.me"}
 
 
 

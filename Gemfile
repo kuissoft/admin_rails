@@ -82,14 +82,10 @@ gem 'coffeebeans'
 # SMS messenger
 gem "twilio-ruby"
 
-# Versioning for API
-gem 'versionist'
 
 # Images upload
 gem "paperclip"
 
-# log formater
-gem 'logstasher'
 
 # Middleware for setting language from headers
 gem 'http_accept_language'

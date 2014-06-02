@@ -53,5 +53,4 @@ RemoteAssistant::Application.configure do
 
   NODE_LOG = "/vagrant/node"
 
-  config.logstasher.log_controller_parameters = true
 end
