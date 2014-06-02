@@ -22,10 +22,11 @@ class LogStasher::RequestLogSubscriber < ActiveSupport::LogSubscriber
     #puts "\n\n"+data.to_a.inspect+"\n\n"
     time = DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
     msg = "#{data[:method]} Path #{data[:path]} with #{data[:request]} . Response: #{data[:response]} with status #{data[:status]}."
-    req = eval(data[:request])
-    #puts "\n\n#{time} > #{msg}\n\n"
-    log_to_node(time, 'debug', msg, req['auth_token'], req['user_id']) if data[:path] =~ /^\/api/
-
+    unless data[:request].nil?
+      req = eval(data[:request])
+      #puts "\n\n#{time} > #{msg}\n\n"
+      log_to_node(time, 'debug', msg, req['auth_token'], req['user_id']) if data[:path] =~ /^\/api/
+    end
     tags = ['request']
     tags.push('exception') if payload[:exception]
     event = LogStash::Event.new('@source' => LogStasher.source, '@fields' => data, '@tags' => tags)
