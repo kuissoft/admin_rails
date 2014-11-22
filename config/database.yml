@@ -1,6 +1,8 @@
 defaults: &defaults
   adapter: postgresql
   encoding: unicode
+  username: remoteassistant
+  password: secret
   pool: 5
   host: localhost
 
