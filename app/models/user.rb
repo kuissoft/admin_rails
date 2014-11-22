@@ -21,10 +21,10 @@ class User < ActiveRecord::Base
   #validates :name,
   #    length: { in: 3..70 },
   #    format: { with: /\A[\p{Word} ]+\z/ }
-  validates :phone,
-  uniqueness: true,
-  length: { in: 7..15 },
-  format: { with: /\A(\+)?[0-9 ]+\z/ }
+  validates_uniqueness_of :phone, unless: -> {role == 'operator'}
+  validates_length_of :phone, in: 7..15, unless: -> {role == 'operator'}
+  validates_format_of :phone, with: /\A(\+)?[0-9 ]+\z/, unless: -> {role == 'operator'}
+  validates_presence_of :phone
   # validates :email,
   #   uniqueness: true,
   #   length: { in: 5..70 },
