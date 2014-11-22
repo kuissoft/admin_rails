@@ -22,6 +22,7 @@ class UsersController < AuthenticatedController
 
   # GET /users/1/edit
   def edit
+    @user.users_services.build unless @user.users_services.any?
   end
 
   # POST /users

@@ -3,8 +3,6 @@ defaults: &defaults
   encoding: unicode
   pool: 5
   host: localhost
-  username: remoteassistant
-  password: secret
 
 development:
   database: remoteassistant_development
