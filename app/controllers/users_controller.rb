@@ -22,7 +22,7 @@ class UsersController < AuthenticatedController
 
   # GET /users/1/edit
   def edit
-    @user.users_services.build unless @user.users_services.any?
+    @user.users_services.build if @user.services.size == 0
   end
 
   # POST /users

@@ -14,7 +14,12 @@ class User < ActiveRecord::Base
   has_many :users_services
   has_many :services, through: :users_services
 
-  accepts_nested_attributes_for :users_services
+  accepts_nested_attributes_for :users_services, reject_if: :service_exists
+
+
+  def service_exists(attributes)
+    UsersService.where(user_id: id, service_id: attributes[:service_id] ).first
+  end
 
 
   # TODO: figure out production lengths and regexes
