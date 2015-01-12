@@ -89,6 +89,10 @@ gem "paperclip"
 
 # Middleware for setting language from headers
 gem 'http_accept_language'
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -101,4 +105,3 @@ gem 'http_accept_language'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-

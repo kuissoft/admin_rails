@@ -11,14 +11,18 @@ class User < ActiveRecord::Base
   has_many :contacts, through: :connections
   has_many :devices, dependent: :destroy
 
-  has_many :users_services
+  has_many :users_services, dependent: :destroy
   has_many :services, through: :users_services
 
-  accepts_nested_attributes_for :users_services, reject_if: :service_exists
+  accepts_nested_attributes_for :users_services, reject_if: :service_exists, allow_destroy: true
 
 
   def service_exists(attributes)
-    UsersService.where(user_id: id, service_id: attributes[:service_id] ).first
+    if attributes[:service_id].present?
+      return UsersService.where(user_id: id, service_id: attributes[:service_id] ).first
+    else
+      return true
+    end
   end
 
 
@@ -42,7 +46,7 @@ class User < ActiveRecord::Base
   scope :sorted, -> { order("id DESC, role DESC, email ASC") }
 
   # User photo image #50x50 #100x100 #150x150 300x300x
-  has_attached_file :photo, :styles => { :x300 => "300x300#", :x100 => "100x100#", :x150 => "150x150#", :x50 => "50x50#"  }, 
+  has_attached_file :photo, :styles => { :x300 => "300x300#", :x100 => "100x100#", :x150 => "150x150#", :x50 => "50x50#"  },
   :default_url => "/images/:style/missing.png", path: ":rails_root/public/images/photos/users/:id/:basename_:style",
    :url => "/images/photos/users/:id/:basename_:style"
 # http://localhost:3000/users/3/photo/150/2014030912123454.jpg
@@ -171,5 +175,5 @@ class User < ActiveRecord::Base
     devices.map(&:auth_token).join(",")
   end
 
-  
+
 end

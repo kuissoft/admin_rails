@@ -46,6 +46,9 @@ class UsersController < AuthenticatedController
   def update
     respond_to do |format|
       if @user.update(user_params)
+        if params[:user][:users_services_attributes]["0"]["service_id"].blank?
+          @user.users_services.destroy_all
+        end
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else
