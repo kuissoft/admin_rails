@@ -7,7 +7,7 @@ set :stage, 'test'
 set :application, 'web'
 set :repo_url, 'git@bitbucket.org:remoteassistant/admin.git'
 
-set :branch, "development"
+set :branch, ENV["REVISION"] || "test"
 set :deploy_to, '/home/ubuntu/admin'
 
 server 'test.remoteassistant.me', user: 'ubuntu', roles: %w{web app}
