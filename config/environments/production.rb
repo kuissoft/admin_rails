@@ -108,9 +108,9 @@ RemoteAssistant::Application.configure do
   API_PASSWORD = "eR35xZ65"
   # API_KEY = "ZT2wooEd3pvJYVqk674XzT6VGTdOgnG"
 
-  NODE_HOST = "http://dev.node.remoteassistant.me"
-  RAILS_HOST = "http://dev.api.remoteassistant.me"
-  IMAGES_HOST = "http://dev.admin.remoteassistant.me"
+  NODE_HOST = "http://test.node.remoteassistant.me"
+  RAILS_HOST = "http://test.api.remoteassistant.me"
+  IMAGES_HOST = "http://test.admin.remoteassistant.me"
 
 
   NODE_ACCESS_NAME = 'admin'

@@ -7,7 +7,7 @@ set :stage, 'forge'
 set :application, 'web'
 set :repo_url, 'git@bitbucket.org:remoteassistant/admin.git'
 
-set :branch, "forge"
+set :branch, ENV["REVISION"] || "forge"
 set :deploy_to, '/home/web/ruby/admin'
 
 server 'sedrick.cz', user: 'web', roles: %w{web app}
