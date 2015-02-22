@@ -12,6 +12,7 @@ class UsersController < AuthenticatedController
   # GET /users/1
   # GET /users/1.json
   def show
+    @services = Service.where.not(id: @user.services.pluck(:id)).order(:name)
   end
 
   # GET /users/new
@@ -44,13 +45,8 @@ class UsersController < AuthenticatedController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    @user.users_services.destroy_all
     respond_to do |format|
       if @user.update(user_params)
-        # exit
-        # if params[:user][:users_services_attributes]["0"]["service_id"].blank?
-        #   @user.users_services.destroy_all
-        # end
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else

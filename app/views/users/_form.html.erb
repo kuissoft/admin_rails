@@ -45,11 +45,6 @@
     <%= f.label :role %><br>
     <%= f.select :role, ['admin', 'user', 'operator'] %>
   </div>
-  
-  <%= f.fields_for :users_services do |us| %>
-    <%= us.label :service_id %>
-    <%= us.select :service_id, options_for_select(Service.order(:name).collect{|s| [s.name, s.id]}, @user.services.first.try(:id)), include_blank: "Select service"%>
-  <% end %>
 
   <hr />
   <div class="actions">
