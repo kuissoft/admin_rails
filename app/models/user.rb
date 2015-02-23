@@ -30,15 +30,16 @@ class User < ActiveRecord::Base
   #validates :name,
   #    length: { in: 3..70 },
   #    format: { with: /\A[\p{Word} ]+\z/ }
-  validates_uniqueness_of :phone, unless: -> {role == 'operator'}
-  validates_length_of :phone, in: 7..15, unless: -> {role == 'operator'}
-  validates_format_of :phone, with: /\A(\+)?[0-9 ]+\z/, unless: -> {role == 'operator'}
-  validates_presence_of :phone
+  validates_uniqueness_of :phone, unless: -> {role == 'operator' or email.present?}
+  validates_length_of :phone, in: 7..15, unless: -> {role == 'operator' or email.present?}
+  validates_format_of :phone, with: /\A(\+)?[0-9 ]+\z/, unless: -> {role == 'operator' or email.present?}
+
+  validates :phone, presence: true, if: -> {email.blank?}
+  validates :email, presence: true, if: -> {role == 'admin' or role == 'operator'}
   # validates :email,
   #   uniqueness: true,
   #   length: { in: 5..70 },
   #   format: { with: /\A.+(\@).+(\.).+\z/ }
-  validates :email, presence: true, if: -> {role == 'admin' or role == 'operator'}
 
   # validates :password, length: { in: 5..100 }
   validates :role, presence: true
