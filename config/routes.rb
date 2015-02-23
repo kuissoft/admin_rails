@@ -21,6 +21,13 @@ RemoteAssistant::Application.routes.draw do
     end
     delete :destroy_connection, on: :collection
   end
+
+  namespace :users do
+    resources :services do
+      post :add_service, on: :member
+      delete :remove_service, on: :member
+    end
+  end
   resources :sessions, :except => [:edit, :update]
   resources :locations
   resources :contacts

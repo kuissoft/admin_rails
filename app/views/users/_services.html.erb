@@ -1,0 +1,25 @@
+<div class="well">
+  <%= form_tag add_service_users_service_path(@user.id), class: "form-inline", role: 'form' do %>
+  <div class="form-group">
+    <%= select_tag :service_id, options_for_select(@services.collect{|s| [s.name, s.id] }), prompt: "Select service",class: "form-control" %>
+  </div>
+    
+  <%= submit_tag "Add service", class: 'btn btn-success' %>
+  <% end %> 
+</div>
+
+
+<h2>Services</h2>
+<div class="col-md-4">
+  <ul class="list-group">
+    <% @user.services.each do |service| %>
+      <li class="list-group-item">
+        <%= service.name %>
+        <span class="pull-right"><%= link_to "Remove", remove_service_users_service_path(id: @user.id, service_id: service.id), method: :delete, class: "btn btn-xs btn-danger", data: { confirm: 'Are you sure?' } %></span>
+      </li>
+    <% end %> 
+  </ul>
+</div>
+
+
+  
