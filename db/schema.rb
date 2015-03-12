@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140515101709) do
+ActiveRecord::Schema.define(version: 20150218073139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,19 +34,20 @@ ActiveRecord::Schema.define(version: 20140515101709) do
     t.datetime "updated_at"
     t.string   "uuid"
     t.string   "phone"
-    t.string   "language",          default: "en"
+    t.string   "language",                  default: "en"
     t.string   "verification_code"
-    t.integer  "invalid_count",     default: 0
-    t.boolean  "resent",            default: false
+    t.integer  "invalid_count",             default: 0
+    t.boolean  "resent",                    default: false
     t.datetime "resent_at"
-    t.integer  "sms_count",         default: 0
-    t.integer  "reset_count",       default: 0
+    t.integer  "sms_count",                 default: 0
+    t.integer  "reset_count",               default: 0
     t.string   "auth_token"
     t.string   "last_token"
     t.datetime "token_updated_at"
     t.string   "connection_type"
-    t.boolean  "online",            default: false
+    t.boolean  "online",                    default: false
     t.datetime "last_online_at"
+    t.datetime "verification_code_sent_at"
   end
 
   create_table "feedbacks", force: true do |t|
