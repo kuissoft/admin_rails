@@ -480,8 +480,7 @@ User try to change another user or invalid or expired token
 {"error_info":{"code":103, title: '',  message: "Invalid authentication token" }}
 ```
 
+## Deploy
+- Install `capistrano capistrano-rails capistrano-rvm capistrano-deploy` gems
+- Use `cap <STAGE> deploy` or `REVISION=<REVISION> cap <STAGE> deploy`
 
-
-
-
-    
