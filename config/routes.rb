@@ -1,5 +1,7 @@
 RemoteAssistant::Application.routes.draw do
 
+  resources :records
+
   get "devices/index"
   get "notifications/index"
   resources :web_info, only: [:index, :destroy]

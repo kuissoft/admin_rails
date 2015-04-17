@@ -1,0 +1,31 @@
+p#notice = notice
+
+p
+  strong Caller:
+  = @record.caller_id
+p
+  strong Original caller:
+  = @record.original_caller_id
+p
+  strong Assistant:
+  = @record.assistant_id
+p
+  strong Accepted at:
+  = @record.accepted_at
+p
+  strong Declined at:
+  = @record.declined_at
+p
+  strong Started at:
+  = @record.started_at
+p
+  strong Ended at:
+  = @record.ended_at
+p
+  strong Ended by:
+  = @record.ended_by
+p
+  strong Error:
+  = @record.error
+
+= link_to 'Back', records_path
