@@ -27,6 +27,7 @@ class ServicesController < AuthenticatedController
 
   def update
     respond_to do |format|
+      @service.id = 888;
       if @service.update(service_params)
         format.html { redirect_to services_path, notice: 'Services was successfully updated.' }
         format.json { head :no_content }
