@@ -3,9 +3,11 @@ h1 Call records
 table
   thead
     tr
+	  th ID
       th Caller
-      th Original caller
+      th Original call
       th Assistant
+	  th Created at
       th Accepted at
       th Declined at
       th Started at
@@ -14,14 +16,15 @@ table
       th Error
       th
       th
-      th
 
   tbody
     - @records.each do |record|
       tr
+	    td = record.id
         td = record.caller_id
         td = record.original_caller_id
         td = record.assistant_id
+		td = record.created_at
         td = record.accepted_at
         td = record.declined_at
         td = record.started_at
@@ -29,6 +32,5 @@ table
         td = record.ended_by
         td = record.error
         td = link_to 'Show', record
-        td = link_to 'Edit', edit_record_path(record)
         td = link_to 'Destroy', record, data: {:confirm => 'Are you sure?'}, :method => :delete
 

@@ -11,26 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150417155631) do
+ActiveRecord::Schema.define(version: 20150424191650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "calls", force: true do |t|
-    t.integer  "caller_id"
-    t.integer  "original_caller_id"
-    t.integer  "assistant_id"
-    t.datetime "accepted_at"
-    t.datetime "declined_at"
-    t.datetime "started_at"
-    t.datetime "ended_at"
-    t.integer  "ended_by"
-    t.string   "error"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "callxes", force: true do |t|
     t.integer  "caller_id"
     t.integer  "original_caller_id"
     t.integer  "assistant_id"
@@ -98,20 +84,6 @@ ActiveRecord::Schema.define(version: 20150417155631) do
   end
 
   add_index "locations", ["session_id"], name: "index_locations_on_session_id", using: :btree
-
-  create_table "logs", force: true do |t|
-    t.integer  "caller_id"
-    t.integer  "original_caller_id"
-    t.integer  "assistant_id"
-    t.datetime "accepted_at"
-    t.datetime "declined_at"
-    t.datetime "started_at"
-    t.datetime "ended_at"
-    t.integer  "ended_by"
-    t.string   "error"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "records", force: true do |t|
     t.integer  "caller_id"
