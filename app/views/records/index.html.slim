@@ -4,6 +4,7 @@ table
   thead
     tr
 	  th ID
+	  th Session ID
       th Caller
       th Original call
       th Assistant
@@ -21,8 +22,9 @@ table
     - @records.each do |record|
       tr
 	    td = record.id
+		td = record.session_id
         td = record.caller_id
-        td = record.original_caller_id
+        td = record.original_call_id
         td = record.assistant_id
 		td = record.created_at
         td = record.accepted_at

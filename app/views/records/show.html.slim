@@ -1,11 +1,17 @@
 p#notice = notice
 
 p
+  strong ID:
+  = @record.id
+p
+  strong Session ID:
+  = @record.session_id
+p
+  strong Original call:
+  = @record.original_call_id
+p
   strong Caller:
   = @record.caller_id
-p
-  strong Original caller:
-  = @record.original_caller_id
 p
   strong Assistant:
   = @record.assistant_id
