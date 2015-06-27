@@ -10,8 +10,7 @@
         <p id="notice"><%= notice %></p>
         <p>
           <div class="imagefield">
-			  <p>photo url: <%= ("http://test.api.remoteassistant.me/" + @user.photo.url(:x300)) %></p>
-            <%= image_tag ("http://test.api.remoteassistant.me/" + @user.photo.url(:x300)), class: 'circular_images' %>
+            <%= image_tag (IMAGES_HOST + @user.photo.url(:x300)), class: 'circular_images' %>
           </div>
         </p>
 
