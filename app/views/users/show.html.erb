@@ -10,6 +10,7 @@
         <p id="notice"><%= notice %></p>
         <p>
           <div class="imagefield">
+			  <p>photo url: <%= @user.photo.url(:x300) %></p>
             <%= image_tag @user.photo.url(:x300), class: 'circular_images' %>
           </div>
         </p>
