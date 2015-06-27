@@ -110,7 +110,7 @@ RemoteAssistant::Application.configure do
 
   NODE_HOST = "http://test.node.remoteassistant.me"
   RAILS_HOST = "http://test.api.remoteassistant.me"
-  IMAGES_HOST = "https://test.api.remoteassistant.me"
+  IMAGES_HOST = "http://test.api.remoteassistant.me"
 
 
   NODE_ACCESS_NAME = 'admin'
