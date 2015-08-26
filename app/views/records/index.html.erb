@@ -48,9 +48,9 @@
                   <td><%= record.caller_id %></td>
 				  <td>
 				  <% assistant = User.find_by_id(record.assistant_id) %>
-				  <% if assistant != nil %>
+				  <% if assistant != nil && assistant.name != nil %>
 					<%= assistant.name %>
-				  <% else %> 
+				  <% else %>
 				  	<%= assistant.id %>
 				  <% end %>
 				  </td>
