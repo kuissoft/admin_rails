@@ -28,18 +28,7 @@
 			  Period: <%= select_tag :date_filter, options_for_select(date_filter_options, params[:date_filter]), class: "selectpicker", onchange: "this.form.submit()" %>
 			  &nbsp;Days: <%= select_tag :days_filter, options_for_select(days_filter_options, params[:days_filter]), class: "selectpicker", onchange: "this.form.submit()" %>
 		  <% end %>
-		  <br/>
-		  Total: <%= @records.count %><br/>
-		  Answered: <%= @answered_records.count %> (<%= @answered_records_percent %>%)<br/>
-		  Redirected: <%= @redirect_records_count %><br/>
-		  Not answered: <%= @timeout_records_count %><br/>
-		  Failed: <%= @failed_records_count %><br/>
-		  Average length: <%= Time.at(@average_call_length).utc.strftime("%M:%S") %><br/>
-		  Unique callers: <%= @unique_callers_count %><br/>
-		  Operators calls: 
-		  <% for oc in @operators_calls %>
-		  	<br/>- <%= oc[0] %>: <%= oc[1] %>
-		  <% end %>
+
 		  <br/>
       </div>
     </div>
