@@ -12,16 +12,7 @@
          <table style="width:100%;margin-bottom:10px">
          <tr>
            <td>
-		  <%= form_for records_path, method: 'get' do |f| %>
-		  	  <% 
-		  	  assistant_filter_options = [['Any','any'],['User','user']] 
-		      Service.all.each do |service|
-				  assistant_filter_options << [service.name,service.id]
-			  end
-			  selected_assistant_filter = params[:assistant_filter] ? params[:assistant_filter] : "any"
-		  	  %>
 
-		  <% end %>
 	  	  </td>
 		  <td align="right">
 		  Number of results: <%= @records.count %>
@@ -46,13 +37,7 @@
                 <tr>
                   <td><%= record.id%></td>
                   <td><%= record.caller_id %></td>
-				  <td>
-				  <% assistant = User.find_by_id(record.assistant_id)
-				  if assistant.name != "" %>
-					<%= assistant.name %>
-				  <% else %> 
-				  	<%= assistant.id %>
-				  <% end %>
+				  <td>x
 				  </td>
 				  <td>
 					  <span class="label label-default">
