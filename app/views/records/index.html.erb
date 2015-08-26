@@ -9,6 +9,9 @@
     <div class="panel panel-default">
       <div class="panel-body">
 		 
+         <table style="width:100%;margin-bottom:10px">
+         <tr>
+           <td>
 		  <%= form_for records_path, method: 'get' do |f| %>
 		  	  <% 
 		  	  assistant_filter_options = [['Any','any'],['User','user']] 
@@ -18,8 +21,12 @@
 		  	  %>
 			  Assistant: <%= select_tag :assistant_filter, options_for_select(assistant_filter_options, params[:assistant_filter]), class: "selectpicker", onchange: "this.form.submit()" %>
 		  <% end %>
-
-		  <br/>
+	  	  </td>
+		  <td align="right">
+		  Number of results: <%= @records.count %>
+		  <td>
+		  </tr>
+	  </table>
           <table class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
