@@ -36,6 +36,29 @@
 					  	<%= record.created_at.strftime("%T") %>
 					  </span>
 				  </td>
+				  <td>
+				  <% if record.accepted_at != nil %>
+				     <span class="label label-success">
+					 	<%= record.accepted_at.strftime("%T") %>
+				 	 </span>
+				  <% elsif record.declined_at != nil %> 
+			     	<span class="label label-danger">
+				 	   <%= record.declined_at.strftime("%T") %>
+			 	 	</span>
+				  <% else %> 
+				  	-
+				  <% end %>
+			  	  </td>
+				  <td>
+				  <% if record.accepted_at != nil && record.ended_at != nil %>
+				     <span class="label label-default">
+					 	<%= Time.at(record.ended_at - record.started_at).utc.strftime("%M:%S") %>
+				 	 </span>
+				  <% else %> 
+				  	N/A
+				  <% end %>
+				  </td>
+
                   <td><%= link_to 'Destroy', record, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>           
                 </tr>
               <% end -%>
