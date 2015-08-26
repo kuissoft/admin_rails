@@ -75,7 +75,9 @@ class DashboardController < ApplicationController
         @average_call_length = 0
         @total_call_length = 0
         for record in @answered_records
-          @total_call_length += (record.ended_at - record.accepted_at).to_i
+          if record.accepted_at
+            @total_call_length += (record.ended_at - record.accepted_at).to_i
+          end
         end
         @average_call_length = (@total_call_length/@answered_records.count).to_i
       else
