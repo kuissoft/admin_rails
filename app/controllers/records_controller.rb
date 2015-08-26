@@ -4,9 +4,29 @@ class RecordsController < ApplicationController
   # GET /records
   # GET /records.json
   def index
-
+    if params[:assistant_filter] != nil
+      if params[:assistant_filter] == "user"
+        users_ids = []
+        for u in User.all
+          if u.role == "user"
+            users_ids << u.id
+          end
+        end
+        @records = Record.where(assistant_id: users_ids)
+      else
+        operators_ids = []
+        for u in User.all
+          if u.role == "operator"
+            if u.users_services.where(service_id: params[:assistant_filter]).count > 0
+              operators_ids << u.id
+            end
+          end
+        end
+        @records = Record.where(assistant_id: operators_ids)
+      end
+    else
       @records = Record.all
-
+    end
   end
 
   # GET /records/1
