@@ -87,20 +87,20 @@ class DashboardController < ApplicationController
       @unique_callers_count = @records.select(:caller_id).uniq.count
       @unique_assistants = @records.select(:assistant_id).uniq
 
-      # assistant_ids = []
-      # for record in @records
-      #   if record.assistant_id
-      #     assistant_ids << record.assistant_id if !assistant_ids.include?(record.assistant_id)
-      #   end
-      # end
-      # for assistant_id in assistant_ids
-      #   assistant = User.find_by_id(assistant_id)
-      #   assistant_name = "-"
-      #   if assistant
-      #     assistant_name = assistant.name
-      #   end
-      #   @operators_calls << [assistant_name,@records.where(assistant_id: assistant_id).count]
-      # end
+      assistant_ids = []
+      for record in @records
+        if record.assistant_id
+          assistant_ids << record.assistant_id if !assistant_ids.include?(record.assistant_id)
+        end
+      end
+      for assistant_id in assistant_ids
+        assistant = User.find_by_id(assistant_id)
+        assistant_name = "-"
+        if assistant
+          assistant_name = assistant.name
+        end
+        @operators_calls << [assistant_name,@records.where(assistant_id: assistant_id).count]
+      end
     end
   end
 
