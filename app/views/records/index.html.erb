@@ -18,8 +18,9 @@
 		      Service.all.each do |service|
 				  assistant_filter_options << [service.name,service.id]
 			  end
+			  selected_assistant_filter = params[:assistant_filter] ? params[:assistant_filter] : "any"
 		  	  %>
-			  Assistant: <%= select_tag :assistant_filter, options_for_select(assistant_filter_options, params[:assistant_filter]), class: "selectpicker", onchange: "this.form.submit()" %>
+			  Assistant: <%= select_tag :assistant_filter, options_for_select(assistant_filter_options, selected_assistant_filter), class: "selectpicker", onchange: "this.form.submit()" %>
 		  <% end %>
 	  	  </td>
 		  <td align="right">
