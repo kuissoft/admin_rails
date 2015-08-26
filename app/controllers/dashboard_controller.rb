@@ -49,7 +49,7 @@ class DashboardController < ApplicationController
     when "workdays"
       @records = @records.where("EXTRACT(DOW FROM created_at) >= 1 AND EXTRACT(DOW FROM created_at) <= 5")
     when "weekend"
-      @records = @records.where("EXTRACT(DOW FROM created_at) = 0 AND EXTRACT(DOW FROM created_at) = 6")
+      @records = @records.where("EXTRACT(DOW FROM created_at) = 0 OR EXTRACT(DOW FROM created_at) = 6")
     else # all
       # do not filter based on day
     end
