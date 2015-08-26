@@ -45,7 +45,14 @@
                 <tr>
                   <td><%= record.id%></td>
                   <td><%= record.caller_id %></td>
-				  <td><%= record.assistant_id %></td>
+				  <td>
+				  <% assistant_name = User.find_by_id(record.assistant_id).name
+				  if assistant_name != nil %>
+					<%= assistant_name %>
+				  <% else %> 
+				  	<%= record.assistant_id %>
+				  <% end %>
+				  </td>
 				  <td>
 					  <span class="label label-default">
 					  	<%= record.created_at.strftime("%d.%m.%Y") %>
