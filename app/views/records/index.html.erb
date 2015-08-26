@@ -48,10 +48,10 @@
                   <td><%= record.caller_id %></td>
 				  <td>
 				  <% assistant = User.find_by_id(record.assistant_id) %>
-				  <% if assistant != nil && assistant.name != nil %>
-					<%= assistant.name %>
+				  <% if assistant == nil %>
+					nil
 				  <% else %>
-				  	<%= assistant.id %>
+				  	<%= assistant.name %>
 				  <% end %>
 				  </td>
 				  <td>
