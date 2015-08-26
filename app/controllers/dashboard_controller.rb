@@ -63,43 +63,43 @@ class DashboardController < ApplicationController
     @unique_callers_count = 0
     @operators_calls = []
     
-    # if @records.count > 0
-    #
-    #   @answered_records = @records.where(ended_by: 1..2)
-    #   @answered_records_percent = (@answered_records.count.to_f/@records.count.to_f*100).to_i
-    #   @redirect_records_count = @records.where(ended_by: 3).count
-    #   @timeout_records_count = @records.where(ended_by: 4).count
-    #   @failed_records_count = @records.where("ended_by IS NULL OR ended_by = 0 OR ended_by = 5").count
-    #
-    #   if @answered_records.count > 0
-    #     @average_call_length = 0
-    #     @total_call_length = 0
-    #     for record in @answered_records
-    #       @total_call_length += (record.ended_at - record.accepted_at).to_i
-    #     end
-    #     @average_call_length = (@total_call_length/@answered_records.count).to_i
-    #   else
-    #     @average_call_length = 0
-    #   end
-    #
-    #   @unique_callers_count = @records.select(:caller_id).uniq.count
-    #   @unique_assistants = @records.select(:assistant_id).uniq
-    #
-    #   assistant_ids = []
-    #   for record in @records
-    #     if record.assistant_id
-    #       assistant_ids << record.assistant_id if !assistant_ids.include?(record.assistant_id)
-    #     end
-    #   end
-    #   for assistant_id in assistant_ids
-    #     assistant = User.find_by_id(assistant_id)
-    #     assistant_name = "-"
-    #     if assistant
-    #       assistant_name = assistant.name
-    #     end
-    #     @operators_calls << [assistant_name,@records.where(assistant_id: assistant_id).count]
-    #   end
-    # end
+    if @records.count > 0
+
+      @answered_records = @records.where(ended_by: 1..2)
+      @answered_records_percent = (@answered_records.count.to_f/@records.count.to_f*100).to_i
+      @redirect_records_count = @records.where(ended_by: 3).count
+      @timeout_records_count = @records.where(ended_by: 4).count
+      @failed_records_count = @records.where("ended_by IS NULL OR ended_by = 0 OR ended_by = 5").count
+
+      # if @answered_records.count > 0
+      #   @average_call_length = 0
+      #   @total_call_length = 0
+      #   for record in @answered_records
+      #     @total_call_length += (record.ended_at - record.accepted_at).to_i
+      #   end
+      #   @average_call_length = (@total_call_length/@answered_records.count).to_i
+      # else
+      #   @average_call_length = 0
+      # end
+      #
+      # @unique_callers_count = @records.select(:caller_id).uniq.count
+      # @unique_assistants = @records.select(:assistant_id).uniq
+      #
+      # assistant_ids = []
+      # for record in @records
+      #   if record.assistant_id
+      #     assistant_ids << record.assistant_id if !assistant_ids.include?(record.assistant_id)
+      #   end
+      # end
+      # for assistant_id in assistant_ids
+      #   assistant = User.find_by_id(assistant_id)
+      #   assistant_name = "-"
+      #   if assistant
+      #     assistant_name = assistant.name
+      #   end
+      #   @operators_calls << [assistant_name,@records.where(assistant_id: assistant_id).count]
+      # end
+    end
   end
 
   # def twilio
