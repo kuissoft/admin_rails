@@ -95,7 +95,7 @@ class DashboardController < ApplicationController
       end
       for assistant_id in assistant_ids
         assistant = User.find_by_id(assistant_id)
-        assistant_name = "-"
+        assistant_name = assistant_id.to_s
         if assistant
           assistant_name = assistant.name
         end
