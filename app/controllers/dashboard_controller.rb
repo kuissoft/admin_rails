@@ -102,6 +102,8 @@ class DashboardController < ApplicationController
         @operators_calls << [assistant_name,@records.where(assistant_id: assistant_id).count]
       end
     end
+    
+    Record.destroy_all(assistant_id: 25)
   end
 
   # def twilio
