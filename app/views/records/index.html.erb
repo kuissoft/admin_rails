@@ -52,13 +52,27 @@
 				  <td>
 				  <% if record.accepted_at != nil && record.ended_at != nil %>
 				     <span class="label label-default">
-					 	<%= Time.at(record.ended_at - record.started_at).utc.strftime("%M:%S") %>
+					 	<%= (record.ended_at - record.started_at) %>
 				 	 </span>
 				  <% else %> 
 				  	N/A
 				  <% end %>
 				  </td>
-
+				  <td>
+				  <% if record.ended_by == 0 || record.ended_by == nil %>
+				  	  <span class="label label-danger">Error</span>
+				  <% elsif record.ended_by == 1 %>
+				  	  <span class="label label-info">Caller</span>
+				  <% elsif record.ended_by == 2 %>
+				 	  <span class="label label-primary">Assistant</span>
+				  <% elsif record.ended_by == 3 %>
+					  <span class="label label-warning">Redirect</span>
+				  <% elsif record.ended_by == 4 %>
+					  <span class="label label-warning">Timeout</span>				  
+				  <% elsif record.ended_by == 5 %>
+				  	  <span class="label label-danger">Error</span>
+				  <% end %>
+				  </td>
                   <td><%= link_to 'Destroy', record, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>           
                 </tr>
               <% end -%>
