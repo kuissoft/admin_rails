@@ -55,6 +55,6 @@ class ServicesController < AuthenticatedController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def service_params
-      params.require(:service).permit(:name, :time_from, :time_until)
+      params.require(:service).permit(:name, :time_from, :time_until, :time_from_weekend, :time_until_weekend)
     end
 end

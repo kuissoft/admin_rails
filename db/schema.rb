@@ -11,12 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150424191650) do
+ActiveRecord::Schema.define(version: 20150906133150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "calls", force: true do |t|
+    t.integer  "caller_id"
+    t.integer  "original_caller_id"
+    t.integer  "assistant_id"
+    t.datetime "accepted_at"
+    t.datetime "declined_at"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "ended_by"
+    t.string   "error"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "callxes", force: true do |t|
     t.integer  "caller_id"
     t.integer  "original_caller_id"
     t.integer  "assistant_id"
@@ -85,6 +99,45 @@ ActiveRecord::Schema.define(version: 20150424191650) do
 
   add_index "locations", ["session_id"], name: "index_locations_on_session_id", using: :btree
 
+  create_table "logs", force: true do |t|
+    t.integer  "caller_id"
+    t.integer  "original_caller_id"
+    t.integer  "assistant_id"
+    t.datetime "accepted_at"
+    t.datetime "declined_at"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "ended_by"
+    t.string   "error"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "messages", force: true do |t|
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "text"
+    t.boolean  "is_delivered"
+    t.boolean  "is_seen"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+  end
+
+  create_table "places", force: true do |t|
+    t.integer  "caller_id"
+    t.integer  "assistant_id"
+    t.string   "name"
+    t.string   "description"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "records", force: true do |t|
     t.integer  "caller_id"
     t.integer  "original_caller_id"
@@ -97,6 +150,8 @@ ActiveRecord::Schema.define(version: 20150424191650) do
     t.string   "error"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "session_id"
+    t.integer  "original_call_id"
   end
 
   create_table "rpush_apps", force: true do |t|
@@ -160,6 +215,8 @@ ActiveRecord::Schema.define(version: 20150424191650) do
     t.time     "time_until"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "time_from_weekend"
+    t.time     "time_until_weekend"
   end
 
   create_table "settings", force: true do |t|
