@@ -1,10 +1,10 @@
 defaults: &defaults
   adapter: postgresql
   encoding: unicode
-  pool: 5
-  host: localhost
   username: remoteassistant
   password: secret
+  pool: 5
+  host: localhost
 
 development:
   database: remoteassistant_development

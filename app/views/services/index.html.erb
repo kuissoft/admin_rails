@@ -12,9 +12,12 @@
           <table class="table table-striped table-bordered table-hover" id="sorted_table">
             <thead>
               <tr>
+				<th>ID</th>
                 <th>Name</th>
                 <th>Time from</th>
                 <th>Time until</th>
+                <th>Time from (weekend)</th>
+                <th>Time until (weekend)</th>
                 <th></th>
                 <th></th>
               </tr>
@@ -22,9 +25,12 @@
             <tbody>
               <% @services.each do |service| %>
                 <tr>
+				  <td><%= service.id %></td>
                   <td><%= service.name %></td>
                   <td><%= service.time_from %></td>
                   <td><%= service.time_until %></td>
+                  <td><%= service.time_from_weekend %></td>
+                  <td><%= service.time_until_weekend %></td>
                   <td><%= link_to "Edit", edit_service_path(service), class: 'btn btn-xs btn-default' %></td>
                   <td><%= link_to 'Destroy', service, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
                 </tr>

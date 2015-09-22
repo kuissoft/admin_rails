@@ -1,5 +1,7 @@
 RemoteAssistant::Application.routes.draw do
 
+  resources :records
+
   get "devices/index"
   get "notifications/index"
   resources :web_info, only: [:index, :destroy]
@@ -20,6 +22,13 @@ RemoteAssistant::Application.routes.draw do
       put :deauthenticate
     end
     delete :destroy_connection, on: :collection
+  end
+
+  namespace :users do
+    resources :services do
+      post :add_service, on: :member
+      delete :remove_service, on: :member
+    end
   end
   resources :sessions, :except => [:edit, :update]
   resources :locations

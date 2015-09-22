@@ -46,15 +46,8 @@
     <%= f.select :role, ['admin', 'user', 'operator'] %>
   </div>
 
-  <%= f.fields_for :users_services do |us| %>
-    <%= us.label :service_id %>
-    <%= us.select :service_id, options_for_select(Service.order(:name).collect{|s| [s.name, s.id]})%>
-  <% end %>
-  
   <hr />
   <div class="actions">
     <%= f.submit(class: 'btn btn-primary') %>
   </div>
 <% end %>
-
-

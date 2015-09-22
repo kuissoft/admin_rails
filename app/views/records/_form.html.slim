@@ -1,0 +1,16 @@
+= simple_form_for(@record) do |f|
+  = f.error_notification
+
+  .inputs
+  |     = f.input :caller_id
+  |     = f.input :original_caller_id
+  |     = f.input :assistant_id
+  |     = f.input :accepted_at
+  |     = f.input :declined_at
+  |     = f.input :started_at
+  |     = f.input :ended_at
+  |     = f.input :ended_by
+  |     = f.input :error
+  | 
+  .actions
+    = f.button :submit

@@ -12,6 +12,7 @@ class UsersController < AuthenticatedController
   # GET /users/1
   # GET /users/1.json
   def show
+    @services = Service.where.not(id: @user.services.pluck(:id)).order(:name)
   end
 
   # GET /users/new
@@ -22,6 +23,7 @@ class UsersController < AuthenticatedController
 
   # GET /users/1/edit
   def edit
+    @user.users_services.build if @user.services.size == 0
   end
 
   # POST /users
