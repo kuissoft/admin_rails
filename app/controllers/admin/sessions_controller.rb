@@ -9,7 +9,7 @@ class Admin::SessionsController < ApplicationController
       sign_in(user, store: true)
       redirect_to root_path, notice: "You were signed in"
     else
-      flash.now[:error] = "Invalid credentials" + " " + BCrypt::Engine.hash_secret(params[:password], user.encrypted_password) + " -- " + user.encrypted_password + " -- " + user.valid_password?(user_params[:password]).to_s
+      flash.now[:error] = "Invalid credentials"
       render :new, :layout => false
     end
   end
