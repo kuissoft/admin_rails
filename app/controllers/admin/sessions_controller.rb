@@ -5,11 +5,11 @@ class Admin::SessionsController < ApplicationController
 
   def create
     user = User.find_by_email(user_params[:email])
-    if user && BCrypt::Engine.hash_secret(params[:password], user.encrypted_password) ==  user.encrypted_password && user.admin?
+    if user && user.valid_password?(user_params[:password]) && user.admin?
       sign_in(user, store: true)
       redirect_to root_path, notice: "You were signed in"
     else
-      flash.now[:error] = "Invalid credentials"
+      flash.now[:error] = "Invalid credentials" + " " + BCrypt::Engine.hash_secret(params[:password], user.encrypted_password) + " -- " + user.encrypted_password + " -- " + user.valid_password?(user_params[:password]).to_s
       render :new, :layout => false
     end
   end
