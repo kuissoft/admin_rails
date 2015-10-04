@@ -79,8 +79,8 @@
 				  <% if record.accepted_at != nil && record.ended_at != nil %>
 				     <span class="label label-default">
 					 	<%= Time.at(record.ended_at - record.accepted_at).utc.strftime("%M:%S") %>
-						 x <%= Time.at(record.ended_at).to_s %>
-						 x <%= Time.at(record.accepted_at).to_s %>
+						 x <%= Time.at(record.accepted_at).utc.strftime("%H:%M:%S") %>
+						 x <%= Time.at(record.ended_at).utc.strftime("%H:%M:%S") %>
 				 	 </span>
 				  <% else %>
 				  	N/A
