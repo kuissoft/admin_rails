@@ -9,7 +9,7 @@ class Admin::SessionsController < ApplicationController
       sign_in(user, store: true)
       redirect_to root_path, notice: "You were signed in"
     else
-      flash.now[:error] = "Invalid credentials"
+      flash.now[:error] = "Invalid credentials" + user_params[:email]
       render :new, :layout => false
     end
   end
