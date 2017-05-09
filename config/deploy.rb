@@ -2,8 +2,8 @@
 #lock '3.1.0'
 #server '88.99.188.70', port: 1000, roles: [:web, :app, :db], primary: true
 set :application, 'admin'
-set :repo_url, 'git@bitbucket.org:leopard03/admin.git'
-set :user,            'leopard03'
+set :repo_url, 'git@bitbucket.org:batsuite/admin.git'
+set :user,            'batsuite'
 set :branch, 'production'
 set :deploy_to, '/home/ra/admin'
 
