@@ -4,7 +4,7 @@
 set :application, 'admin'
 set :repo_url, 'git@bitbucket.org:batsuite/admin.git'
 set :user,            'batsuite'
-set :branch, 'production'
+set :branch, 'master'
 set :deploy_to, '/home/ra/admin'
 
 set :puma_threads,    [4, 16]
