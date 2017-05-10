@@ -7,6 +7,7 @@ User.create!(name:'Tomáš Staník', phone:'+420606484899', email:'tomas@remotea
 User.create!(name:'Tomáš Staník (Operátor)', phone:'+421917328431', email:'tomas.stanik@gmail.com', password:'admin', role:'operator')
 User.create!(name:'Róbert Tarabčák', phone:'+421902310128', email:'tarabcakr@gmail.com', password:'admin', role:'admin')
 User.create!(name:'Róbert Tarabčák (Operátor)', email:'tarabcak.r@gmail.com', password:'admin', role:'operator')
+User.create!(name:'Michal Maxo Maxian (Operátor)', phone:'+421903740599', email:'misko.maxian@gmail.com', password:'admin', role:'operator')
 
 User.all.each{|u| u.update password: "admin"}
 
