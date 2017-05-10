@@ -38,5 +38,3 @@ dump.rdb
 /spec/.DS_Store
 /vendor/.DS_Store
 /public/images/photos/*
-
-config/database.yml
