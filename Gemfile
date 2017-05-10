@@ -16,13 +16,14 @@ gem 'dalli'
 
 gem 'rpush'
 
+gem 'eventmachine', '~> 1.0.3'
+
 # Rack Cors
 gem "rack-cors", require: "rack/cors"
 
 group :development, :test do
   gem 'sqlite3' # use sqlite3 as the database in development
   gem 'quiet_assets' # hide assets serving messages in logs
-  gem 'pry-rails'
 end
 
 group :production do
@@ -70,9 +71,9 @@ group :test, :development do
   gem 'pry', '~> 0.9.12'
   gem 'pry-nav', '~> 0.2.3'
   gem "capybara"
-  gem 'capistrano'
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm'
+  # gem 'capistrano'
+  # gem 'capistrano-rails'
+  # gem 'capistrano-rvm'
   gem 'database_cleaner'
 end
 
