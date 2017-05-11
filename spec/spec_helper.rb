@@ -53,9 +53,9 @@ RSpec.configure do |config|
     DatabaseCleaner.start
     Setting.create!([
       { name: 'token_expiration_period', value: '300' },
-      { name: 'twillio_sms_number', value: '+15005550006' },
-      { name: 'twillio_account_sid', value: 'AC12154c2e28073707ed1af46d75ad9df5' },
-      { name: 'twillio_auth_token', value: '399f58b6a189ec2475853f625edaafe1' },
+      { name: 'twillio_sms_number', value: '+17543336218' },
+      { name: 'twillio_account_sid', value: 'ACbd4ca1c6faef0b939121ae2d4067fb5b' },
+      { name: 'twillio_auth_token', value: 'de9fd353673920cec688ae3bf7efd53c' },
       { name: 'force_sms', value: '0' },
     ])
   end

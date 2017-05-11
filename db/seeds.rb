@@ -19,8 +19,8 @@ ActiveRecord::Base.connection.execute("TRUNCATE TABLE settings RESTART IDENTITY;
 # puts 'Seed settings'
 Setting.create!([
 	{ name: 'token_expiration_period', value: '300' },
-	{ name: 'twillio_sms_number', value: '+15736147427' },
-	{ name: 'twillio_account_sid', value: 'AC32d59eb259a02e9b1f4b88f791cace9a' },
-	{ name: 'twillio_auth_token', value: '58c70a50ec898f4fa32a00f2514a3ea1' },
+	{ name: 'twillio_sms_number', value: '+17543336218' },
+	{ name: 'twillio_account_sid', value: 'ACbd4ca1c6faef0b939121ae2d4067fb5b' },
+	{ name: 'twillio_auth_token', value: 'de9fd353673920cec688ae3bf7efd53c' },
 	{ name: 'force_sms', value: '0' },
 ])
